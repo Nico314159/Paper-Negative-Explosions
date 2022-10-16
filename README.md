@@ -1,7 +1,11 @@
 Paper-Negative-Explosions
 ===========
 
-Paper fork that allows negative explosion radius creepers to function as they do in vanilla. Will try to keep updated with regular paper. DM me on Discord at Nicoder#6884 if you have issues.
+In vanilla, a creeper with a negative `ExplosionRadius` value will deal knockback, but not damage. This is useful for mapmaking as it gives you the ability to manipulate player motion without unwanted side effects. (See [Delta](https://github.com/BigPapi13/Delta) for an example of this.)
+
+Unfortunately, Spigot and Paper makes it so negative radius creepers do nothing at all. As such, I have created this fork so that mapmakers can enjoy the performance benefits of Paper without having to give up useful vanilla functionality.
+
+I will try my best to keep this fully in-sync with regular PaperMC. DM me on Discord at Nicoder#6884 if you have any issues.
 
 Compiling
 ------
