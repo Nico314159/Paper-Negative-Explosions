@@ -5,10 +5,10 @@ Subject: [PATCH] Add PlayerStopUsingItemEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 66a566af1dd6684bd7c0dd8b3104543e20b64295..780cff9638fe717e98a97f1241cf65337b55382c 100644
+index 38a07f42c339d57f96ec4ff502c810f8367a5c11..2dc3c151192d755e5e518ada9e79c9eb378423c7 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3930,6 +3930,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3949,6 +3949,7 @@ public abstract class LivingEntity extends Entity {
  
      public void releaseUsingItem() {
          if (!this.useItem.isEmpty()) {
