@@ -274,7 +274,7 @@ index 4d687fa31f4d889ac755c178b9afd2b927c78ee2..01ceb8de8411193fa407bf19bbd25a4b
                          CraftMetaCompass.LODESTONE_POS.NBT,
                          CraftMetaCompass.LODESTONE_TRACKED.NBT,
 diff --git a/src/test/java/org/bukkit/craftbukkit/inventory/ItemMetaTest.java b/src/test/java/org/bukkit/craftbukkit/inventory/ItemMetaTest.java
-index a7505a08b952431d1dd7e4b332ede0c0d15eea64..f3a0578f53863dd0866b4c2cb957a30fa3bc6cc5 100644
+index 257eac95179207f77ac9d5e7a5a499ceedb12d0b..13144f8d1dc0a2ca640d138e6c7930c1736ec4a0 100644
 --- a/src/test/java/org/bukkit/craftbukkit/inventory/ItemMetaTest.java
 +++ b/src/test/java/org/bukkit/craftbukkit/inventory/ItemMetaTest.java
 @@ -324,6 +324,7 @@ public class ItemMetaTest extends AbstractTestingBase {
