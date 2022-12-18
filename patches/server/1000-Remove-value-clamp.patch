@@ -1,0 +1,31 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Nico314159 <nicolino.will@gmail.com>
+Date: Sun, 18 Dec 2022 12:39:02 -0800
+Subject: [PATCH] Remove-value-clamp
+
+
+diff --git a/src/main/java/net/minecraft/world/level/Explosion.java b/src/main/java/net/minecraft/world/level/Explosion.java
+index 122880ca3cfe6528e10e6df4c3200d6c66421c8b..df69713278ac21f51009b42b2474e572df301c81 100644
+--- a/src/main/java/net/minecraft/world/level/Explosion.java
++++ b/src/main/java/net/minecraft/world/level/Explosion.java
+@@ -86,7 +86,7 @@ public class Explosion {
+         this.hitPlayers = Maps.newHashMap();
+         this.level = world;
+         this.source = entity;
+-        this.radius = (float) Math.max(power, 0.0); // CraftBukkit - clamp bad values
++        this.radius = (float) power; // remove value clamp
+         this.x = x;
+         this.y = y;
+         this.z = z;
+@@ -136,11 +136,6 @@ public class Explosion {
+     }
+ 
+     public void explode() {
+-        // CraftBukkit start
+-        if (this.radius < 0.1F) {
+-            return;
+-        }
+-        // CraftBukkit end
+         this.level.gameEvent(this.source, GameEvent.EXPLODE, new Vec3(this.x, this.y, this.z));
+         Set<BlockPos> set = Sets.newHashSet();
+         boolean flag = true;
