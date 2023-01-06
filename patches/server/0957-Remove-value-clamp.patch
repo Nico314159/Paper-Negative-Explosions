@@ -5,7 +5,7 @@ Subject: [PATCH] Remove-value-clamp
 
 
 diff --git a/src/main/java/net/minecraft/world/level/Explosion.java b/src/main/java/net/minecraft/world/level/Explosion.java
-index 122880ca3cfe6528e10e6df4c3200d6c66421c8b..df69713278ac21f51009b42b2474e572df301c81 100644
+index a213f4098859858a73ddd601bbe8c7511972e0d5..192b3f8622a43c8a2fc79fdba0d705f231850c99 100644
 --- a/src/main/java/net/minecraft/world/level/Explosion.java
 +++ b/src/main/java/net/minecraft/world/level/Explosion.java
 @@ -86,7 +86,7 @@ public class Explosion {
