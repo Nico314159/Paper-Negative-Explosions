@@ -5,7 +5,7 @@ plugins {
     java
     `maven-publish`
     id("com.github.johnrengelman.shadow") version "7.1.2" apply false
-    id("io.papermc.paperweight.core") version "1.4.1"
+    id("io.papermc.paperweight.core") version "1.5.1"
 }
 
 allprojects {
@@ -38,6 +38,8 @@ subprojects {
             exceptionFormat = TestExceptionFormat.FULL
             events(TestLogEvent.STANDARD_OUT)
         }
+        minHeapSize = "2g"
+        maxHeapSize = "2g"
     }
 
     repositories {
