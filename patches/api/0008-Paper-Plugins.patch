@@ -5,7 +5,7 @@ Subject: [PATCH] Paper Plugins
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 359e7bd7e3c76cec89d638f940006dc9c944f98b..f5f217a3a786bf4c95bea74c135289d12205cf7b 100644
+index d54ed6f7c4fa7e287e8daf35f7ae978b5a0a0d51..5aa294bdc1251df8798709a04ce9d34c316c7a17 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -44,7 +44,7 @@ dependencies {
@@ -243,18 +243,18 @@ index 0000000000000000000000000000000000000000..ea84b11e8682e73fcd563fec65e76b70
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/bootstrap/PluginProviderContext.java b/src/main/java/io/papermc/paper/plugin/bootstrap/PluginProviderContext.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..a4467fe1ba0dc348eab681900dbcac1770963591
+index 0000000000000000000000000000000000000000..8be416f01055d94b474ecc425fc0bec69a814815
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/bootstrap/PluginProviderContext.java
-@@ -0,0 +1,53 @@
+@@ -0,0 +1,44 @@
 +package io.papermc.paper.plugin.bootstrap;
 +
 +import io.papermc.paper.plugin.configuration.PluginMeta;
++import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 +import org.jetbrains.annotations.ApiStatus;
 +import org.jetbrains.annotations.NotNull;
 +
 +import java.nio.file.Path;
-+import java.util.logging.Logger;
 +
 +/**
 + * Represents the context provided to a {@link PluginBootstrap} during both the bootstrapping and plugin
@@ -288,17 +288,8 @@ index 0000000000000000000000000000000000000000..a4467fe1ba0dc348eab681900dbcac17
 +     * @return the logger instance
 +     */
 +    @NotNull
-+    Logger getLogger();
++    ComponentLogger getLogger();
 +
-+    /**
-+     * Provides the SLF4J logger assigned to this plugin.
-+     *
-+     * @return SLF4J logger
-+     */
-+    @NotNull
-+    default org.slf4j.Logger getSLF4JLogger() {
-+        return org.slf4j.LoggerFactory.getLogger(this.getLogger().getName());
-+    }
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/configuration/PluginMeta.java b/src/main/java/io/papermc/paper/plugin/configuration/PluginMeta.java
 new file mode 100644
@@ -1978,7 +1969,7 @@ index 669a70faa95d0d6525a731d73499ed6fb0b48320..c9cf9d361a1289aba383718733a2098b
              throw new IllegalStateException("Cannot get plugin for " + clazz + " from a static initializer");
          }
 diff --git a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
-index 047c0304fd617cec990f80815b43916c6ef5a94c..fa39c93d76ebb9eecce1f4b5203cb361e4778b4f 100644
+index 047c0304fd617cec990f80815b43916c6ef5a94c..d0ad072c832b8fc8a1cfdcafdd42c724531a2e29 100644
 --- a/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/JavaPluginLoader.java
 @@ -49,6 +49,7 @@ import org.yaml.snakeyaml.error.YAMLException;
@@ -2002,7 +1993,7 @@ index 047c0304fd617cec990f80815b43916c6ef5a94c..fa39c93d76ebb9eecce1f4b5203cb361
          final PluginClassLoader loader;
          try {
 -            loader = new PluginClassLoader(this, getClass().getClassLoader(), description, dataFolder, file, (libraryLoader != null) ? libraryLoader.createLoader(description) : null);
-+            loader = new PluginClassLoader(getClass().getClassLoader(), description, dataFolder, file, (libraryLoader != null) ? libraryLoader.createLoader(description) : null); // Paper
++            loader = new PluginClassLoader(getClass().getClassLoader(), description, dataFolder, file, (libraryLoader != null) ? libraryLoader.createLoader(description) : null, null); // Paper
          } catch (InvalidPluginException ex) {
              throw ex;
          } catch (Throwable ex) {
@@ -2023,7 +2014,7 @@ index 6d634b0ea813ccb19f1562a7d0e5a59cea4eab21..f9e67e20133d349e43d126dbb48b34d4
  
      private final Logger logger;
 diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-index 2f74ec96ece706de23156ebabfe493211bc05391..dd569f2fc6098650d202e834b343b1bff2d42284 100644
+index 2f74ec96ece706de23156ebabfe493211bc05391..c42663a2ae98fda6dcf2ab6ac899cc6238bce65f 100644
 --- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 @@ -29,7 +29,8 @@ import org.jetbrains.annotations.Nullable;
@@ -2036,7 +2027,7 @@ index 2f74ec96ece706de23156ebabfe493211bc05391..dd569f2fc6098650d202e834b343b1bf
      private final JavaPluginLoader loader;
      private final Map<String, Class<?>> classes = new ConcurrentHashMap<String, Class<?>>();
      private final PluginDescriptionFile description;
-@@ -43,16 +44,18 @@ final class PluginClassLoader extends URLClassLoader {
+@@ -43,24 +44,30 @@ final class PluginClassLoader extends URLClassLoader {
      private JavaPlugin pluginInit;
      private IllegalStateException pluginState;
      private final Set<String> seenIllegalAccess = Collections.newSetFromMap(new ConcurrentHashMap<>());
@@ -2049,7 +2040,7 @@ index 2f74ec96ece706de23156ebabfe493211bc05391..dd569f2fc6098650d202e834b343b1bf
  
 -    PluginClassLoader(@NotNull final JavaPluginLoader loader, @Nullable final ClassLoader parent, @NotNull final PluginDescriptionFile description, @NotNull final File dataFolder, @NotNull final File file, @Nullable ClassLoader libraryLoader) throws IOException, InvalidPluginException, MalformedURLException {
 +    @org.jetbrains.annotations.ApiStatus.Internal // Paper
-+    public PluginClassLoader(@Nullable final ClassLoader parent, @NotNull final PluginDescriptionFile description, @NotNull final File dataFolder, @NotNull final File file, @Nullable ClassLoader libraryLoader) throws IOException, InvalidPluginException, MalformedURLException { // Paper
++    public PluginClassLoader(@Nullable final ClassLoader parent, @NotNull final PluginDescriptionFile description, @NotNull final File dataFolder, @NotNull final File file, @Nullable ClassLoader libraryLoader, @Nullable JarFile jarFile) throws IOException, InvalidPluginException, MalformedURLException { // Paper // Paper - use JarFile provided by SpigotPluginProvider
          super(new URL[] {file.toURI().toURL()}, parent);
 -        Preconditions.checkArgument(loader != null, "Loader cannot be null");
 +        this.loader = null; // Paper - pass null into loader field
@@ -2058,7 +2049,9 @@ index 2f74ec96ece706de23156ebabfe493211bc05391..dd569f2fc6098650d202e834b343b1bf
          this.description = description;
          this.dataFolder = dataFolder;
          this.file = file;
-@@ -61,6 +64,10 @@ final class PluginClassLoader extends URLClassLoader {
+-        this.jar = new JarFile(file);
++        this.jar = jarFile == null ? new JarFile(file) : jarFile; // Paper - use JarFile provided by SpigotPluginProvider
+         this.manifest = jar.getManifest();
          this.url = file.toURI().toURL();
          this.libraryLoader = libraryLoader;
  
