@@ -5,10 +5,10 @@ Subject: [PATCH] Add player health update API
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 485cbeeae012383ec959503c8b909441c25fa4d1..070eaaf9b92757ead4cba398025412f68fcb8bc9 100644
+index dda1f3e9370110c08ed28fd404c8a246fa468db9..13855196d3c5405116bcd60518e8dd6b4fa0bf3f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2247,9 +2247,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2266,9 +2266,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          this.getHandle().maxHealthCache = getMaxHealth();
      }
  
@@ -22,7 +22,7 @@ index 485cbeeae012383ec959503c8b909441c25fa4d1..070eaaf9b92757ead4cba398025412f6
          if (this.getHandle().queueHealthUpdatePacket) {
              this.getHandle().queuedHealthUpdatePacket = packet;
          } else {
-@@ -2257,7 +2259,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2276,7 +2278,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          }
          // Paper end
      }
