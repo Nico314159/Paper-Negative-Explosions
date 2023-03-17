@@ -8,7 +8,7 @@ Fires an event anytime an enderman intends to teleport away from the player
 You may cancel this, enabling ranged attacks to damage the enderman for example.
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-index 9e93f8ab0f8e9a1287fdbae24f2dc1d3364e98d9..82896e98cb4704db0480b6b3342b09a697d39770 100644
+index d5f6769a50dee22349713bd313858c799a5a3960..167be7bc35f83fb3563044492195181c75b0bd1d 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 @@ -118,6 +118,12 @@ public class EnderMan extends Monster implements NeutralMob {
@@ -33,28 +33,21 @@ index 9e93f8ab0f8e9a1287fdbae24f2dc1d3364e98d9..82896e98cb4704db0480b6b3342b09a6
                  this.setTarget((LivingEntity) null);
                  this.teleport();
              }
-@@ -394,17 +400,19 @@ public class EnderMan extends Monster implements NeutralMob {
-                 flag = false;
-             }
+@@ -398,11 +404,13 @@ public class EnderMan extends Monster implements NeutralMob {
+             } else {
+                 flag1 = flag && this.hurtWithCleanWater(source, (ThrownPotion) source.getDirectEntity(), amount);
  
-+            if (this.tryEscape(com.destroystokyo.paper.event.entity.EndermanEscapeEvent.Reason.INDIRECT)) { // Paper start
-             for (int i = 0; i < 64; ++i) {
-                 if (this.teleport()) {
-                     return true;
++                if (this.tryEscape(com.destroystokyo.paper.event.entity.EndermanEscapeEvent.Reason.INDIRECT)) { // Paper start
+                 for (int i = 0; i < 64; ++i) {
+                     if (this.teleport()) {
+                         return true;
+                     }
                  }
++                } // Paper end
+ 
+                 return flag1;
              }
-+            } // Paper end
- 
-             return flag;
-         } else {
-             boolean flag1 = super.hurt(source, amount);
- 
--            if (!this.level.isClientSide() && !(source.getEntity() instanceof LivingEntity) && this.random.nextInt(10) != 0) {
-+            if (!this.level.isClientSide() && !(source.getEntity() instanceof LivingEntity) && this.random.nextInt(10) != 0 && this.tryEscape(source == DamageSource.DROWN ? com.destroystokyo.paper.event.entity.EndermanEscapeEvent.Reason.DROWN : com.destroystokyo.paper.event.entity.EndermanEscapeEvent.Reason.INDIRECT)) { // Paper - use to be critical hits as else, but mojang removed critical hits in 1.16.2 due to MC-185684
-                 this.teleport();
-             }
- 
-@@ -626,7 +634,7 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -633,7 +641,7 @@ public class EnderMan extends Monster implements NeutralMob {
              } else {
                  if (this.target != null && !this.enderman.isPassenger()) {
                      if (this.enderman.isLookingAtMe((Player) this.target)) {

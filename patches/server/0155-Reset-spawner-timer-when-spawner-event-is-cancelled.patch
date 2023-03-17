@@ -5,7 +5,7 @@ Subject: [PATCH] Reset spawner timer when spawner event is cancelled
 
 
 diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-index 7e436a2cbf1920c985cb9febf1839adc589c2619..b3df6184b1b7f7e3b5cf87c76acb7f103e0dc1db 100644
+index faa4b1bfe8dcd2dcf897470964e7d0619bfcffaf..bd85887e4497be2f8aeccc6c0260a96a3b9c615f 100644
 --- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
 @@ -164,6 +164,7 @@ public abstract class BaseSpawner {

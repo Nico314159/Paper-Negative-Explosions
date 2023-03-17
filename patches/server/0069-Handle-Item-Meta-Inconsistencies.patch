@@ -18,10 +18,10 @@ For consistency, the old API methods now forward to use the
 ItemMeta API equivalents, and should deprecate the old API's.
 
 diff --git a/src/main/java/net/minecraft/world/item/ItemStack.java b/src/main/java/net/minecraft/world/item/ItemStack.java
-index cf810a1d645dd63595702a5f07456cd48393ee79..87031aa69148118d9f5bf16cb8a55cf72f9d0a1d 100644
+index 83af6f1af55ab9b0b7ad6f635e24b7c4d1d1829b..a36dac14b03a9af1303ac7f572f2cb71196f644c 100644
 --- a/src/main/java/net/minecraft/world/item/ItemStack.java
 +++ b/src/main/java/net/minecraft/world/item/ItemStack.java
-@@ -155,6 +155,23 @@ public final class ItemStack {
+@@ -156,6 +156,23 @@ public final class ItemStack {
          return this.getItem().getTooltipImage(this);
      }
  
@@ -45,7 +45,7 @@ index cf810a1d645dd63595702a5f07456cd48393ee79..87031aa69148118d9f5bf16cb8a55cf7
      public ItemStack(ItemLike item) {
          this(item, 1);
      }
-@@ -206,6 +223,7 @@ public final class ItemStack {
+@@ -207,6 +224,7 @@ public final class ItemStack {
              // CraftBukkit start - make defensive copy as this data may be coming from the save thread
              this.tag = nbttagcompound.getCompound("tag").copy();
              // CraftBukkit end
@@ -53,7 +53,7 @@ index cf810a1d645dd63595702a5f07456cd48393ee79..87031aa69148118d9f5bf16cb8a55cf7
              this.getItem().verifyTagAfterLoad(this.tag);
          }
  
-@@ -780,6 +798,7 @@ public final class ItemStack {
+@@ -794,6 +812,7 @@ public final class ItemStack {
  
      public void setTag(@Nullable CompoundTag nbt) {
          this.tag = nbt;
@@ -61,7 +61,7 @@ index cf810a1d645dd63595702a5f07456cd48393ee79..87031aa69148118d9f5bf16cb8a55cf7
          if (this.getItem().canBeDepleted()) {
              this.setDamageValue(this.getDamageValue());
          }
-@@ -1073,6 +1092,7 @@ public final class ItemStack {
+@@ -1091,6 +1110,7 @@ public final class ItemStack {
          ListTag nbttaglist = this.tag.getList("Enchantments", 10);
  
          nbttaglist.add(EnchantmentHelper.storeEnchantment(EnchantmentHelper.getEnchantmentId(enchantment), (byte) level));
@@ -70,7 +70,7 @@ index cf810a1d645dd63595702a5f07456cd48393ee79..87031aa69148118d9f5bf16cb8a55cf7
  
      public boolean isEnchanted() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftItemStack.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftItemStack.java
-index 781a1e5e4220d2198467c0fd3956f5e0387a7aff..3c3f5a4b7109ec8b47b550f9e766556f8d1546ec 100644
+index 1e5ec95e19aca0530c141b6415fe6daca4f2d066..da5e660860a46227c59567f6458a9cf4ac4092eb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftItemStack.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftItemStack.java
 @@ -6,7 +6,6 @@ import java.util.Map;

@@ -5,10 +5,10 @@ Subject: [PATCH] Complete resource pack API
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 706e777cad3e5d56896b05740d42216aa2660f0b..38aad9faade27d1362711915cd4ccabedd8521e2 100644
+index 30a6be5487e0bff49d134c5dcae520071763d2ac..f5b8da00f641a401d7ff4641908dd7de55cbe683 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1764,8 +1764,11 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -1754,8 +1754,11 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              ServerGamePacketListenerImpl.LOGGER.info("Disconnecting {} due to resource pack rejection", this.player.getName());
              this.disconnect(Component.translatable("multiplayer.requiredTexturePrompt.disconnect"));
          }
@@ -23,10 +23,10 @@ index 706e777cad3e5d56896b05740d42216aa2660f0b..38aad9faade27d1362711915cd4ccabe
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 8b97cf87bff848b60f506ae0cde14e369e4afca8..673e4dc85e5c3ae43170564108f6b74187720d07 100644
+index 120461eb5d4129453ccff4304b376045ccf6f2e7..f4d4164b7a6b4715616712d939f423f0f2ab9e54 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -152,6 +152,7 @@ import org.bukkit.plugin.Plugin;
+@@ -153,6 +153,7 @@ import org.bukkit.plugin.Plugin;
  import org.bukkit.plugin.messaging.StandardMessenger;
  import org.bukkit.profile.PlayerProfile;
  import org.bukkit.scoreboard.Scoreboard;
@@ -34,7 +34,7 @@ index 8b97cf87bff848b60f506ae0cde14e369e4afca8..673e4dc85e5c3ae43170564108f6b741
  
  import net.md_5.bungee.api.chat.BaseComponent; // Spigot
  
-@@ -170,6 +171,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -171,6 +172,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      private double healthScale = 20;
      private CraftWorldBorder clientWorldBorder = null;
      private BorderChangeListener clientWorldBorderListener = this.createWorldBorderListener();
@@ -45,7 +45,7 @@ index 8b97cf87bff848b60f506ae0cde14e369e4afca8..673e4dc85e5c3ae43170564108f6b741
  
      public CraftPlayer(CraftServer server, ServerPlayer entity) {
          super(server, entity);
-@@ -2236,6 +2241,45 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2310,6 +2315,45 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      public boolean getAffectsSpawning() {
          return this.getHandle().affectsSpawning;
      }

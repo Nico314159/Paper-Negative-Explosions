@@ -6,10 +6,10 @@ Subject: [PATCH] Configurable sprint interruption on attack
 If the sprint interruption is disabled players continue sprinting when they attack entities.
 
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index 8fc8e7a6fff002a6022f5a4579a229238af08348..3bdd77d2e91be5182c32761f736e7cccccb08978 100644
+index 0665aa0242ca93c19b1488320168be82f85d6b16..0d34089b28c6f89df81a93e7032a8c52a89187c5 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -1284,7 +1284,11 @@ public abstract class Player extends LivingEntity {
+@@ -1283,7 +1283,11 @@ public abstract class Player extends LivingEntity {
                              }
  
                              this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));

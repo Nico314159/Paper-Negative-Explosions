@@ -5,10 +5,10 @@ Subject: [PATCH] Allow disabling armour stand ticking
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java b/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java
-index 3488c882c654a2cb7a470ed84066bcc0bbbbf9c4..f70f75867a8f03d42f240a0d007d2221269f2fdb 100644
+index 51acb26076d7de1f365f7aaf6a2ab274a4b87cdc..e38cbdff34479673f1640c46d727f1a807a609c7 100644
 --- a/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java
 +++ b/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java
-@@ -92,9 +92,16 @@ public class ArmorStand extends LivingEntity {
+@@ -93,9 +93,16 @@ public class ArmorStand extends LivingEntity {
      public Rotations leftLegPose;
      public Rotations rightLegPose;
      public boolean canMove = true; // Paper
@@ -25,7 +25,7 @@ index 3488c882c654a2cb7a470ed84066bcc0bbbbf9c4..f70f75867a8f03d42f240a0d007d2221
          this.handItems = NonNullList.withSize(2, ItemStack.EMPTY);
          this.armorItems = NonNullList.withSize(4, ItemStack.EMPTY);
          this.headPose = ArmorStand.DEFAULT_HEAD_POSE;
-@@ -189,6 +196,7 @@ public class ArmorStand extends LivingEntity {
+@@ -190,6 +197,7 @@ public class ArmorStand extends LivingEntity {
                  this.onEquipItem(enumitemslot, (ItemStack) this.armorItems.set(enumitemslot.getIndex(), itemstack), itemstack, silent); // CraftBukkit
          }
  
@@ -33,7 +33,7 @@ index 3488c882c654a2cb7a470ed84066bcc0bbbbf9c4..f70f75867a8f03d42f240a0d007d2221
      }
  
      @Override
-@@ -239,6 +247,7 @@ public class ArmorStand extends LivingEntity {
+@@ -240,6 +248,7 @@ public class ArmorStand extends LivingEntity {
          }
  
          nbt.put("Pose", this.writePose());
@@ -41,7 +41,7 @@ index 3488c882c654a2cb7a470ed84066bcc0bbbbf9c4..f70f75867a8f03d42f240a0d007d2221
      }
  
      @Override
-@@ -270,6 +279,12 @@ public class ArmorStand extends LivingEntity {
+@@ -271,6 +280,12 @@ public class ArmorStand extends LivingEntity {
          this.setNoBasePlate(nbt.getBoolean("NoBasePlate"));
          this.setMarker(nbt.getBoolean("Marker"));
          this.noPhysics = !this.hasPhysics();
@@ -54,7 +54,7 @@ index 3488c882c654a2cb7a470ed84066bcc0bbbbf9c4..f70f75867a8f03d42f240a0d007d2221
          CompoundTag nbttagcompound1 = nbt.getCompound("Pose");
  
          this.readPose(nbttagcompound1);
-@@ -652,7 +667,29 @@ public class ArmorStand extends LivingEntity {
+@@ -669,7 +684,29 @@ public class ArmorStand extends LivingEntity {
  
      @Override
      public void tick() {
@@ -84,7 +84,7 @@ index 3488c882c654a2cb7a470ed84066bcc0bbbbf9c4..f70f75867a8f03d42f240a0d007d2221
          Rotations vector3f = (Rotations) this.entityData.get(ArmorStand.DATA_HEAD_POSE);
  
          if (!this.headPose.equals(vector3f)) {
-@@ -776,31 +813,37 @@ public class ArmorStand extends LivingEntity {
+@@ -793,31 +830,37 @@ public class ArmorStand extends LivingEntity {
      public void setHeadPose(Rotations angle) {
          this.headPose = angle;
          this.entityData.set(ArmorStand.DATA_HEAD_POSE, angle);

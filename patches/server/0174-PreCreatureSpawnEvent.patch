@@ -59,10 +59,10 @@ index 1b3c7b3fb869215badacdb604199d5b96f74e384..83ef8cb27db685cceb5c2b7c9674e17b
  
                  if (t0 != null) {
 diff --git a/src/main/java/net/minecraft/world/entity/EntityType.java b/src/main/java/net/minecraft/world/entity/EntityType.java
-index a2c4267f0001b276d848377e4dbcc407ee8d1ff9..c33550137ea83f23885341545c4a7f4985e07cfc 100644
+index bb0f57be7ecb6a36f447294cc04edc74708427af..fa54a27d224113d5565b300693bd58b460bf086d 100644
 --- a/src/main/java/net/minecraft/world/entity/EntityType.java
 +++ b/src/main/java/net/minecraft/world/entity/EntityType.java
-@@ -405,6 +405,20 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
+@@ -413,6 +413,20 @@ public class EntityType<T extends Entity> implements FeatureElement, EntityTypeT
      @Nullable
      public T spawn(ServerLevel worldserver, @Nullable CompoundTag nbttagcompound, @Nullable Consumer<T> consumer, BlockPos blockposition, MobSpawnType enummobspawn, boolean flag, boolean flag1, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason spawnReason) {
          // CraftBukkit end
@@ -84,10 +84,10 @@ index a2c4267f0001b276d848377e4dbcc407ee8d1ff9..c33550137ea83f23885341545c4a7f49
  
          if (t0 != null) {
 diff --git a/src/main/java/net/minecraft/world/entity/npc/Villager.java b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-index bbbb26550b0c5b36d9c7204f075aa90b79b85ff0..bc778aadb2604756b783d4d024e3154576ab3236 100644
+index 806c49c127578a8f0a0bde11a4ad213e18d629af..caab72b733eabfe6a78c2a75e252817def49cbd0 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-@@ -951,7 +951,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -963,7 +963,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
              }).limit(5L).collect(Collectors.toList());
  
              if (list1.size() >= requiredCount) {
@@ -97,7 +97,7 @@ index bbbb26550b0c5b36d9c7204f075aa90b79b85ff0..bc778aadb2604756b783d4d024e31545
                  }
              }
 diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-index b3df6184b1b7f7e3b5cf87c76acb7f103e0dc1db..64d1f0ed579ef6f6f2e24e795d8dd0e1bdb5f39d 100644
+index bd85887e4497be2f8aeccc6c0260a96a3b9c615f..4e1d28fbe67bc7a3d0741acd490be8db787480ae 100644
 --- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
 @@ -128,6 +128,27 @@ public abstract class BaseSpawner {
@@ -129,7 +129,7 @@ index b3df6184b1b7f7e3b5cf87c76acb7f103e0dc1db..64d1f0ed579ef6f6f2e24e795d8dd0e1
                          Entity entity = EntityType.loadEntityRecursive(nbttagcompound, world, (entity1) -> {
                              entity1.moveTo(d0, d1, d2, entity1.getYRot(), entity1.getXRot());
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-index 5c58031279c0b74d2061c802e60b7bed50f27156..608be2b8bfff1b89855fc0bd181430d3a29a4cbb 100644
+index b2bb9bbd3af414c50ec3f8e3e171a679e95ef75e..5338e0e1a67925da0c386735a545bb31096afbb1 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 @@ -213,7 +213,13 @@ public final class NaturalSpawner {

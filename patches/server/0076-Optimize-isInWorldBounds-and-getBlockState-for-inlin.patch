@@ -12,11 +12,11 @@ Replace all calls to the new place to the unnecessary forward.
 Optimize getType and getBlockData to manually inline and optimize the calls
 
 diff --git a/src/main/java/net/minecraft/core/Vec3i.java b/src/main/java/net/minecraft/core/Vec3i.java
-index 3b254a89484ac8a9dba399c7eb081328ff69a7b2..a6a6aaf226655d0e44bc229288112882a9c04e3b 100644
+index 1b29c6872ebe54351f28c1f1f38b22561ba785ee..40950db0c242c65dfd4de247c86249354d12108f 100644
 --- a/src/main/java/net/minecraft/core/Vec3i.java
 +++ b/src/main/java/net/minecraft/core/Vec3i.java
-@@ -33,6 +33,12 @@ public class Vec3i implements Comparable<Vec3i> {
-         return CODEC.flatXmap(checkOffsetAxes(maxAbsValue), checkOffsetAxes(maxAbsValue));
+@@ -31,6 +31,12 @@ public class Vec3i implements Comparable<Vec3i> {
+         });
      }
  
 +    // Paper start
@@ -29,10 +29,10 @@ index 3b254a89484ac8a9dba399c7eb081328ff69a7b2..a6a6aaf226655d0e44bc229288112882
          this.x = x;
          this.y = y;
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 47d24d64d16f00e481d4773487163bc1e46ae4a8..4d2a64a38a94cc82767030dbdf219b5ee1002a7d 100644
+index 3b3da7340af0b97f900b5eb7fc2ba90f39c4c503..6d6145de1db2d57aa7f342e2467401231c3e38ae 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -279,7 +279,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -285,7 +285,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
      }
  
      public boolean isInWorldBounds(BlockPos pos) {
@@ -88,7 +88,7 @@ index 8033c8741a0f73919a357893652592b317bfb417..9a1cffd51aaf97f759a9057aefbf50bd
      @Override
      public FluidState getFluidState(BlockPos pos) {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index ba24e32f96797ed8c8bd82391d1903f6ad2a9813..2efeccb33d1d5fb148a12f71eae870fbdcb6e0fd 100644
+index 58048d90a66cf3291a31d7c1f13ae66eac04ed64..8775163c42d639516a533559eaf312ee16c19f10 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -342,12 +342,29 @@ public class LevelChunk extends ChunkAccess {
@@ -125,7 +125,7 @@ index ba24e32f96797ed8c8bd82391d1903f6ad2a9813..2efeccb33d1d5fb148a12f71eae870fb
              BlockState iblockdata = null;
  
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java
-index dddae1e226d8f58cdcfc597e25d4228cd3245cb4..ae37e97e52557b48f129cc02eeea395378a48444 100644
+index bc707432af738ad39de9f8df253913db941a4850..becc4c101e40d9b11e5e89a69e25dc0160bfaa32 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunkSection.java
 @@ -21,7 +21,7 @@ public class LevelChunkSection {

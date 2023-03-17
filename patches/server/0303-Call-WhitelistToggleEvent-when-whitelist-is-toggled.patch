@@ -5,10 +5,10 @@ Subject: [PATCH] Call WhitelistToggleEvent when whitelist is toggled
 
 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index bcfd6751100bcc689d6eb0669e14fa91d5c4b919..07a2da57a0684231a726a0aac58a9943195b3a11 100644
+index c291339e448cb87c42b7daf5a3c67869c7412d0b..9905d2174582b38913752c2e86e4d610baff181d 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -1140,6 +1140,7 @@ public abstract class PlayerList {
+@@ -1147,6 +1147,7 @@ public abstract class PlayerList {
      }
  
      public void setUsingWhiteList(boolean whitelistEnabled) {

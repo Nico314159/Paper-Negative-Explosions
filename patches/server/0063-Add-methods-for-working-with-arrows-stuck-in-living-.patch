@@ -7,7 +7,7 @@ Upstream added methods for this, original methods are now
 deprecated
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index c2407224e8bc5e872e153de14090d60e66bb07bc..3fae28c52f2aac63ac6a4e8eb6af2d7226e6bec6 100644
+index 1f67ac4484e3ee2e0a25030e0080a671f34e1a58..3084fa8000b36f06e8d432bff124a5af4ea675ea 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 @@ -266,9 +266,15 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {

@@ -5,10 +5,10 @@ Subject: [PATCH] Add configurable portal search radius
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 128dd4749590905fdfa85907d33adc4e4dbe6c33..575ce3bb03c7eef215e71d238a46aa1cc8510f89 100644
+index 28704015f17da94d8cb063af70bf4aca83d6eed7..a29f831eca7191f3145477e88921f8f972e580a9 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -3029,7 +3029,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3050,7 +3050,13 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
                  double d0 = DimensionType.getTeleportationScale(this.level.dimensionType(), destination.dimensionType());
                  BlockPos blockposition = worldborder.clampToBounds(this.getX() * d0, this.getY(), this.getZ() * d0);
                  // CraftBukkit start

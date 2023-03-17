@@ -5,10 +5,10 @@ Subject: [PATCH] Configurable packet in spam threshold
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 8bed76ec7692a75f12e724a36f3dd9050760b7ea..481ddcf40d1e96d162b0e28737a71fb390e8715d 100644
+index 76f7ddbbba4be5c31d70ce9af9e041e69ee31662..dc723382685e9b50ffe0fea3118a1121db1da9fb 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1604,13 +1604,14 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -1594,13 +1594,14 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
      // Spigot start - limit place/interactions
      private int limitedPackets;
      private long lastLimitedPacket = -1;

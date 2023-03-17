@@ -5,10 +5,10 @@ Subject: [PATCH] Custom replacement for eaten items
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index eec1467eaaadaa66febc06e51372c5f602216fb5..29495ff2d2c31f6b6ef6e2817662d143e538f926 100644
+index 202eed643693363aa1c052f468d6bd15bb072ff8..92da7117f56c1a5087d589f241a8b9dbe55c9b67 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3639,10 +3639,11 @@ public abstract class LivingEntity extends Entity {
+@@ -3599,10 +3599,11 @@ public abstract class LivingEntity extends Entity implements Attackable {
                      this.triggerItemUseEffects(this.useItem, 16);
                      // CraftBukkit start - fire PlayerItemConsumeEvent
                      ItemStack itemstack;
@@ -21,7 +21,7 @@ index eec1467eaaadaa66febc06e51372c5f602216fb5..29495ff2d2c31f6b6ef6e2817662d143
                          level.getCraftServer().getPluginManager().callEvent(event);
  
                          if (event.isCancelled()) {
-@@ -3656,6 +3657,13 @@ public abstract class LivingEntity extends Entity {
+@@ -3616,6 +3617,13 @@ public abstract class LivingEntity extends Entity implements Attackable {
                      } else {
                          itemstack = this.useItem.finishUsingItem(this.level, this);
                      }
@@ -35,7 +35,7 @@ index eec1467eaaadaa66febc06e51372c5f602216fb5..29495ff2d2c31f6b6ef6e2817662d143
                      // CraftBukkit end
  
                      if (itemstack != this.useItem) {
-@@ -3663,6 +3671,11 @@ public abstract class LivingEntity extends Entity {
+@@ -3623,6 +3631,11 @@ public abstract class LivingEntity extends Entity implements Attackable {
                      }
  
                      this.stopUsingItem();

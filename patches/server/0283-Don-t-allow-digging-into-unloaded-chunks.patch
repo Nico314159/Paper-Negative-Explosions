@@ -59,10 +59,10 @@ index 01a321a0c76c55b32922c94297139e85b3d4ac23..514c045883060e4a22f748176091d3b2
  
                  this.level.destroyBlockProgress(this.player.getId(), pos, -1);
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index a0c18ab3411272229d9c3ce2a8faf4812f8cf60f..65da9e37ac3f8bfb1ed36bd3511687c3efac3d91 100644
+index e5c17c81b0265a9854a59779983f8af0e749dd99..43304fd4aba9c5d3d31499b813c9c39934918cea 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1668,6 +1668,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -1658,6 +1658,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              case START_DESTROY_BLOCK:
              case ABORT_DESTROY_BLOCK:
              case STOP_DESTROY_BLOCK:

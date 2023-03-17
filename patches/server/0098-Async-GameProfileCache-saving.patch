@@ -5,10 +5,10 @@ Subject: [PATCH] Async GameProfileCache saving
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 3ed50490121f34ab5b247565b9a4555bf6a46dff..0a419ec121bbddffa0424147c642f79d4e5eb817 100644
+index 12d0bddfdb156c07fdba87e960d0cbf0639b26a5..e7b8e53a8709babb147a1ee3f375e96638f425a4 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -934,7 +934,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -936,7 +936,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          } catch (java.lang.InterruptedException ignored) {} // Paper
          if (org.spigotmc.SpigotConfig.saveUserCacheOnStopOnly) {
              MinecraftServer.LOGGER.info("Saving usercache.json");

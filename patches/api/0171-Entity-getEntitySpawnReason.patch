@@ -10,10 +10,10 @@ persistenting Living Entity, SPAWNER for spawners,
 or DEFAULT since data was not stored.
 
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index fb3187692878e9686d54c8d022035eba2cea6f25..383844bf956e70cc8a821913d5b2560226d8e2fc 100644
+index 6fb14175962ec9730e4b70330481ec21d2c87da5..84e201c1695e9a97354f84156d82c47f9b722281 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -754,5 +754,11 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -780,5 +780,11 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
          // TODO remove impl here
          return getLocation().getChunk();
      }

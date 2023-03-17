@@ -5,7 +5,7 @@ Subject: [PATCH] Implement EntityTeleportEndGatewayEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
-index 9c4469d46cb7a2cc781f6498d3e4ec6a9415d12e..1c0c1be2b08fc8a28ff36896da01d668308570f4 100644
+index 7d2b15edbd1a6bf663c29b7bc63c73d34fefd999..c7de74b7fcfb5f4d8adbe7e703087a03d9d9056d 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
 @@ -225,9 +225,20 @@ public class TheEndGatewayBlockEntity extends TheEndPortalBlockEntity {

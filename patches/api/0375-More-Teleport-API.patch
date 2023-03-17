@@ -125,7 +125,7 @@ index 0000000000000000000000000000000000000000..dbacefc919fd6ed6a0f5cdaa0f695a12
 +
 +}
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index b878509ff536f2d728c800a0ae6cd36802570b31..ec2adecad37c321b7852c34020dc1c61bef5dd8d 100644
+index b92096ec80198aa007ed1aeff057db463ec11c0b..d15ff4d1b975e2a872adc13528942662fa1a3b6b 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
 @@ -122,10 +122,34 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
@@ -165,10 +165,10 @@ index b878509ff536f2d728c800a0ae6cd36802570b31..ec2adecad37c321b7852c34020dc1c61
       * Teleports this entity to the given location. If this entity is riding a
       * vehicle, it will be dismounted prior to teleportation.
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 596af6bb00429bad7d36ea9b06573ec0aacc4cff..7b239b001288e773920195f3602b3f7103f80884 100644
+index f3fe0266778d9d513f6a561b8829644d1f66e617..058c2f9da196d68477d5fbdcf55b507401e5f3ef 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2762,6 +2762,49 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2793,6 +2793,49 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      String getClientBrandName();
      // Paper end
  
@@ -219,7 +219,7 @@ index 596af6bb00429bad7d36ea9b06573ec0aacc4cff..7b239b001288e773920195f3602b3f71
      @Override
      Spigot spigot();
 diff --git a/src/main/java/org/bukkit/event/player/PlayerTeleportEvent.java b/src/main/java/org/bukkit/event/player/PlayerTeleportEvent.java
-index 113e620ce38bb8ff97cf24e309af59b717774b36..cc75d2e84e68a1f63ec91a909c37407a46ddb16a 100644
+index 113e620ce38bb8ff97cf24e309af59b717774b36..c334684341002c469a0dd90fc995758aff6bac61 100644
 --- a/src/main/java/org/bukkit/event/player/PlayerTeleportEvent.java
 +++ b/src/main/java/org/bukkit/event/player/PlayerTeleportEvent.java
 @@ -13,8 +13,14 @@ public class PlayerTeleportEvent extends PlayerMoveEvent {
@@ -237,16 +237,14 @@ index 113e620ce38bb8ff97cf24e309af59b717774b36..cc75d2e84e68a1f63ec91a909c37407a
      }
  
      public PlayerTeleportEvent(@NotNull final Player player, @NotNull final Location from, @Nullable final Location to, @NotNull final TeleportCause cause) {
-@@ -23,6 +29,17 @@ public class PlayerTeleportEvent extends PlayerMoveEvent {
+@@ -23,6 +29,15 @@ public class PlayerTeleportEvent extends PlayerMoveEvent {
          this.cause = cause;
      }
  
 +    // Paper start - Teleport API
 +    @org.jetbrains.annotations.ApiStatus.Experimental
-+    public PlayerTeleportEvent(@NotNull final Player player, @NotNull final Location from, @Nullable final Location to, @NotNull final TeleportCause cause, boolean dismounted, @NotNull java.util.Set<io.papermc.paper.entity.TeleportFlag.@NotNull Relative> teleportFlagSet) {
++    public PlayerTeleportEvent(@NotNull final Player player, @NotNull final Location from, @Nullable final Location to, @NotNull final TeleportCause cause, @NotNull java.util.Set<io.papermc.paper.entity.TeleportFlag.@NotNull Relative> teleportFlagSet) {
 +        super(player, from, to);
-+
-+        this.dismounted = dismounted;
 +        this.teleportFlagSet = teleportFlagSet;
 +        this.cause = cause;
 +    }
@@ -255,7 +253,7 @@ index 113e620ce38bb8ff97cf24e309af59b717774b36..cc75d2e84e68a1f63ec91a909c37407a
      /**
       * Gets the cause of this teleportation event
       *
-@@ -84,6 +101,30 @@ public class PlayerTeleportEvent extends PlayerMoveEvent {
+@@ -84,6 +99,31 @@ public class PlayerTeleportEvent extends PlayerMoveEvent {
          UNKNOWN;
      }
  
@@ -264,8 +262,9 @@ index 113e620ce38bb8ff97cf24e309af59b717774b36..cc75d2e84e68a1f63ec91a909c37407a
 +     * Gets if the player will be dismounted in this teleportation.
 +     *
 +     * @return dismounted or not
++     * @deprecated dismounting on tp is no longer controlled by the server
 +     */
-+    @org.jetbrains.annotations.ApiStatus.Experimental
++    @Deprecated(forRemoval = true)
 +    public boolean willDismountPlayer() {
 +        return this.dismounted;
 +    }

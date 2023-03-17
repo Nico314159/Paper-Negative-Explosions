@@ -5,10 +5,10 @@ Subject: [PATCH] Add server-name parameter
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index d453c630da1780a7aeab80cf95adcee62f4e8a14..47c97c16eb23cdd485858c39c571a7ef5ac6d594 100644
+index 2d1df61cc7ec645add8f729cc6cfdea0c56755aa..34dc3555dbff9942a3ee39b27da44831f280b5a8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -156,6 +156,14 @@ public class Main {
+@@ -166,6 +166,14 @@ public class Main {
                          .defaultsTo(new File[] {})
                          .describedAs("Jar file");
                  // Paper end

@@ -5,7 +5,7 @@ Subject: [PATCH] Multi Block Change API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index b8649646550d92e74d81f8502ce7a0e3479ebced..596af6bb00429bad7d36ea9b06573ec0aacc4cff 100644
+index eca9b83ef932979517f9232def0a8c3eaf087d96..f3fe0266778d9d513f6a561b8829644d1f66e617 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -646,6 +646,27 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM

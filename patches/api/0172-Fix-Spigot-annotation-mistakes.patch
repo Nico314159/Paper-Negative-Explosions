@@ -79,10 +79,10 @@ index 20978b269a7757a561d6b872cc77898b44bbd272..2b9a117804a8ca54b47e51e23359bd6e
          if (this.world == null) {
              return null;
 diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
-index a4a85c62e87c18e38ba16e3966a41e6631ec8add..e883bb46461eb40b018ebe8c07caff96046fd11d 100644
+index b96bae74f0c9619609590737d9b856292cb56691..a5fe6fe103df59c01649ddcd0e1f27c27a452cff 100644
 --- a/src/main/java/org/bukkit/Material.java
 +++ b/src/main/java/org/bukkit/Material.java
-@@ -4303,11 +4303,11 @@ public enum Material implements Keyed, Translatable {
+@@ -4419,11 +4419,11 @@ public enum Material implements Keyed, Translatable {
      }
  
      /**
@@ -96,7 +96,7 @@ index a4a85c62e87c18e38ba16e3966a41e6631ec8add..e883bb46461eb40b018ebe8c07caff96
      public boolean isLegacy() {
          return legacy;
      }
-@@ -4378,8 +4378,10 @@ public enum Material implements Keyed, Translatable {
+@@ -4494,8 +4494,10 @@ public enum Material implements Keyed, Translatable {
       * Gets the MaterialData class associated with this Material
       *
       * @return MaterialData associated with this Material
@@ -357,10 +357,10 @@ index 95c79c5fa0c4e30201f887da6467ce5f81c8a255..7f9c4d4b430a3f0276461346ff2621ba
  
      /**
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 98b50de33b9c48e25da0a19747cd1599df5becfc..fec96fff783995ccb7df24bd40368885ed9eefa1 100644
+index 2904aa66e83d8cde9954c13d89f8337bbfc75137..65ce6e016bcbb43711d6a1ae077330eafb8037e0 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -1432,9 +1432,8 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1463,9 +1463,8 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       *
       * @param plugin Plugin that wants to hide the entity
       * @param entity Entity to hide
@@ -371,7 +371,7 @@ index 98b50de33b9c48e25da0a19747cd1599df5becfc..fec96fff783995ccb7df24bd40368885
      public void hideEntity(@NotNull Plugin plugin, @NotNull Entity entity);
  
      /**
-@@ -1444,9 +1443,8 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1475,9 +1474,8 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       *
       * @param plugin Plugin that wants to show the entity
       * @param entity Entity to show
@@ -382,7 +382,7 @@ index 98b50de33b9c48e25da0a19747cd1599df5becfc..fec96fff783995ccb7df24bd40368885
      public void showEntity(@NotNull Plugin plugin, @NotNull Entity entity);
  
      /**
-@@ -1455,9 +1453,8 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1486,9 +1484,8 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @param entity Entity to check
       * @return True if the provided entity is not being hidden from this
       *     player

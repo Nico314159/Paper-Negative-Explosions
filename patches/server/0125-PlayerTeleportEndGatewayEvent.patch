@@ -6,7 +6,7 @@ Subject: [PATCH] PlayerTeleportEndGatewayEvent
 Allows you to access the Gateway being used in a teleport event
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
-index 553f8314118adc64a6af9aee9351598b2991d18d..9c4469d46cb7a2cc781f6498d3e4ec6a9415d12e 100644
+index 904e23ad2f148f991ab8d94e5d8d989cdc98268a..7d2b15edbd1a6bf663c29b7bc63c73d34fefd999 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/TheEndGatewayBlockEntity.java
 @@ -12,6 +12,7 @@ import net.minecraft.data.worldgen.features.EndFeatures;

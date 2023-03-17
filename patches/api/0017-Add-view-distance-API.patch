@@ -75,10 +75,10 @@ index ed57cd69d88504b78782271c9a3d423a29471674..8a6a548314eef8d486be908e38e3a456
      public class Spigot {
  
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index ab29ddf09a178b70c7afad33d282cb39fcd7e92a..3c7665d5e96e710eb1ebb439a0bc0fd441bd2532 100644
+index 4ddea8d71723db4326459c96324a817c70492261..a8310063973bb18502d561903b78149a6fda4939 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -1899,6 +1899,78 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1930,6 +1930,78 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @param affects Whether the player can affect mob spawning
       */
      public void setAffectsSpawning(boolean affects);

@@ -5,7 +5,7 @@ Subject: [PATCH] Configurable mob spawner tick rate
 
 
 diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-index 3e83bff81a0656d5e1d079ad9e63c7d27561c8e3..b214a79efc4f5279d3dd29feb1f79efc45788a8d 100644
+index 7b60c13cbe3d2a0d0657391a7b6be4e3706720fa..3d4e77327295344a5ef8d1fcde96f1ed2fecfbfa 100644
 --- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
 @@ -45,6 +45,7 @@ public abstract class BaseSpawner {

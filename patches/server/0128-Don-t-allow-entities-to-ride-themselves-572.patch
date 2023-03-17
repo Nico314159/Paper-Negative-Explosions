@@ -5,10 +5,10 @@ Subject: [PATCH] Don't allow entities to ride themselves - #572
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 0c0060cdc35e0d8d3098a0ade8080f91dbc81a2b..a28aa788f46dc944e174957fbed23dfeeff1eb72 100644
+index 384e4371e56d877118cb68e4ca94a0cc38b4d101..6d76be16ba1b35a65b851c2c861093c9998fcc61 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -2404,6 +2404,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2417,6 +2417,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      protected boolean addPassenger(Entity entity) { // CraftBukkit

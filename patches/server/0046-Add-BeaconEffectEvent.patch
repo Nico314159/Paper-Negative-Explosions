@@ -5,7 +5,7 @@ Subject: [PATCH] Add BeaconEffectEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
-index e1a720afaf9f3d843065ed1e8e4ce71019a0fea2..3a17c143de499d81109ae7d6e9fe18718139c5b7 100644
+index ff49285fe50e8361c2d4529bf1dda5b54a90e3fe..05d98a0f34ffd50449fbafcf23fe7d05ca721317 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
 @@ -41,6 +41,10 @@ import net.minecraft.world.phys.AABB;

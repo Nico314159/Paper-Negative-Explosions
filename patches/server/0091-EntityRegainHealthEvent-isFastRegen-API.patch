@@ -6,10 +6,10 @@ Subject: [PATCH] EntityRegainHealthEvent isFastRegen API
 Don't even get me started
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index b2871726eb4dd7f16d161097cbf0f287839e10ba..16ec3763e6d13a2dd3e1cc8cd898c6d783ac070c 100644
+index b14723d093f8a7aa44750b6d0e7eb9db9e2ac34b..d0d38e39010ba3398a0b8960bc674c39d9a9ff51 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -1249,10 +1249,16 @@ public abstract class LivingEntity extends Entity {
+@@ -1243,10 +1243,16 @@ public abstract class LivingEntity extends Entity implements Attackable {
      }
  
      public void heal(float f, EntityRegainHealthEvent.RegainReason regainReason) {
@@ -28,10 +28,10 @@ index b2871726eb4dd7f16d161097cbf0f287839e10ba..16ec3763e6d13a2dd3e1cc8cd898c6d7
              if (this.valid) {
                  this.level.getCraftServer().getPluginManager().callEvent(event);
 diff --git a/src/main/java/net/minecraft/world/food/FoodData.java b/src/main/java/net/minecraft/world/food/FoodData.java
-index ae323c786b5a0d61d9292469baa50a3ad8e4ccff..2934b6de1f1fb914a532ee20184df99d1acd8e65 100644
+index 5fb5258a03d34c161110f3098bc06107a9714965..4a2dcf9bd83dd3fdff43483f887f4f58dc4715cd 100644
 --- a/src/main/java/net/minecraft/world/food/FoodData.java
 +++ b/src/main/java/net/minecraft/world/food/FoodData.java
-@@ -84,7 +84,7 @@ public class FoodData {
+@@ -83,7 +83,7 @@ public class FoodData {
              if (this.tickTimer >= this.saturatedRegenRate) { // CraftBukkit
                  float f = Math.min(this.saturationLevel, 6.0F);
  

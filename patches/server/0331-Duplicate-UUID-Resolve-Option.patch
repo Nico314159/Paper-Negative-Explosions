@@ -56,10 +56,10 @@ index 0dc94dec1317b3f86d38074c6cbe41ab828cab1d..0e45a340ae534caf676b7f9d0adcbcee
  
      public static void onChunkHolderCreate(final ServerLevel level, final ChunkHolder holder) {
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index ae97f0c4b39d838ab321743a048de53cbc83de5d..4b05139db6628808128337dbf817712e339c17d0 100644
+index 299c7c60edf491cc44e609517474d8247fb6c724..430be10a2b0487dc26f21793592ca08d01a39e53 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -534,6 +534,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -537,6 +537,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
                      entity.discard();
                      needsRemoval = true;
                  }
@@ -67,7 +67,7 @@ index ae97f0c4b39d838ab321743a048de53cbc83de5d..4b05139db6628808128337dbf817712e
                  return !needsRemoval;
              }));
              // CraftBukkit end
-@@ -545,6 +546,49 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -548,6 +549,49 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          throw new UnsupportedOperationException(); // Paper - rewrite chunk system
      }
  

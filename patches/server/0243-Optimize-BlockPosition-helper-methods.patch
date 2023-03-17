@@ -6,10 +6,10 @@ Subject: [PATCH] Optimize BlockPosition helper methods
 Resolves #1338
 
 diff --git a/src/main/java/net/minecraft/core/BlockPos.java b/src/main/java/net/minecraft/core/BlockPos.java
-index a72dfbfa2aa636ac8bac07a62777126cf2696241..f35cc28b1fde73e9eae077f597c2822842a282ce 100644
+index 4dffce4dc3434ef6adef7dc3cfac867ad89d9a5d..cf7b12993090e72802a966b3cb40e5d33c1bc5ed 100644
 --- a/src/main/java/net/minecraft/core/BlockPos.java
 +++ b/src/main/java/net/minecraft/core/BlockPos.java
-@@ -134,67 +134,84 @@ public class BlockPos extends Vec3i {
+@@ -125,67 +125,84 @@ public class BlockPos extends Vec3i {
  
      @Override
      public BlockPos above() {

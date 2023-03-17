@@ -5,10 +5,10 @@ Subject: [PATCH] Add TNTPrimeEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-index 7bf3ad1ccef09b697655dc949abab9ab006a95a9..c9051e80d329f1b10fa04d21f8891e85c44b5200 100644
+index 55a8ab31a26a16adbe78b3b34366dc81851c02d4..da1e60206f300d64f68f5aedeba52a164829676e 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-@@ -532,6 +532,11 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -534,6 +534,11 @@ public class EnderDragon extends Mob implements Enemy {
                      });
                      craftBlock.getNMS().spawnAfterBreak((ServerLevel) level, blockposition, ItemStack.EMPTY, false);
                  }
@@ -21,10 +21,10 @@ index 7bf3ad1ccef09b697655dc949abab9ab006a95a9..c9051e80d329f1b10fa04d21f8891e85
  
                  this.level.removeBlock(blockposition, false);
 diff --git a/src/main/java/net/minecraft/world/level/block/FireBlock.java b/src/main/java/net/minecraft/world/level/block/FireBlock.java
-index e725168ebce3d1b2548a1bc5baa612a6e718e337..7e48326b6dc847a84e0aff2d393cadf9bace7979 100644
+index 48b30ead02b0379190f794c4f245affb684aa5b4..33ece83c6d41c65042356c44eee2c76934c07d0b 100644
 --- a/src/main/java/net/minecraft/world/level/block/FireBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/FireBlock.java
-@@ -290,12 +290,19 @@ public class FireBlock extends BaseFireBlock {
+@@ -291,12 +291,19 @@ public class FireBlock extends BaseFireBlock {
  
                  world.setBlock(blockposition, this.getStateWithAge(world, blockposition, l), 3);
              } else {

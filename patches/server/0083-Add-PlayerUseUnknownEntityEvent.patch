@@ -22,10 +22,10 @@ index a5d57cc862036012d83b090bb1b3ccf4115a88b3..21068f766b75c414d5818073b7dca083
      static final ServerboundInteractPacket.Action ATTACK_ACTION = new ServerboundInteractPacket.Action() {
          @Override
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index f49a8a0f56bc3dd9e8a33cfefefed414e56153fd..8bed76ec7692a75f12e724a36f3dd9050760b7ea 100644
+index f5b8da00f641a401d7ff4641908dd7de55cbe683..76f7ddbbba4be5c31d70ce9af9e041e69ee31662 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2525,8 +2525,37 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2534,8 +2534,37 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
                  });
              }
          }

@@ -119,7 +119,7 @@ index 938c3217f92e6d3ef9a637269c469f8359af6347..ef49495909a37d718a87d5dfbcd644d4
  
      /**
 diff --git a/src/main/java/org/bukkit/GameRule.java b/src/main/java/org/bukkit/GameRule.java
-index 0a66077d152a3c89fa7a277663969767798eb100..b02490737409eb80a2d2fb275c9a60b6078a8133 100644
+index 753bfcec441533071120d925c83789ef53afa176..c6bc84a8755b2fe5d7d8d3ec857700ec1cba3c9b 100644
 --- a/src/main/java/org/bukkit/GameRule.java
 +++ b/src/main/java/org/bukkit/GameRule.java
 @@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
@@ -131,7 +131,7 @@ index 0a66077d152a3c89fa7a277663969767798eb100..b02490737409eb80a2d2fb275c9a60b6
  
      private static Map<String, GameRule<?>> gameRules = new HashMap<>();
      // Boolean rules
-@@ -314,4 +314,11 @@ public final class GameRule<T> {
+@@ -323,4 +323,11 @@ public final class GameRule<T> {
      public static GameRule<?>[] values() {
          return gameRules.values().toArray(new GameRule<?>[gameRules.size()]);
      }
@@ -144,10 +144,10 @@ index 0a66077d152a3c89fa7a277663969767798eb100..b02490737409eb80a2d2fb275c9a60b6
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
-index e883bb46461eb40b018ebe8c07caff96046fd11d..89af89e5fb49e202e80ea7688c62f8e119f4ddfe 100644
+index c154e94acda00924f81368f2aad1933726596b17..9117bbfb5208231752cfa757c0d088bc270d43b9 100644
 --- a/src/main/java/org/bukkit/Material.java
 +++ b/src/main/java/org/bukkit/Material.java
-@@ -113,7 +113,7 @@ import org.jetbrains.annotations.Nullable;
+@@ -116,7 +116,7 @@ import org.jetbrains.annotations.Nullable;
   * An enum of all material IDs accepted by the official server and client
   */
  @SuppressWarnings({"DeprecatedIsStillUsed", "deprecation"}) // Paper
@@ -156,7 +156,7 @@ index e883bb46461eb40b018ebe8c07caff96046fd11d..89af89e5fb49e202e80ea7688c62f8e1
      //<editor-fold desc="Materials" defaultstate="collapsed">
      AIR(9648, 0),
      STONE(22948),
-@@ -4288,6 +4288,15 @@ public enum Material implements Keyed, Translatable {
+@@ -4404,6 +4404,15 @@ public enum Material implements Keyed, Translatable {
          }
          return false;
      }
@@ -172,7 +172,7 @@ index e883bb46461eb40b018ebe8c07caff96046fd11d..89af89e5fb49e202e80ea7688c62f8e1
      // Paper end
  
      /**
-@@ -10596,9 +10605,11 @@ public enum Material implements Keyed, Translatable {
+@@ -10887,9 +10896,11 @@ public enum Material implements Keyed, Translatable {
       * material
       * @see #getBlockTranslationKey()
       * @see #getItemTranslationKey()
@@ -232,7 +232,7 @@ index 13eac9ad2c1672051635d1c35cc49239252e7a61..107e36ef02a9481954bd770ce9a55a0b
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/block/Biome.java b/src/main/java/org/bukkit/block/Biome.java
-index 02c5fcbc76b2db6bf4eb7580456b5658c08272b4..d56e1b50dd7da18f40278cec4bfdc9414aae0be1 100644
+index d3087d60378822cdd7cea25fd63d3f496e3cd2fb..5d8fa5b39a5d50cca48ba63af3a84b80f279b649 100644
 --- a/src/main/java/org/bukkit/block/Biome.java
 +++ b/src/main/java/org/bukkit/block/Biome.java
 @@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
@@ -244,7 +244,7 @@ index 02c5fcbc76b2db6bf4eb7580456b5658c08272b4..d56e1b50dd7da18f40278cec4bfdc941
      OCEAN,
      PLAINS,
      DESERT,
-@@ -88,4 +88,11 @@ public enum Biome implements Keyed {
+@@ -89,4 +89,11 @@ public enum Biome implements Keyed {
      public NamespacedKey getKey() {
          return key;
      }
@@ -311,7 +311,7 @@ index 4d5f0837bd0e02a30c943d8969fb6b13452322e0..a39f9c078f42451bd122f3e3729d10ca
      // Paper end
  }
 diff --git a/src/main/java/org/bukkit/entity/EntityType.java b/src/main/java/org/bukkit/entity/EntityType.java
-index 2caa5f82e206b231fd9e9f5508c3713816e5a0e4..80897ed8641a2bdc4e3557e20f3a8ae4b8c5da69 100644
+index 8b913a9458d20c5c387b41bad21c353335b7c6b9..5f78a801d6fd10a0e0fa3ccf13bb1456eed12c13 100644
 --- a/src/main/java/org/bukkit/entity/EntityType.java
 +++ b/src/main/java/org/bukkit/entity/EntityType.java
 @@ -22,7 +22,7 @@ import org.jetbrains.annotations.Contract;
@@ -323,7 +323,7 @@ index 2caa5f82e206b231fd9e9f5508c3713816e5a0e4..80897ed8641a2bdc4e3557e20f3a8ae4
  
      // These strings MUST match the strings in nms.EntityTypes and are case sensitive.
      /**
-@@ -430,7 +430,19 @@ public enum EntityType implements Keyed, Translatable {
+@@ -435,7 +435,19 @@ public enum EntityType implements Keyed, Translatable {
  
      @Override
      @NotNull

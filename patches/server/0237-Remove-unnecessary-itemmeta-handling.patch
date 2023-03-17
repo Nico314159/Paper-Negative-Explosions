@@ -5,10 +5,10 @@ Subject: [PATCH] Remove unnecessary itemmeta handling
 
 
 diff --git a/src/main/java/net/minecraft/network/FriendlyByteBuf.java b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-index 76914b08c17a62a117319d458a6693070fc46348..32ee4ed11aefd82dca2e3e78b3108f041fdc3695 100644
+index c2f56f4628e42c130e4c55030432cb43aa0d8458..9938bb90bef84cf784f9a1ceb02a1a45aa8b48a1 100644
 --- a/src/main/java/net/minecraft/network/FriendlyByteBuf.java
 +++ b/src/main/java/net/minecraft/network/FriendlyByteBuf.java
-@@ -641,7 +641,7 @@ public class FriendlyByteBuf extends ByteBuf {
+@@ -688,7 +688,7 @@ public class FriendlyByteBuf extends ByteBuf {
              if (item.canBeDepleted() || item.shouldOverrideMultiplayerNbt()) {
                  // Spigot start - filter
                  stack = stack.copy();
@@ -17,7 +17,7 @@ index 76914b08c17a62a117319d458a6693070fc46348..32ee4ed11aefd82dca2e3e78b3108f04
                  // Spigot end
                  nbttagcompound = stack.getTag();
              }
-@@ -662,7 +662,7 @@ public class FriendlyByteBuf extends ByteBuf {
+@@ -709,7 +709,7 @@ public class FriendlyByteBuf extends ByteBuf {
  
              itemstack.setTag(this.readNbt());
              // CraftBukkit start

@@ -5,10 +5,10 @@ Subject: [PATCH] Complete resource pack API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index d108c0485110be014b7dc05a3ade660b750f1dce..e3bd8634defd69ecb8146ea19e11c0ffc14374d9 100644
+index 3e2b8c1ae51404352adccc9ad108982173306ee9..cdc67b2c6770119ada67033b388befa607bd46db 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -1363,7 +1363,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1394,7 +1394,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @throws IllegalArgumentException Thrown if the URL is null.
       * @throws IllegalArgumentException Thrown if the URL is too long. The
       *     length restriction is an implementation specific arbitrary value.
@@ -18,7 +18,7 @@ index d108c0485110be014b7dc05a3ade660b750f1dce..e3bd8634defd69ecb8146ea19e11c0ff
      public void setResourcePack(@NotNull String url);
  
      /**
-@@ -2179,6 +2181,124 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2210,6 +2212,124 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      default net.kyori.adventure.text.event.HoverEvent<net.kyori.adventure.text.event.HoverEvent.ShowEntity> asHoverEvent(final @NotNull java.util.function.UnaryOperator<net.kyori.adventure.text.event.HoverEvent.ShowEntity> op) {
          return net.kyori.adventure.text.event.HoverEvent.showEntity(op.apply(net.kyori.adventure.text.event.HoverEvent.ShowEntity.of(this.getType().getKey(), this.getUniqueId(), this.displayName())));
      }

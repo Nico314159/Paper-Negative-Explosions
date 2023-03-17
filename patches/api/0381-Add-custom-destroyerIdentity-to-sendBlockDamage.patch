@@ -5,7 +5,7 @@ Subject: [PATCH] Add custom destroyerIdentity to sendBlockDamage
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 529d07aa4581b8ab036fab5e93c2179c860efc0c..a6ad21303a03f7a09707ed28ab9e24443f3a62bf 100644
+index 607415c6dae4f107406365a97925d1cb89c630d8..13d3676f9a394ba10f772b89b30dde55c3f4a133 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -638,7 +638,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM

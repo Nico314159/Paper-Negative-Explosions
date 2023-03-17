@@ -495,7 +495,7 @@ index 8075ff77eddb971a0a73dad3c9b809131b5db343..12c1731cd3e7138b30a509bf1c6de937
  
      /**
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 7c867a54e18798d782971a68548eac541e9f50c0..fb3187692878e9686d54c8d022035eba2cea6f25 100644
+index 13e0316b2446c1d10b2ff3582b948265de21bfef..6fb14175962ec9730e4b70330481ec21d2c87da5 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
 @@ -164,6 +164,33 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent

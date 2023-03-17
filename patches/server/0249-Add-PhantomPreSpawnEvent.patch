@@ -5,7 +5,7 @@ Subject: [PATCH] Add PhantomPreSpawnEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Phantom.java b/src/main/java/net/minecraft/world/entity/monster/Phantom.java
-index c068eddb08898681735e483df5b9c36f5fef3878..0e96e9d7e4d636f4222f60cec556663f506c3906 100644
+index 4ba55cba98d5525eaafeed4026352851637da9b0..a3663ea031f3a243f670bf1c98272a49daed71b0 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Phantom.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Phantom.java
 @@ -171,6 +171,11 @@ public class Phantom extends FlyingMob implements Enemy {
@@ -32,8 +32,8 @@ index c068eddb08898681735e483df5b9c36f5fef3878..0e96e9d7e4d636f4222f60cec556663f
      }
  
      @Override
-@@ -231,6 +241,14 @@ public class Phantom extends FlyingMob implements Enemy {
-         return entitysize.scale(f);
+@@ -236,6 +246,14 @@ public class Phantom extends FlyingMob implements Enemy {
+         return (double) this.getEyeHeight();
      }
  
 +    // Paper start
@@ -48,7 +48,7 @@ index c068eddb08898681735e483df5b9c36f5fef3878..0e96e9d7e4d636f4222f60cec556663f
  
          CIRCLE, SWOOP;
 diff --git a/src/main/java/net/minecraft/world/level/levelgen/PhantomSpawner.java b/src/main/java/net/minecraft/world/level/levelgen/PhantomSpawner.java
-index 42d88ce2e15477482a814a79aefd4abfcbcb5462..900a66fc7eb817509df904b71ccc3bd3976f3b35 100644
+index 5e534aceb532a113f63bad36dc77b487962ad4b7..df7f23bb039a61ed26e117df934aad9ec5df3f58 100644
 --- a/src/main/java/net/minecraft/world/level/levelgen/PhantomSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/levelgen/PhantomSpawner.java
 @@ -3,6 +3,7 @@ package net.minecraft.world.level.levelgen;

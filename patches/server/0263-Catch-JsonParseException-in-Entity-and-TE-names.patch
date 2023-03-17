@@ -74,7 +74,7 @@ index 6b983e3e867bdd8cdffaf4575bbf67ad96b57ec7..66e2137f9379e885294f2b9f67f7e352
  
          this.itemPatterns = nbt.getList("Patterns", 10);
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/BaseContainerBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/BaseContainerBlockEntity.java
-index 084e26de66c8204cb9aaad51bad3270228889ea3..a782994e2e53f2c4212c2d59ce740ebf00a826b0 100644
+index e85022b31f2bc2783e88f5ba4c5173ac8a096c96..f1acd19432877a833f0d4339f9de4830a0f7b890 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/BaseContainerBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/BaseContainerBlockEntity.java
 @@ -31,7 +31,7 @@ public abstract class BaseContainerBlockEntity extends BlockEntity implements Co
@@ -87,7 +87,7 @@ index 084e26de66c8204cb9aaad51bad3270228889ea3..a782994e2e53f2c4212c2d59ce740ebf
  
      }
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
-index 3a17c143de499d81109ae7d6e9fe18718139c5b7..04c2872e2a492adef5aec98289a8cf2af6611757 100644
+index 05d98a0f34ffd50449fbafcf23fe7d05ca721317..34ec79a4298bff5ef6d751dc06b6439d0fa2e077 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
 @@ -367,7 +367,7 @@ public class BeaconBlockEntity extends BlockEntity implements MenuProvider, Name

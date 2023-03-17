@@ -19,7 +19,7 @@ index a8f69e48937b3ebd2f57a4da747e6762c4a77934..acd0b946cab86eb173e713535194d3a9
  
      @Override
 diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
-index 6b24f94f1762570547c0fc484b3939de73fbd309..80b3fd4150d749af7d584f95ee3d0b8ed664ead9 100644
+index eabdcef883b6284c68a2bad15461a0c4e7106cbd..4f07e406288cc005e632d60c4586eb378891b5c0 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/navigation/GroundPathNavigation.java
 @@ -39,14 +39,14 @@ public class GroundPathNavigation extends PathNavigation {
@@ -63,10 +63,10 @@ index 6b24f94f1762570547c0fc484b3939de73fbd309..80b3fd4150d749af7d584f95ee3d0b8e
  
      private int getSurfaceY() {
 diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
-index ec1bd2fff121aa00b50b0d65c0e53e4146c3deb9..bd782c8935db6e0aa3489725d3c4ee401f9bf242 100644
+index a9bd5bbffaa1f281a799bf132f58cfb725c21c9c..64b64fb0b72eccade63fac99b7b363aafe59169b 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/navigation/PathNavigation.java
-@@ -109,7 +109,13 @@ public abstract class PathNavigation {
+@@ -110,7 +110,13 @@ public abstract class PathNavigation {
  
      @Nullable
      public Path createPath(BlockPos target, int distance) {
@@ -81,7 +81,7 @@ index ec1bd2fff121aa00b50b0d65c0e53e4146c3deb9..bd782c8935db6e0aa3489725d3c4ee40
      }
  
      @Nullable
-@@ -119,7 +125,7 @@ public abstract class PathNavigation {
+@@ -120,7 +126,7 @@ public abstract class PathNavigation {
  
      @Nullable
      public Path createPath(Entity entity, int distance) {
@@ -90,7 +90,7 @@ index ec1bd2fff121aa00b50b0d65c0e53e4146c3deb9..bd782c8935db6e0aa3489725d3c4ee40
      }
  
      @Nullable
-@@ -129,6 +135,16 @@ public abstract class PathNavigation {
+@@ -130,6 +136,16 @@ public abstract class PathNavigation {
  
      @Nullable
      protected Path createPath(Set<BlockPos> positions, int range, boolean useHeadPos, int distance, float followRange) {
@@ -107,7 +107,7 @@ index ec1bd2fff121aa00b50b0d65c0e53e4146c3deb9..bd782c8935db6e0aa3489725d3c4ee40
          if (positions.isEmpty()) {
              return null;
          } else if (this.mob.getY() < (double)this.level.getMinBuildHeight()) {
-@@ -138,6 +154,23 @@ public abstract class PathNavigation {
+@@ -139,6 +155,23 @@ public abstract class PathNavigation {
          } else if (this.path != null && !this.path.isDone() && positions.contains(this.targetPos)) {
              return this.path;
          } else {
@@ -132,7 +132,7 @@ index ec1bd2fff121aa00b50b0d65c0e53e4146c3deb9..bd782c8935db6e0aa3489725d3c4ee40
              BlockPos blockPos = useHeadPos ? this.mob.blockPosition().above() : this.mob.blockPosition();
              int i = (int)(followRange + (float)range);
 diff --git a/src/main/java/net/minecraft/world/entity/ai/navigation/WallClimberNavigation.java b/src/main/java/net/minecraft/world/entity/ai/navigation/WallClimberNavigation.java
-index d11e9f4f7ae5f2666d67878309b4a1359ef90e39..de1f178fa18ae3ff3c73bc59b10eb39857800bf9 100644
+index e9b49c72aa73dfcef6c136d9ed7bb5044fe8405d..2d1b2b84d7cf5bafe2cccfa0dec2bae805dbe7cf 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/navigation/WallClimberNavigation.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/navigation/WallClimberNavigation.java
 @@ -16,9 +16,9 @@ public class WallClimberNavigation extends GroundPathNavigation {

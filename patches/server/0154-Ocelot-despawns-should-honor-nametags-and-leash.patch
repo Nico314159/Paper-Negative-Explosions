@@ -5,7 +5,7 @@ Subject: [PATCH] Ocelot despawns should honor nametags and leash
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Ocelot.java b/src/main/java/net/minecraft/world/entity/animal/Ocelot.java
-index 49cd7fea60d3d962e88a1380608e1b7174d44c28..5ad029e3c1eaeae33784b55d04181cdd119ef8c0 100644
+index 290a20bf54b3651c1c7cced04041a1aa1224bd01..f889e86bd6355ed72b85bf322d09ac2be4fb4954 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Ocelot.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Ocelot.java
 @@ -133,7 +133,7 @@ public class Ocelot extends Animal {

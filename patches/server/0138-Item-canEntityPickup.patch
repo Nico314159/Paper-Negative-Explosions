@@ -5,10 +5,10 @@ Subject: [PATCH] Item#canEntityPickup
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index bb7c459c126be789bb12d08a569fe344e08914b8..458a90529959d3ceae424236461cdeb4c588eedb 100644
+index eee466e718f52329f8200ff830f5f1e44cda3e7e..dad26405e90c7a784266a336ff1b0aa58b961261 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
-@@ -635,6 +635,11 @@ public abstract class Mob extends LivingEntity {
+@@ -665,6 +665,11 @@ public abstract class Mob extends LivingEntity implements Targeting {
                  ItemEntity entityitem = (ItemEntity) iterator.next();
  
                  if (!entityitem.isRemoved() && !entityitem.getItem().isEmpty() && !entityitem.hasPickUpDelay() && this.wantsToPickUp(entityitem.getItem())) {
@@ -21,11 +21,11 @@ index bb7c459c126be789bb12d08a569fe344e08914b8..458a90529959d3ceae424236461cdeb4
                  }
              }
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 9e986a9efcda63fa20aef392aaca314478b1fbea..b98ebf2d580c27a7e55afe3a54827e471cc5e845 100644
+index 9ffcccef6266e1a61cfae36cbc205b8178a732de..62288f9152a6fb2c272c7e84649af06b24032542 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-@@ -50,6 +50,7 @@ public class ItemEntity extends Entity {
-     private UUID owner;
+@@ -51,6 +51,7 @@ public class ItemEntity extends Entity implements TraceableEntity {
+     public UUID target;
      public final float bobOffs;
      private int lastTick = MinecraftServer.currentTick - 1; // CraftBukkit
 +    public boolean canMobPickup = true; // Paper
@@ -33,7 +33,7 @@ index 9e986a9efcda63fa20aef392aaca314478b1fbea..b98ebf2d580c27a7e55afe3a54827e47
      public ItemEntity(EntityType<? extends ItemEntity> type, Level world) {
          super(type, world);
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
-index 4ca76a7530f8679567d887cdf1491d110e7465ec..30c954efba587d69ff55df509339f03e7d5a476e 100644
+index d08869c92f15a63f857d88e506f744f5ff9eb15e..5f36b0fd12ccd0e7ec9a7f61c56f08307844935f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftItem.java
 @@ -66,6 +66,18 @@ public class CraftItem extends CraftEntity implements Item {
@@ -54,4 +54,4 @@ index 4ca76a7530f8679567d887cdf1491d110e7465ec..30c954efba587d69ff55df509339f03e
 +
      @Override
      public void setOwner(UUID uuid) {
-         this.item.setOwner(uuid);
+         this.item.setTarget(uuid);

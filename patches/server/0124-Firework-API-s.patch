@@ -7,10 +7,10 @@ Subject: [PATCH] Firework API's
 public net.minecraft.world.entity.projectile.FireworkRocketEntity attachedToEntity
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-index 4abcdc515411372006ff5d33510bdd64092c186a..5406925cd66f46ab8744123c670d72cea7bfc3a1 100644
+index 26a7e2fb8d403c748925bc34a0a9b0e63a6c3452..fca27f98989bf106060ba08196255fe32f850df5 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/FireworkRocketEntity.java
-@@ -39,6 +39,7 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
+@@ -38,6 +38,7 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
      public int lifetime;
      @Nullable
      public LivingEntity attachedToEntity;
@@ -18,7 +18,7 @@ index 4abcdc515411372006ff5d33510bdd64092c186a..5406925cd66f46ab8744123c670d72ce
  
      public FireworkRocketEntity(EntityType<? extends FireworkRocketEntity> type, Level world) {
          super(type, world);
-@@ -318,6 +319,11 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
+@@ -317,6 +318,11 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
          }
  
          nbt.putBoolean("ShotAtAngle", (Boolean) this.entityData.get(FireworkRocketEntity.DATA_SHOT_AT_ANGLE));
@@ -30,7 +30,7 @@ index 4abcdc515411372006ff5d33510bdd64092c186a..5406925cd66f46ab8744123c670d72ce
      }
  
      @Override
-@@ -334,7 +340,11 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
+@@ -333,7 +339,11 @@ public class FireworkRocketEntity extends Projectile implements ItemSupplier {
          if (nbt.contains("ShotAtAngle")) {
              this.entityData.set(FireworkRocketEntity.DATA_SHOT_AT_ANGLE, nbt.getBoolean("ShotAtAngle"));
          }
@@ -44,10 +44,10 @@ index 4abcdc515411372006ff5d33510bdd64092c186a..5406925cd66f46ab8744123c670d72ce
  
      @Override
 diff --git a/src/main/java/net/minecraft/world/item/CrossbowItem.java b/src/main/java/net/minecraft/world/item/CrossbowItem.java
-index 4b8ad27c8682f112c4964849d9bdfcf4c355701f..48626d564c9fb4630b51858edd124b56af2d7ca0 100644
+index 98b353d059aa0a08d41973344ee0b56cde90b8be..e6249409d01aee2bdc84821d40ce4551c102d307 100644
 --- a/src/main/java/net/minecraft/world/item/CrossbowItem.java
 +++ b/src/main/java/net/minecraft/world/item/CrossbowItem.java
-@@ -220,6 +220,7 @@ public class CrossbowItem extends ProjectileWeaponItem implements Vanishable {
+@@ -221,6 +221,7 @@ public class CrossbowItem extends ProjectileWeaponItem implements Vanishable {
  
              if (flag1) {
                  object = new FireworkRocketEntity(world, projectile, shooter, shooter.getX(), shooter.getEyeY() - 0.15000000596046448D, shooter.getZ(), true);
@@ -56,10 +56,10 @@ index 4b8ad27c8682f112c4964849d9bdfcf4c355701f..48626d564c9fb4630b51858edd124b56
                  object = CrossbowItem.getArrow(world, shooter, crossbow, projectile);
                  if (creative || simulated != 0.0F) {
 diff --git a/src/main/java/net/minecraft/world/item/FireworkRocketItem.java b/src/main/java/net/minecraft/world/item/FireworkRocketItem.java
-index 1d99d03c1ce0a647b053e8b7bd1e2da58805c4f8..854856ca742dff800ac5d7bf0af4f79cf631540b 100644
+index 5cafb6f0b507127665393741b372286da098d603..7c627d27300247db9122ab2081049345ef306073 100644
 --- a/src/main/java/net/minecraft/world/item/FireworkRocketItem.java
 +++ b/src/main/java/net/minecraft/world/item/FireworkRocketItem.java
-@@ -45,6 +45,7 @@ public class FireworkRocketItem extends Item {
+@@ -46,6 +46,7 @@ public class FireworkRocketItem extends Item {
              Vec3 vec3 = context.getClickLocation();
              Direction direction = context.getClickedFace();
              FireworkRocketEntity fireworkRocketEntity = new FireworkRocketEntity(level, context.getPlayer(), vec3.x + (double)direction.getStepX() * 0.15D, vec3.y + (double)direction.getStepY() * 0.15D, vec3.z + (double)direction.getStepZ() * 0.15D, itemStack);
@@ -67,7 +67,7 @@ index 1d99d03c1ce0a647b053e8b7bd1e2da58805c4f8..854856ca742dff800ac5d7bf0af4f79c
              level.addFreshEntity(fireworkRocketEntity);
              itemStack.shrink(1);
          }
-@@ -58,6 +59,7 @@ public class FireworkRocketItem extends Item {
+@@ -59,6 +60,7 @@ public class FireworkRocketItem extends Item {
              ItemStack itemStack = user.getItemInHand(hand);
              if (!world.isClientSide) {
                  FireworkRocketEntity fireworkRocketEntity = new FireworkRocketEntity(world, itemStack, user);

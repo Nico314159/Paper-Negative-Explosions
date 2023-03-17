@@ -19,7 +19,7 @@ Other changes:
     configuration
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 4294f230f91f03db2181d355d3be84bf032eeffb..26987f66704ae01dc25edc52734c95b9b73f4b57 100644
+index 1c183e9083a5ce2a2995ae45864c564b7cde3f53..3e8f983cd7c69e9a95bcd863349adaf22be85128 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -8,7 +8,17 @@ plugins {
@@ -112,7 +112,7 @@ index 0000000000000000000000000000000000000000..685deaa0e5d1ddc13e3a7c0471b1cfcf
 +
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index ddc446e54b69c79fa0153478bb859bf981e9da5c..fc040a4424144ecae03a039899f53227777cce05 100644
+index b248a4ab47728c078dbc922896964e0e893fc255..7a0bbaf7cb929b42f10fa7e04ad73c0aa0606ce3 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -168,7 +168,7 @@ import com.mojang.datafixers.util.Pair;
@@ -124,7 +124,7 @@ index ddc446e54b69c79fa0153478bb859bf981e9da5c..fc040a4424144ecae03a039899f53227
  import joptsimple.OptionSet;
  import net.minecraft.core.HolderLookup;
  import net.minecraft.resources.RegistryOps;
-@@ -282,7 +282,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -285,7 +285,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      public OptionSet options;
      public org.bukkit.command.ConsoleCommandSender console;
      public org.bukkit.command.RemoteConsoleCommandSender remoteConsole;
@@ -133,7 +133,7 @@ index ddc446e54b69c79fa0153478bb859bf981e9da5c..fc040a4424144ecae03a039899f53227
      public static int currentTick = 0; // Paper - Further improve tick loop
      public java.util.Queue<Runnable> processQueue = new java.util.concurrent.ConcurrentLinkedQueue<Runnable>();
      public int autosavePeriod;
-@@ -367,7 +367,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -369,7 +369,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          this.options = options;
          this.worldLoader = worldLoader;
          this.vanillaCommandDispatcher = worldstem.dataPackResources().commands; // CraftBukkit
@@ -143,7 +143,7 @@ index ddc446e54b69c79fa0153478bb859bf981e9da5c..fc040a4424144ecae03a039899f53227
          if (System.console() == null && System.getProperty("jline.terminal") == null) {
              System.setProperty("jline.terminal", "jline.UnsupportedTerminal");
              Main.useJline = false;
-@@ -388,6 +390,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -390,6 +392,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                  MinecraftServer.LOGGER.warn((String) null, ex);
              }
          }
@@ -161,7 +161,7 @@ index ddc446e54b69c79fa0153478bb859bf981e9da5c..fc040a4424144ecae03a039899f53227
                  } catch (Exception ignored) {
                  }
                  // CraftBukkit end
-@@ -1562,7 +1566,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1590,7 +1594,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @Override
      public void sendSystemMessage(Component message) {
@@ -222,10 +222,10 @@ index 35904c69e14c4c0addda204d5e3788518c2e16c4..e6826cd0a596f063e8737dcde3c8c6c5
          System.setOut(IoBuilder.forLogger(logger).setLevel(Level.INFO).buildPrintStream());
          System.setErr(IoBuilder.forLogger(logger).setLevel(Level.WARN).buildPrintStream());
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 8062488d8d9e830d07cd136465c5d9227ba1ac1d..a4e2509dbcc5bd1af309cda23f73c7516679453c 100644
+index ad7047445408cbe6de63de30d98ec61dd87f4f61..dcb14a1be689fe228f740abc1a2b3c2c57b35f40 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -165,8 +165,7 @@ public abstract class PlayerList {
+@@ -166,8 +166,7 @@ public abstract class PlayerList {
  
      public PlayerList(MinecraftServer server, LayeredRegistryAccess<RegistryLayer> registryManager, PlayerDataStorage saveHandler, int maxPlayers) {
          this.cserver = server.server = new CraftServer((DedicatedServer) server, this);
@@ -236,10 +236,10 @@ index 8062488d8d9e830d07cd136465c5d9227ba1ac1d..a4e2509dbcc5bd1af309cda23f73c751
  
          this.bans = new UserBanList(PlayerList.USERBANLIST_FILE);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 50218a10a86926fb050b7e9ef3b17ba17fec59f7..5f6ddee55b2289d80c55015f44c431b7025ae944 100644
+index 3aabd7aaad60c157740d12932d0cb071ae259c21..8aaba38c7f4dc17c8536a0049be8bdea204f6481 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -48,7 +48,6 @@ import java.util.logging.Level;
+@@ -41,7 +41,6 @@ import java.util.logging.Level;
  import java.util.logging.Logger;
  import java.util.stream.Collectors;
  import javax.imageio.ImageIO;
@@ -247,7 +247,7 @@ index 50218a10a86926fb050b7e9ef3b17ba17fec59f7..5f6ddee55b2289d80c55015f44c431b7
  import net.minecraft.advancements.Advancement;
  import net.minecraft.commands.CommandSourceStack;
  import net.minecraft.commands.Commands;
-@@ -1285,9 +1284,13 @@ public final class CraftServer implements Server {
+@@ -1280,9 +1279,13 @@ public final class CraftServer implements Server {
          return this.logger;
      }
  
@@ -262,19 +262,18 @@ index 50218a10a86926fb050b7e9ef3b17ba17fec59f7..5f6ddee55b2289d80c55015f44c431b7
      @Override
      public PluginCommand getPluginCommand(String name) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index ef46dc1ed538b783213651f624326b2d49c786e0..d50be10ddc8c215374c97662f839a9710fc863b4 100644
+index 34dc3555dbff9942a3ee39b27da44831f280b5a8..a736afdd6671ad36157d1d0c908b6ccb37f602b6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -12,7 +12,7 @@ import java.util.logging.Level;
- import java.util.logging.Logger;
+@@ -13,7 +13,6 @@ import java.util.logging.Logger;
  import joptsimple.OptionParser;
  import joptsimple.OptionSet;
+ import joptsimple.util.PathConverter;
 -import org.fusesource.jansi.AnsiConsole;
-+import net.minecrell.terminalconsole.TerminalConsoleAppender; // Paper
  
  public class Main {
      public static boolean useJline = true;
-@@ -202,6 +202,8 @@ public class Main {
+@@ -212,6 +211,8 @@ public class Main {
              }
  
              try {
@@ -283,14 +282,14 @@ index ef46dc1ed538b783213651f624326b2d49c786e0..d50be10ddc8c215374c97662f839a971
                  // This trick bypasses Maven Shade's clever rewriting of our getProperty call when using String literals
                  String jline_UnsupportedTerminal = new String(new char[]{'j', 'l', 'i', 'n', 'e', '.', 'U', 'n', 's', 'u', 'p', 'p', 'o', 'r', 't', 'e', 'd', 'T', 'e', 'r', 'm', 'i', 'n', 'a', 'l'});
                  String jline_terminal = new String(new char[]{'j', 'l', 'i', 'n', 'e', '.', 't', 'e', 'r', 'm', 'i', 'n', 'a', 'l'});
-@@ -219,9 +221,18 @@ public class Main {
+@@ -229,9 +230,18 @@ public class Main {
                      // This ensures the terminal literal will always match the jline implementation
                      System.setProperty(jline.TerminalFactory.JLINE_TERMINAL, jline.UnsupportedTerminal.class.getName());
                  }
 +                */
 +
 +                if (options.has("nojline")) {
-+                    System.setProperty(TerminalConsoleAppender.JLINE_OVERRIDE_PROPERTY, "false");
++                    System.setProperty(net.minecrell.terminalconsole.TerminalConsoleAppender.JLINE_OVERRIDE_PROPERTY, "false");
 +                    useJline = false;
 +                }
 +                // Paper end
@@ -298,11 +297,11 @@ index ef46dc1ed538b783213651f624326b2d49c786e0..d50be10ddc8c215374c97662f839a971
                  if (options.has("noconsole")) {
                      Main.useConsole = false;
 +                    useJline = false; // Paper
-+                    System.setProperty(TerminalConsoleAppender.JLINE_OVERRIDE_PROPERTY, "false"); // Paper
++                    System.setProperty(net.minecrell.terminalconsole.TerminalConsoleAppender.JLINE_OVERRIDE_PROPERTY, "false"); // Paper
                  }
  
                  if (Main.class.getPackage().getImplementationVendor() != null && System.getProperty("IReallyKnowWhatIAmDoingISwear") == null) {
-@@ -249,7 +260,7 @@ public class Main {
+@@ -259,7 +269,7 @@ public class Main {
                      System.out.println("Unable to read system info");
                  }
                  // Paper end

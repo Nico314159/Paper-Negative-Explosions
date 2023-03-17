@@ -10,10 +10,10 @@ Adds an option to control the force mode of the particle.
 This adds a new Builder API which is much friendlier to use.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 45485383943f1ae0d4c5b5064cbaa8f56181dad3..d17808f6c565712dac31b0db7a4b6baed2dbdf21 100644
+index d273673978c8270f2e0719412372039406e31f5e..65110445ff8a245742c4f7a7055f544ff6344f75 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -1572,12 +1572,17 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1576,12 +1576,17 @@ public class ServerLevel extends Level implements WorldGenLevel {
      }
  
      public <T extends ParticleOptions> int sendParticles(ServerPlayer sender, T t0, double d0, double d1, double d2, int i, double d3, double d4, double d5, double d6, boolean force) {
@@ -34,7 +34,7 @@ index 45485383943f1ae0d4c5b5064cbaa8f56181dad3..d17808f6c565712dac31b0db7a4b6bae
  
              if (this.sendParticles(entityplayer, force, d0, d1, d2, packetplayoutworldparticles)) { // CraftBukkit
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 3f6e5e4d36e8170def4ce50e29cdfcc7e25f4f4d..68e3a09bf4adb4fe9fc3c32fdec85d90af4354bc 100644
+index 030ad193dc657810709817c55fb3eb9a08d41459..eaf38f39e550699fe1ab74174896c8f1cd3b0af0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -1824,11 +1824,17 @@ public class CraftWorld extends CraftRegionAccessor implements World {

@@ -6,10 +6,10 @@ Subject: [PATCH] Configurable Keep Spawn Loaded range per world
 This lets you disable it for some worlds and lower it for others.
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 0f824428003776128f5d92c735df06cd30a8666b..80519ddf6302bf0aa8a186bd03aaa6e518e19adc 100644
+index 9d2186655ae03022ddeaf078028570ef9118fb06..fe8c0ba8864afd582c5e1c9d310cff99ef4dbff6 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -737,31 +737,34 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -739,31 +739,34 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      // CraftBukkit start
      public void prepareLevels(ChunkProgressListener worldloadlistener, ServerLevel worldserver) {
@@ -54,7 +54,7 @@ index 0f824428003776128f5d92c735df06cd30a8666b..80519ddf6302bf0aa8a186bd03aaa6e5
  
          if (true) {
              ServerLevel worldserver1 = worldserver;
-@@ -784,7 +787,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -786,7 +789,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          // this.nextTickTime = SystemUtils.getMillis() + 10L;
          this.executeModerately();
          // CraftBukkit end
@@ -64,7 +64,7 @@ index 0f824428003776128f5d92c735df06cd30a8666b..80519ddf6302bf0aa8a186bd03aaa6e5
          // CraftBukkit start
          // this.updateMobSpawningFlags();
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 04826a7684940558368e95d4cfd7f90eda057df8..b287df21d9671963257f04e9ee75a1468bbc12e0 100644
+index 58c1769ea15249df950a40e2f164e2ff7aeb05bd..2a2e795923ecaa300c7fc26fd71444711bd43535 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -64,6 +64,7 @@ import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket;
@@ -75,7 +75,7 @@ index 04826a7684940558368e95d4cfd7f90eda057df8..b287df21d9671963257f04e9ee75a146
  import net.minecraft.server.MinecraftServer;
  import net.minecraft.server.ServerScoreboard;
  import net.minecraft.server.level.progress.ChunkProgressListener;
-@@ -1726,12 +1727,84 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1725,12 +1726,84 @@ public class ServerLevel extends Level implements WorldGenLevel {
          return ((MapIndex) this.getServer().overworld().getDataStorage().computeIfAbsent(MapIndex::load, MapIndex::new, "idcounts")).getFreeAuxValueForMap();
      }
  
@@ -200,7 +200,7 @@ index 4d2348df25410a0b5364eec066880326d6667dad..286aad3205ef8a9e21a47ef07893844f
          this.maxCount = i * i;
      }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 79b8c2521ca67f7131d1a76dbc61e5c67e307ab8..bb502b4203537dd41dcc3d6829283b1c4082c7aa 100644
+index 05b2c78c64dc9258b2a6621bc2aed041d66c33ee..ba6d74692039c39660ed5e1d960cb090553a82f0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -1345,15 +1345,21 @@ public class CraftWorld extends CraftRegionAccessor implements World {

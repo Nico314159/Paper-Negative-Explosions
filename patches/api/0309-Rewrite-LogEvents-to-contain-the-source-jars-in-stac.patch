@@ -5,7 +5,7 @@ Subject: [PATCH] Rewrite LogEvents to contain the source jars in stack traces
 
 
 diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-index caffe498ef5abf09944f846bf5a958b10de514df..b3429d739c74d8b6b692a47ab49b0f0de1e5ea8f 100644
+index 942b313d9cee8abc7a5c9948e9e94d4d30741434..a22b47d452cca95fdd5e468ef61a7f9347cc4b98 100644
 --- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 @@ -54,7 +54,7 @@ public final class PluginClassLoader extends URLClassLoader implements io.paperm

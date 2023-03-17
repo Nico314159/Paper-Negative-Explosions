@@ -5,7 +5,7 @@ Subject: [PATCH] Test changes
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index ce176ef04e211b82020fa082b9cb1bdc4769a526..15456e54d8a392e702a30dfb3d06a3f74156dce7 100644
+index d77f15c58f41f1e00c75e0a022919bb7dacc9926..0d04c3af92f7d4e63b1178247e493174cedd9178 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -12,6 +12,7 @@ dependencies {
@@ -14,8 +14,8 @@ index ce176ef04e211b82020fa082b9cb1bdc4769a526..15456e54d8a392e702a30dfb3d06a3f7
      implementation("org.ow2.asm:asm-commons:9.4") // Paper - ASM event executor generation
 +    testImplementation("org.mockito:mockito-core:4.9.0") // Paper - switch to mockito
      implementation("commons-lang:commons-lang:2.6")
-     runtimeOnly("org.xerial:sqlite-jdbc:3.36.0.3")
-     runtimeOnly("mysql:mysql-connector-java:8.0.29")
+     runtimeOnly("org.xerial:sqlite-jdbc:3.41.0.0")
+     runtimeOnly("com.mysql:mysql-connector-j:8.0.32")
 diff --git a/src/test/java/io/papermc/paper/testing/DummyServer.java b/src/test/java/io/papermc/paper/testing/DummyServer.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..c6503ff76f56bab5f383f0ca17d137155e9be447
@@ -119,18 +119,10 @@ index 0000000000000000000000000000000000000000..8dd0df8c2cc25d37a2590a0787268223
 +    }
 +}
 diff --git a/src/test/java/org/bukkit/support/AbstractTestingBase.java b/src/test/java/org/bukkit/support/AbstractTestingBase.java
-index 492c1ec28a9f1facb117d05245b32231554385ad..8013cc99c063d2ca0c578c093e3112676f5361b7 100644
+index a85d3606c09717906798f0e1716755d1dae0d760..eab3834dca7cf70468390584156b9a770bfb2a32 100644
 --- a/src/test/java/org/bukkit/support/AbstractTestingBase.java
 +++ b/src/test/java/org/bukkit/support/AbstractTestingBase.java
-@@ -2,7 +2,6 @@ package org.bukkit.support;
- 
- import com.google.common.collect.ImmutableList;
- import com.google.common.util.concurrent.MoreExecutors;
--import java.util.Collections;
- import java.util.List;
- import net.minecraft.SharedConstants;
- import net.minecraft.commands.Commands;
-@@ -49,6 +48,7 @@ public abstract class AbstractTestingBase {
+@@ -53,6 +53,7 @@ public abstract class AbstractTestingBase {
          LayeredRegistryAccess<RegistryLayer> layers = RegistryLayer.createRegistryAccess();
          layers = WorldLoader.loadAndReplaceLayer(resourceManager, layers, RegistryLayer.WORLDGEN, RegistryDataLoader.WORLDGEN_REGISTRIES);
          REGISTRY_CUSTOM = layers.compositeAccess().freeze();
@@ -138,7 +130,7 @@ index 492c1ec28a9f1facb117d05245b32231554385ad..8013cc99c063d2ca0c578c093e311267
          // Register vanilla pack
          DATA_PACK = ReloadableServerResources.loadResources(resourceManager, REGISTRY_CUSTOM, FeatureFlags.REGISTRY.allFlags(), Commands.CommandSelection.DEDICATED, 0, MoreExecutors.directExecutor(), MoreExecutors.directExecutor()).join();
          // Bind tags
-@@ -56,7 +56,6 @@ public abstract class AbstractTestingBase {
+@@ -60,7 +61,6 @@ public abstract class AbstractTestingBase {
          // Biome shortcut
          BIOMES = REGISTRY_CUSTOM.registryOrThrow(Registries.BIOME);
  

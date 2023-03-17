@@ -6,7 +6,7 @@ Subject: [PATCH] Expose codepoint limit in YamlConfigOptions, and increase
 
 
 diff --git a/src/main/java/org/bukkit/configuration/file/YamlConfiguration.java b/src/main/java/org/bukkit/configuration/file/YamlConfiguration.java
-index 559b876d1156c04e4e417fb07439bbbc78bea065..9903be1739a5f8657f182b641e93d8b3480f3d57 100644
+index 4b17c796b187b5d3a6459c4470c0c1b6ba3815ff..0bd07ce5c119c2ed77273bfcb8422ce35138dc89 100644
 --- a/src/main/java/org/bukkit/configuration/file/YamlConfiguration.java
 +++ b/src/main/java/org/bukkit/configuration/file/YamlConfiguration.java
 @@ -97,6 +97,7 @@ public class YamlConfiguration extends FileConfiguration {

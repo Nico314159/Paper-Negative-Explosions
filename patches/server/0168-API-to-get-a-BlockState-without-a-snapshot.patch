@@ -114,10 +114,10 @@ index 7629a51ec284cab0db7e9238027d6acfa4f3083c..a76cce199acdcecfdd8b998ec08974c2
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/block/CraftBlockStates.java b/src/main/java/org/bukkit/craftbukkit/block/CraftBlockStates.java
-index 55cf35ec1bd867ae8106d00c101fd4797b6e9919..812eb8c75bf5308a3a0771a1faabdb22a3d80c28 100644
+index 7de568a342244cadbc8d4bb6e923a5daa35540aa..cf76ca2ebead64d194ce03ee024085d32d02077a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/block/CraftBlockStates.java
 +++ b/src/main/java/org/bukkit/craftbukkit/block/CraftBlockStates.java
-@@ -368,15 +368,30 @@ public final class CraftBlockStates {
+@@ -376,15 +376,30 @@ public final class CraftBlockStates {
      }
  
      public static BlockState getBlockState(Block block) {

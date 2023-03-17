@@ -8,7 +8,7 @@ Addresses two issues:
 - Allay duplication cooldown is saved and exposed as a long, but loaded as an int
 
 diff --git a/src/main/java/net/minecraft/world/entity/ExperienceOrb.java b/src/main/java/net/minecraft/world/entity/ExperienceOrb.java
-index cc3c1d6b76f66cd0f511c5fd57ffa606eba0d387..cf5c7e8557b0084039a94ef881a36aa9e3f58daf 100644
+index 28949deb54e89742541c1a14e8b69bb5b13848a9..2d3994de8e40eedc78c27ea842b6265b1c5ea822 100644
 --- a/src/main/java/net/minecraft/world/entity/ExperienceOrb.java
 +++ b/src/main/java/net/minecraft/world/entity/ExperienceOrb.java
 @@ -287,7 +287,7 @@ public class ExperienceOrb extends Entity {
@@ -30,10 +30,10 @@ index cc3c1d6b76f66cd0f511c5fd57ffa606eba0d387..cf5c7e8557b0084039a94ef881a36aa9
          this.loadPaperNBT(nbt); // Paper
      }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-index fec05f88720fa09ed9361fd24f5abfa134013d6c..c0084b1f146a4697194c421519537e612ff737c0 100644
+index cc8c99e8f260ffe5c2e3f81f928e15efdece6228..9b57d2b766f2de2d3fb4a3b5ef4df8d6756a1942 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-@@ -521,7 +521,7 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
+@@ -516,7 +516,7 @@ public class Allay extends PathfinderMob implements InventoryCarrier {
              });
          }
  

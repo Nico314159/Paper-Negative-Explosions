@@ -7,7 +7,7 @@ Subject: [PATCH] LivingEntity#setKiller
 public net.minecraft.world.entity.LivingEntity lastHurtByPlayerTime
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index 3fae28c52f2aac63ac6a4e8eb6af2d7226e6bec6..cae153b184af9ef87ca2f335692b396800f00cf2 100644
+index 3084fa8000b36f06e8d432bff124a5af4ea675ea..31f31f0a3dcd5764fffb710111b47359f793b9a2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 @@ -353,6 +353,16 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {

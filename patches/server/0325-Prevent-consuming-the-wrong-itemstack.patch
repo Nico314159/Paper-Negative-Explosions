@@ -5,10 +5,10 @@ Subject: [PATCH] Prevent consuming the wrong itemstack
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index cb53fc775df387e8bbb099517793daea5ea15e4b..ba4e0bac019b68da166b277028015999139d2981 100644
+index 69fbbd2745008e2d9caf6a30dd0779339e1c685b..5eaedecd2e53bcdc30defbf56d6a70a0c49f03ec 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3649,9 +3649,14 @@ public abstract class LivingEntity extends Entity {
+@@ -3609,9 +3609,14 @@ public abstract class LivingEntity extends Entity implements Attackable {
      }
  
      public void startUsingItem(InteractionHand hand) {
@@ -24,7 +24,7 @@ index cb53fc775df387e8bbb099517793daea5ea15e4b..ba4e0bac019b68da166b277028015999
              this.useItem = itemstack;
              this.useItemRemaining = itemstack.getUseDuration();
              if (!this.level.isClientSide) {
-@@ -3731,6 +3736,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3691,6 +3696,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
                  this.releaseUsingItem();
              } else {
                  if (!this.useItem.isEmpty() && this.isUsingItem()) {
@@ -32,7 +32,7 @@ index cb53fc775df387e8bbb099517793daea5ea15e4b..ba4e0bac019b68da166b277028015999
                      this.triggerItemUseEffects(this.useItem, 16);
                      // CraftBukkit start - fire PlayerItemConsumeEvent
                      ItemStack itemstack;
-@@ -3766,8 +3772,8 @@ public abstract class LivingEntity extends Entity {
+@@ -3726,8 +3732,8 @@ public abstract class LivingEntity extends Entity implements Attackable {
                      }
  
                      this.stopUsingItem();

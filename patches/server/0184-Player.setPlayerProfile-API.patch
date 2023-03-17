@@ -8,8 +8,21 @@ This can be useful for changing name or skins after a player has logged in.
 == AT ==
 public-f net.minecraft.world.entity.player.Player gameProfile
 
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index ec1aa8d5fbfdafc35948a04f4d8d65e879853ff0..ef9fc39e70516772cc91b9ada493bfa051b41784 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -1534,7 +1534,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+         this.internalTeleport(dest.getX(), dest.getY(), dest.getZ(), dest.getYaw(), dest.getPitch(), Collections.emptySet());
+     }
+ 
+-    private void internalTeleport(double d0, double d1, double d2, float f, float f1, Set<RelativeMovement> set) {
++    public void internalTeleport(double d0, double d1, double d2, float f, float f1, Set<RelativeMovement> set) { // Paper
+         // CraftBukkit start
+         if (Float.isNaN(f)) {
+             f = 0;
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index b1fa2b95e161996cb62f05b67d710c0f9a98b1b2..9d3ea20adba300a38a544c3454eff2edd9b4bbb9 100644
+index 6b31b0894e52ad6fc397624e50587ec04e46c099..0c7f280bae81bbb492d5780a43e5ffda0f58756a 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -330,11 +330,11 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
@@ -42,10 +55,10 @@ index e7442952ef1f03969949014492a7ddc6d0796ba5..69a1852905dd4724c30ac8ab88c14251
  
      public Server getServer() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 43fed86150b15294ed4aeb1a6139891456754c97..8e36073d0519f341c3356cb460b26d1221d3b187 100644
+index a1ab7a666e429f0ac9afc1bd8a65866364655b70..2dd0e3272587697b52f75e851f26bb818f25c6aa 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -81,6 +81,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
+@@ -82,6 +82,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
  import net.minecraft.world.inventory.AbstractContainerMenu;
  import net.minecraft.world.level.GameType;
  import net.minecraft.world.level.block.Blocks;
@@ -53,7 +66,7 @@ index 43fed86150b15294ed4aeb1a6139891456754c97..8e36073d0519f341c3356cb460b26d12
  import net.minecraft.world.level.block.entity.SignBlockEntity;
  import net.minecraft.world.level.border.BorderChangeListener;
  import net.minecraft.world.level.saveddata.maps.MapDecoration;
-@@ -284,11 +285,6 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -285,11 +286,6 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return server.getPlayer(getUniqueId()) != null;
      }
  
@@ -65,9 +78,9 @@ index 43fed86150b15294ed4aeb1a6139891456754c97..8e36073d0519f341c3356cb460b26d12
      @Override
      public InetSocketAddress getAddress() {
          if (this.getHandle().connection == null) return null;
-@@ -1603,8 +1599,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
-         this.hiddenEntities.put(entity.getUniqueId(), hidingPlugins);
+@@ -1643,8 +1639,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
+     private void untrackAndHideEntity(org.bukkit.entity.Entity entity) {
          // Remove this entity from the hidden player's EntityTrackerEntry
 -        ChunkMap tracker = ((ServerLevel) this.getHandle().level).getChunkSource().chunkMap;
 +        // Paper start
@@ -82,7 +95,7 @@ index 43fed86150b15294ed4aeb1a6139891456754c97..8e36073d0519f341c3356cb460b26d12
          ChunkMap.TrackedEntity entry = tracker.entityMap.get(other.getId());
          if (entry != null) {
              entry.removePlayer(this.getHandle());
-@@ -1617,8 +1620,6 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1657,8 +1660,6 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
                  this.getHandle().connection.send(new ClientboundPlayerInfoRemovePacket(List.of(otherPlayer.getUUID())));
              }
          }
@@ -90,28 +103,12 @@ index 43fed86150b15294ed4aeb1a6139891456754c97..8e36073d0519f341c3356cb460b26d12
 -        server.getPluginManager().callEvent(new PlayerHideEntityEvent(this, entity));
      }
  
-     @Override
-@@ -1655,8 +1656,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
-         }
-         this.hiddenEntities.remove(entity.getUniqueId());
- 
--        ChunkMap tracker = ((ServerLevel) this.getHandle().level).getChunkSource().chunkMap;
-+        // Paper start
-         Entity other = ((CraftEntity) entity).getHandle();
-+        registerEntity(other);
-+
-+        server.getPluginManager().callEvent(new PlayerShowEntityEvent(this, entity));
-+    }
-+    private void registerEntity(Entity other) {
-+        ChunkMap tracker = ((ServerLevel) this.getHandle().level).getChunkSource().chunkMap;
-+        // Paper end
- 
-         if (other instanceof ServerPlayer) {
-             ServerPlayer otherPlayer = (ServerPlayer) other;
-@@ -1667,10 +1675,63 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+     void resetAndHideEntity(org.bukkit.entity.Entity entity) {
+@@ -1730,8 +1731,38 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          if (entry != null && !entry.seenBy.contains(this.getHandle().connection)) {
              entry.updatePlayer(this.getHandle());
          }
++        server.getPluginManager().callEvent(new PlayerShowEntityEvent(this, entity)); // Paper
 +    }
 +    // Paper start
 +    @Override
@@ -130,22 +127,28 @@ index 43fed86150b15294ed4aeb1a6139891456754c97..8e36073d0519f341c3356cb460b26d12
 +                bukkitPlayer.unregisterEntity(self);
 +            }
 +        }
- 
--        server.getPluginManager().callEvent(new PlayerShowEntityEvent(this, entity));
++
 +        // Set the game profile here, we should have unregistered the entity via iterating all player entities above.
 +        self.gameProfile = gameProfile;
-+
+ 
+-        server.getPluginManager().callEvent(new PlayerShowEntityEvent(this, entity));
 +        // Re-register the game profile for all players
 +        for (ServerPlayer player : players) {
 +            CraftPlayer bukkitPlayer = player.getBukkitEntity();
 +            if (bukkitPlayer.canSee(this)) {
-+                bukkitPlayer.registerEntity(self);
++                bukkitPlayer.trackAndShowEntity(self.getBukkitEntity());
 +            }
 +        }
 +        // Refresh misc player things AFTER sending game profile
 +        this.refreshPlayer();
      }
  
+     void resetAndShowEntity(org.bukkit.entity.Entity entity) {
+@@ -1739,6 +1770,30 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+             this.trackAndShowEntity(entity);
+         }
+     }
++    // Paper start
 +    public com.destroystokyo.paper.profile.PlayerProfile getPlayerProfile() {
 +        return new com.destroystokyo.paper.profile.CraftPlayerProfile(this).clone();
 +    }
@@ -160,7 +163,7 @@ index 43fed86150b15294ed4aeb1a6139891456754c97..8e36073d0519f341c3356cb460b26d12
 +        ServerLevel worldserver = handle.getLevel();
 +        connection.send(new net.minecraft.network.protocol.game.ClientboundRespawnPacket(worldserver.dimensionTypeId(), worldserver.dimension(), net.minecraft.world.level.biome.BiomeManager.obfuscateSeed(worldserver.getSeed()), handle.gameMode.getGameModeForPlayer(), handle.gameMode.getPreviousGameModeForPlayer(), worldserver.isDebug(), worldserver.isFlat(), net.minecraft.network.protocol.game.ClientboundRespawnPacket.KEEP_ALL_DATA, this.getHandle().getLastDeathLocation()));
 +        handle.onUpdateAbilities();
-+        connection.internalTeleport(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch(), java.util.Collections.emptySet(), false);
++        connection.internalTeleport(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch(), java.util.Collections.emptySet());
 +        net.minecraft.server.MinecraftServer.getServer().getPlayerList().sendAllPlayerInfo(handle);
 +
 +        if (this.isOp()) {
@@ -169,10 +172,9 @@ index 43fed86150b15294ed4aeb1a6139891456754c97..8e36073d0519f341c3356cb460b26d12
 +        }
 +    }
 +    // Paper end
-+
+ 
      public void onEntityRemove(Entity entity) {
-         this.hiddenEntities.remove(entity.getUUID());
-     }
+         this.invertedVisibilityEntities.remove(entity.getUUID());
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Commodore.java b/src/main/java/org/bukkit/craftbukkit/util/Commodore.java
 index a679133a3de51e26eb19932ece9ade292879aefd..e342ea27a8a689ea080c7881711a5dcd6322c914 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Commodore.java

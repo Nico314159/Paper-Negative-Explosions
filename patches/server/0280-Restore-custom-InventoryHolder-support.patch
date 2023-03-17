@@ -161,7 +161,7 @@ index 0000000000000000000000000000000000000000..224d4b2cc45b0d02230a76caee9c8857
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java
-index 0cbb702641348500bf8f8ab3b3c206f70aea9738..1f73834043c2d2be17ae647589653d517db36a1b 100644
+index 7d0d2cd4d34d6652eb45aa13442e1081a3a6bd56..191e8233deaa859d969d54242e297e722f3d947b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftContainer.java
 @@ -71,13 +71,13 @@ public class CraftContainer extends AbstractContainerMenu {
@@ -180,7 +180,7 @@ index 0cbb702641348500bf8f8ab3b3c206f70aea9738..1f73834043c2d2be17ae647589653d51
              }
          }, player, id);
      }
-@@ -227,6 +227,10 @@ public class CraftContainer extends AbstractContainerMenu {
+@@ -232,6 +232,10 @@ public class CraftContainer extends AbstractContainerMenu {
              this.lastSlots = delegate.lastSlots;
              this.slots = delegate.slots;
              this.remoteSlots = delegate.remoteSlots;
@@ -192,7 +192,7 @@ index 0cbb702641348500bf8f8ab3b3c206f70aea9738..1f73834043c2d2be17ae647589653d51
  
          // SPIGOT-4598 - we should still delegate the shift click handler
 diff --git a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventory.java b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventory.java
-index ce70a77ec6da41b59660f5923d30eaebf24c4cc2..94a71073a0d69145cf3429a2b6f646a2dc2015fd 100644
+index ea04f0e1e9abf23e152070bd7ec2078e7dac2fe8..c3eff9a6734fe2d1809bbeff945c40da816bbddc 100644
 --- a/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/inventory/CraftInventory.java
 @@ -491,6 +491,10 @@ public class CraftInventory implements Inventory {

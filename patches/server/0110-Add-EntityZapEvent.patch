@@ -5,10 +5,10 @@ Subject: [PATCH] Add EntityZapEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/npc/Villager.java b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-index 18ba4b9d9b68088afd48d1f12cec6b155ea84159..dfc67cd0ef52939be5e5a9952cfcdb4d87bf0d82 100644
+index efbf6b316a70b94e4bd490df8ebe77cd9f638ba4..cad8854cc7523d60c06ca1f03bfd4fbff984087c 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-@@ -837,10 +837,17 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -849,10 +849,17 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      @Override
      public void thunderHit(ServerLevel world, LightningBolt lightning) {
          if (world.getDifficulty() != Difficulty.PEACEFUL) {
@@ -28,10 +28,10 @@ index 18ba4b9d9b68088afd48d1f12cec6b155ea84159..dfc67cd0ef52939be5e5a9952cfcdb4d
                  entitywitch.finalizeSpawn(world, world.getCurrentDifficultyAt(entitywitch.blockPosition()), MobSpawnType.CONVERSION, (SpawnGroupData) null, (CompoundTag) null);
                  entitywitch.setNoAi(this.isNoAi());
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 3b520b1301eb0225cdcbb271c8032726c59d3990..d8ebe20844136f2a5b395669dcfdd7f6bbc6fff3 100644
+index edab1f25747a7492760a31a90e25b37678b48c64..f1e0cc9b558fd825e6ef1bd26ccec488153fd21d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-@@ -1158,6 +1158,14 @@ public class CraftEventFactory {
+@@ -1162,6 +1162,14 @@ public class CraftEventFactory {
          return event;
      }
  

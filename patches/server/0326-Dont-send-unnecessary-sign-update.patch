@@ -5,10 +5,10 @@ Subject: [PATCH] Dont send unnecessary sign update
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index df967f84f44584ee2fed79009c65d8930500273c..65a928907c7a5df39d2596286860c6798c13910a 100644
+index cb776250920c68d8b8cc0baac804b83b1ec9376a..34a969d8902f23d5ec3f8cc481b60c0fd74f8245 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3220,6 +3220,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3229,6 +3229,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
              if (!tileentitysign.isEditable() || !this.player.getUUID().equals(tileentitysign.getPlayerWhoMayEdit())) {
                  ServerGamePacketListenerImpl.LOGGER.warn("Player {} just tried to change non-editable sign", this.player.getName().getString());

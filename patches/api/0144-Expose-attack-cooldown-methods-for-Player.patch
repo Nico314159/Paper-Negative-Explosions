@@ -5,10 +5,10 @@ Subject: [PATCH] Expose attack cooldown methods for Player
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index cfa1a685fbf2be603a6f95eaa6519c7ffe954c23..98b50de33b9c48e25da0a19747cd1599df5becfc 100644
+index c43cf2bdf24de153d16017e50d9b5723218e3d44..2904aa66e83d8cde9954c13d89f8337bbfc75137 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2525,6 +2525,26 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2556,6 +2556,26 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @param profile The new profile to use
       */
      void setPlayerProfile(@NotNull com.destroystokyo.paper.profile.PlayerProfile profile);

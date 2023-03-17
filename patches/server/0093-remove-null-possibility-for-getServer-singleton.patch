@@ -6,7 +6,7 @@ Subject: [PATCH] remove null possibility for getServer singleton
 to stop IDE complaining about potential NPE
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index aab7ea2bbc9066b206b15cceb4db49aa230ebafd..3ed50490121f34ab5b247565b9a4555bf6a46dff 100644
+index 18499be3d671987a743e6001347fb7ffb023039c..0cb581700dd994a0585e5f8f73489d90f2c0ac0d 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -193,6 +193,7 @@ import co.aikar.timings.MinecraftTimings; // Paper
@@ -17,7 +17,7 @@ index aab7ea2bbc9066b206b15cceb4db49aa230ebafd..3ed50490121f34ab5b247565b9a4555b
      public static final Logger LOGGER = LogUtils.getLogger();
      public static final String VANILLA_BRAND = "vanilla";
      private static final float AVERAGE_TICK_TIME_SMOOTHING = 0.8F;
-@@ -318,6 +319,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -321,6 +322,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      public MinecraftServer(OptionSet options, WorldLoader.DataLoadContext worldLoader, Thread thread, LevelStorageSource.LevelStorageAccess convertable_conversionsession, PackRepository resourcepackrepository, WorldStem worldstem, Proxy proxy, DataFixer datafixer, Services services, ChunkProgressListenerFactory worldloadlistenerfactory) {
          super("Server");
@@ -25,7 +25,7 @@ index aab7ea2bbc9066b206b15cceb4db49aa230ebafd..3ed50490121f34ab5b247565b9a4555b
          this.metricsRecorder = InactiveMetricsRecorder.INSTANCE;
          this.profiler = this.metricsRecorder.getProfiler();
          this.onMetricsRecordingStopped = (methodprofilerresults) -> {
-@@ -2304,9 +2306,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -2333,9 +2335,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          return false;
      }
  

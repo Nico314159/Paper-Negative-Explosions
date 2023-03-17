@@ -17,7 +17,7 @@ This should fully solve all of the issues around it so that only natural
 influences natural spawns.
 
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-index c3d6b904f1310c93a3d5c1e5e3fab2f3476f5a48..29dac07176eb99517c9cddbe012636908c3603fe 100644
+index 029835914c3c88811684e90b29bfed83191b3b3f..05c014c5f0805d50cfd251b043c79ce3355eef16 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 @@ -88,6 +88,13 @@ public final class NaturalSpawner {

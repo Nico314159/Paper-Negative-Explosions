@@ -5,10 +5,10 @@ Subject: [PATCH] Clarify the Javadocs for Entity.getEntitySpawnReason()
 
 
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 6ff9a29ddda50c2e073c1ab02b13d5ff0bdeb903..277dc1f3a0002f5102bc2a6be4412d179bbdb713 100644
+index 2c7c53b96b92ea9ef4e185558d744d0955a5e9e7..81d9f085905283e54c3bd597e15ac1bf693f541f 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -756,7 +756,7 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -782,7 +782,7 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
      }
  
      /**

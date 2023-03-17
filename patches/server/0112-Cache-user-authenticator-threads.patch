@@ -5,7 +5,7 @@ Subject: [PATCH] Cache user authenticator threads
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index a6e90e70730e106d1cac01abf7a41df8df787d89..453a9dd794c39be5e7221b05fabb71b802691003 100644
+index 7983033160b77e28eb8135f8709dacd6b806ebe3..9fd44505c33b7ad578d6a471aca8e1c2df5c7dcd 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 @@ -112,6 +112,8 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,

@@ -22,10 +22,10 @@ to take the burden of this into their own hand without having to rely on
 plugins doing unsafe things.
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index dd08e74a2741c89e00fe1487f90834dfbbd92ce2..34c635da9ff7aee5105f9a6d7661eb13df0b98a3 100644
+index e37a4e8654f20eb9600d675eec7a2fbbb338cdc2..974b74757551bc9ad94c7198783473bb72520712 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -261,6 +261,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -263,6 +263,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
      private long keepAliveChallenge;
      // CraftBukkit start - multithreaded fields
      private final AtomicInteger chatSpamTickCount = new AtomicInteger();
@@ -33,7 +33,7 @@ index dd08e74a2741c89e00fe1487f90834dfbbd92ce2..34c635da9ff7aee5105f9a6d7661eb13
      // CraftBukkit end
      private int dropSpamTickCount;
      private double firstGoodX;
-@@ -409,6 +410,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -411,6 +412,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
          this.server.getProfiler().pop();
          // CraftBukkit start
          for (int spam; (spam = this.chatSpamTickCount.get()) > 0 && !this.chatSpamTickCount.compareAndSet(spam, spam - 1); ) ;
@@ -41,7 +41,7 @@ index dd08e74a2741c89e00fe1487f90834dfbbd92ce2..34c635da9ff7aee5105f9a6d7661eb13
          /* Use thread-safe field access instead
          if (this.chatSpamTickCount > 0) {
              --this.chatSpamTickCount;
-@@ -785,7 +787,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -787,7 +789,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
      public void handleCustomCommandSuggestions(ServerboundCommandSuggestionPacket packet) {
          // PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel()); // Paper - run this async
          // CraftBukkit start

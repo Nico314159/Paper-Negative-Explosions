@@ -7,12 +7,12 @@ The problem was we were checking isExpired() on the entry, but if it
 was expired at that point, then it would be null.
 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index ce35bd1bf1e532ec1bf260d72299b0f6c2699e9a..b537dfce0492acd170e37406b3ed1ad215d7df7d 100644
+index d677a05741e1df4bba2598182256758d4da09a4b..1644ff0709d721ba8c19e4b4c7ef07fc8e8f5918 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -620,8 +620,10 @@ public abstract class PlayerList {
+@@ -627,8 +627,10 @@ public abstract class PlayerList {
          Player player = entity.getBukkitEntity();
-         PlayerLoginEvent event = new PlayerLoginEvent(player, loginlistener.connection.hostname, ((java.net.InetSocketAddress) socketaddress).getAddress(), ((java.net.InetSocketAddress) loginlistener.connection.getRawAddress()).getAddress());
+         PlayerLoginEvent event = new PlayerLoginEvent(player, loginlistener.connection.hostname, ((java.net.InetSocketAddress) socketaddress).getAddress(), ((java.net.InetSocketAddress) loginlistener.connection.channel.remoteAddress()).getAddress());
  
 -        if (this.getBans().isBanned(gameprofile) && !this.getBans().get(gameprofile).hasExpired()) {
 -            UserBanListEntry gameprofilebanentry = (UserBanListEntry) this.bans.get(gameprofile);

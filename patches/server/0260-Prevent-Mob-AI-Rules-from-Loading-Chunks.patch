@@ -5,10 +5,10 @@ Subject: [PATCH] Prevent Mob AI Rules from Loading Chunks
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
-index 238c4225bbd4b12bd866603c6eb33182bc9dc89f..bd0cbf4390fc7d00b4bd5008cdf8f6f49df4f69b 100644
+index b26a6354eaf2a699ab10da71afafebc807b4b06d..d3e91faee8805e88d850740fb5de9e5c8288c48b 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
 +++ b/src/main/java/net/minecraft/world/entity/ai/goal/RemoveBlockGoal.java
-@@ -133,7 +133,9 @@ public class RemoveBlockGoal extends MoveToBlockGoal {
+@@ -129,7 +129,9 @@ public class RemoveBlockGoal extends MoveToBlockGoal {
  
      @Nullable
      private BlockPos getPosWithBlock(BlockPos pos, BlockGetter world) {
@@ -19,7 +19,7 @@ index 238c4225bbd4b12bd866603c6eb33182bc9dc89f..bd0cbf4390fc7d00b4bd5008cdf8f6f4
              return pos;
          } else {
              BlockPos[] ablockposition = new BlockPos[]{pos.below(), pos.west(), pos.east(), pos.north(), pos.south(), pos.below().below()};
-@@ -143,7 +145,8 @@ public class RemoveBlockGoal extends MoveToBlockGoal {
+@@ -139,7 +141,8 @@ public class RemoveBlockGoal extends MoveToBlockGoal {
              for (int j = 0; j < i; ++j) {
                  BlockPos blockposition1 = ablockposition1[j];
  
@@ -29,7 +29,7 @@ index 238c4225bbd4b12bd866603c6eb33182bc9dc89f..bd0cbf4390fc7d00b4bd5008cdf8f6f4
                      return blockposition1;
                  }
              }
-@@ -154,7 +157,7 @@ public class RemoveBlockGoal extends MoveToBlockGoal {
+@@ -150,7 +153,7 @@ public class RemoveBlockGoal extends MoveToBlockGoal {
  
      @Override
      protected boolean isValidTarget(LevelReader world, BlockPos pos) {

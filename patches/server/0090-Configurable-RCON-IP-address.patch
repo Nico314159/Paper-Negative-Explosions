@@ -9,7 +9,7 @@ For servers with multiple IP's, ability to bind to a specific interface.
 public net.minecraft.server.dedicated.Settings getStringRaw(Ljava/lang/String;)Ljava/lang/String;
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-index 666dc4b22569e1ae26ff988c7d4ac1113acd32f3..e72fb5c548a9baef09ae547863c4bdc439ce28b2 100644
+index d2d5a6cd70299c169f50684e442ce90be5840f62..d144fc518442762e45f213550a9b0a21f77fcdd1 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 @@ -108,6 +108,8 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie

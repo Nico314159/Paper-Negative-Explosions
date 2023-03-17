@@ -26,10 +26,10 @@ index 32ef3edebe94a2014168b7e438752a80b2687e5f..ab6c58eed6707ab7b0aa3e7549a871ad
          // Paper end
          buf.writeComponent(this.text);
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 2338f20c1af3b93cb6dd1a3c518499e6dd2130c3..3f1ed61a120f7adebfba2741a8c671a1e464471b 100644
+index 023e477ebe24aff03767a3179e7b2f0e653ffa12..981ac7ad6efb4024216a0967fd4c2f01245a8816 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -357,6 +357,26 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -358,6 +358,26 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      }
  
      // Paper start

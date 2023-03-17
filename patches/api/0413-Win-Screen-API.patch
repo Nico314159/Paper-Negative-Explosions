@@ -5,7 +5,7 @@ Subject: [PATCH] Win Screen API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 43c9cfef868b2e68e2c5741c095cc214d2095b70..49a797325be9a9e7174610dccba12b0a19cf6723 100644
+index dfe407ad3f5eef963a447ad4f89605300545a595..660f28e371176c62e38a84b187958aceb235c8e3 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -854,6 +854,47 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM

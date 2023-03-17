@@ -6,7 +6,7 @@ Subject: [PATCH] Prevent mob spawning from loading/generating chunks
 also prevents if out of world border bounds
 
 diff --git a/src/main/java/net/minecraft/world/level/NaturalSpawner.java b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
-index 608be2b8bfff1b89855fc0bd181430d3a29a4cbb..c3d6b904f1310c93a3d5c1e5e3fab2f3476f5a48 100644
+index 5338e0e1a67925da0c386735a545bb31096afbb1..029835914c3c88811684e90b29bfed83191b3b3f 100644
 --- a/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/NaturalSpawner.java
 @@ -170,9 +170,9 @@ public final class NaturalSpawner {

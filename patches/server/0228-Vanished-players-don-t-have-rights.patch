@@ -5,24 +5,25 @@ Subject: [PATCH] Vanished players don't have rights
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
-index 95ee8f85dd7e6c32f751f5c754a351cc7bcd6245..ec5fc3293097b364b5f6d8acc756aa8adde15215 100644
+index ad5c96e9a7577df1729533ec9a709387b7232844..621ecd0f3cac52d3e4cecd003c67401ec7f0a6f7 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
-@@ -212,7 +212,14 @@ public abstract class Projectile extends Entity {
-         if (!entity.isSpectator() && entity.isAlive() && entity.isPickable()) {
+@@ -216,6 +216,15 @@ public abstract class Projectile extends Entity implements TraceableEntity {
+         } else {
              Entity entity1 = this.getOwner();
  
 +            // Paper start - Cancel hit for vanished players
 +            if (entity1 instanceof net.minecraft.server.level.ServerPlayer && entity instanceof net.minecraft.server.level.ServerPlayer) {
 +                org.bukkit.entity.Player collided = (org.bukkit.entity.Player) entity.getBukkitEntity();
 +                org.bukkit.entity.Player shooter = (org.bukkit.entity.Player) entity1.getBukkitEntity();
-+                if (!shooter.canSee(collided)) return false;
++                if (!shooter.canSee(collided)) {
++                    return false;
++                }
 +            }
-             return entity1 == null || this.leftOwner || !entity1.isPassengerOfSameVehicle(entity);
 +            // Paper end
-         } else {
-             return false;
+             return entity1 == null || this.leftOwner || !entity1.isPassengerOfSameVehicle(entity);
          }
+     }
 diff --git a/src/main/java/net/minecraft/world/item/BlockItem.java b/src/main/java/net/minecraft/world/item/BlockItem.java
 index a6638e626600e4304a973497a39e3fac52203b16..e68b7a1b03783e4f9de24c5ae8773fc359bd2d37 100644
 --- a/src/main/java/net/minecraft/world/item/BlockItem.java
@@ -38,10 +39,10 @@ index a6638e626600e4304a973497a39e3fac52203b16..e68b7a1b03783e4f9de24c5ae8773fc3
  
          BlockCanBuildEvent event = new BlockCanBuildEvent(CraftBlock.at(context.getLevel(), context.getClickedPos()), player, CraftBlockData.fromData(state), defaultReturn);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index bb5d49a1b002fbe9109b2fe6c31c9d4f7c3f9ac8..df273fd4ffbaf8d25286e9ba713999ccab31af90 100644
+index f07e70ab26fffaec5055a7dd2571dc4d29c66d35..754e1667aadef89bbaccebc0f437197b1331b7f8 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -268,6 +268,45 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -274,6 +274,45 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          this.tileLimiter = new org.spigotmc.TickLimiter(spigotConfig.tileMaxTickTime);
      }
  
@@ -88,10 +89,10 @@ index bb5d49a1b002fbe9109b2fe6c31c9d4f7c3f9ac8..df273fd4ffbaf8d25286e9ba713999cc
      public boolean isClientSide() {
          return this.isClientSide;
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index fab613b7c4ee48c3f0eac1405bca7bd53da19060..67d820fb9aa00a3275cc3e23461864b496d738aa 100644
+index a030a4852d0f7b2e3aedb7b35c316f525115086e..9ef6b6fe8a909a90c4b4ddb832f0beb404542a35 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-@@ -1267,6 +1267,14 @@ public class CraftEventFactory {
+@@ -1271,6 +1271,14 @@ public class CraftEventFactory {
          Projectile projectile = (Projectile) entity.getBukkitEntity();
          org.bukkit.entity.Entity collided = position.getEntity().getBukkitEntity();
          com.destroystokyo.paper.event.entity.ProjectileCollideEvent event = new com.destroystokyo.paper.event.entity.ProjectileCollideEvent(projectile, collided);

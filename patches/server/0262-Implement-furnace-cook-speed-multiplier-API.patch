@@ -11,10 +11,10 @@ to the nearest Integer when updating its current cook time.
 Modified by: Eric Su <ericsu@alumni.usc.edu>
 
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
-index 8137682be60eb617738f7b257780a49182ef970c..196c99a2802c0bcaf93be287c404fc4f0f23eadd 100644
+index 4ed87cc5a46d9e10c755631a16f0e0cb388fb7f2..faa5beffb29e416f2a9af96ac66b5f88729e4705 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
-@@ -76,11 +76,13 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -77,11 +77,13 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
      protected NonNullList<ItemStack> items;
      public int litTime;
      int litDuration;
@@ -28,7 +28,7 @@ index 8137682be60eb617738f7b257780a49182ef970c..196c99a2802c0bcaf93be287c404fc4f
  
      protected AbstractFurnaceBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, RecipeType<? extends AbstractCookingRecipe> recipeType) {
          super(blockEntityType, pos, state);
-@@ -127,6 +129,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -128,6 +130,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
          };
          this.recipesUsed = new Object2IntOpenHashMap();
          this.quickCheck = RecipeManager.createCheck((RecipeType<AbstractCookingRecipe>) recipeType); // CraftBukkit - decompile error // Eclipse fail
@@ -36,7 +36,7 @@ index 8137682be60eb617738f7b257780a49182ef970c..196c99a2802c0bcaf93be287c404fc4f
      }
  
      public static Map<Item, Integer> getFuel() {
-@@ -279,6 +282,11 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -280,6 +283,11 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
              this.recipesUsed.put(new ResourceLocation(s), nbttagcompound1.getInt(s));
          }
  
@@ -48,7 +48,7 @@ index 8137682be60eb617738f7b257780a49182ef970c..196c99a2802c0bcaf93be287c404fc4f
      }
  
      @Override
-@@ -287,6 +295,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -288,6 +296,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
          nbt.putShort("BurnTime", (short) this.litTime);
          nbt.putShort("CookTime", (short) this.cookingProgress);
          nbt.putShort("CookTimeTotal", (short) this.cookingTotalTime);
@@ -56,7 +56,7 @@ index 8137682be60eb617738f7b257780a49182ef970c..196c99a2802c0bcaf93be287c404fc4f
          ContainerHelper.saveAllItems(nbt, this.items);
          CompoundTag nbttagcompound1 = new CompoundTag();
  
-@@ -358,7 +367,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -359,7 +368,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
                      CraftItemStack source = CraftItemStack.asCraftMirror(blockEntity.items.get(0));
                      CookingRecipe<?> recipe = (CookingRecipe<?>) irecipe.toBukkitRecipe();
  
@@ -65,7 +65,7 @@ index 8137682be60eb617738f7b257780a49182ef970c..196c99a2802c0bcaf93be287c404fc4f
                      world.getCraftServer().getPluginManager().callEvent(event);
  
                      blockEntity.cookingTotalTime = event.getTotalCookTime();
-@@ -366,9 +375,9 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -367,9 +376,9 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
                  // CraftBukkit end
  
                  ++blockEntity.cookingProgress;
@@ -74,10 +74,10 @@ index 8137682be60eb617738f7b257780a49182ef970c..196c99a2802c0bcaf93be287c404fc4f
                      blockEntity.cookingProgress = 0;
 -                    blockEntity.cookingTotalTime = AbstractFurnaceBlockEntity.getTotalCookTime(world, blockEntity);
 +                    blockEntity.cookingTotalTime = AbstractFurnaceBlockEntity.getTotalCookTime(world, blockEntity.recipeType, blockEntity, blockEntity.cookSpeedMultiplier); // Paper
-                     if (AbstractFurnaceBlockEntity.burn(blockEntity.level, blockEntity.worldPosition, irecipe, blockEntity.items, i)) { // CraftBukkit
+                     if (AbstractFurnaceBlockEntity.burn(blockEntity.level, blockEntity.worldPosition, world.registryAccess(), irecipe, blockEntity.items, i)) { // CraftBukkit
                          blockEntity.setRecipeUsed(irecipe);
                      }
-@@ -468,9 +477,13 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -469,9 +478,13 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
          }
      }
  
@@ -93,7 +93,7 @@ index 8137682be60eb617738f7b257780a49182ef970c..196c99a2802c0bcaf93be287c404fc4f
  
      public static boolean isFuel(ItemStack stack) {
          return AbstractFurnaceBlockEntity.getFuel().containsKey(stack.getItem());
-@@ -539,7 +552,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -540,7 +553,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
          }
  
          if (slot == 0 && !flag) {

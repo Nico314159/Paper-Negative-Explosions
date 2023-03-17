@@ -5,7 +5,7 @@ Subject: [PATCH] Add PlayerKickEvent causes
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index e499452a8be3f3eec2429c4958877e40117ae594..528fee6866f6bb988e62627161e62f7b74fdb574 100644
+index 6c4d148202c3378e361fd8068c00cc0b67d6dc1e..b834537b1fa7ee349d10fe1ac5aa7e7dca4e35f7 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -249,6 +249,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM

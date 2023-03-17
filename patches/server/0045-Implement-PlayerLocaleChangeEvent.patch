@@ -5,11 +5,11 @@ Subject: [PATCH] Implement PlayerLocaleChangeEvent
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index d7b581a34d95b038e548a7380ce00ebba9835606..a95e2e05db626edbedaa604f059e19a592a682a3 100644
+index dac816f64a60988291cba8f1a88fd6e0cd5ea1a7..76eb270e0d471740bb5d9e80e7a2d6484659e8e4 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -1787,7 +1787,7 @@ public class ServerPlayer extends Player {
-         return s;
+@@ -1795,7 +1795,7 @@ public class ServerPlayer extends Player {
+         }
      }
  
 -    public String locale = "en_us"; // CraftBukkit - add, lowercase
@@ -17,7 +17,7 @@ index d7b581a34d95b038e548a7380ce00ebba9835606..a95e2e05db626edbedaa604f059e19a5
      public java.util.Locale adventure$locale = java.util.Locale.US; // Paper
      public void updateOptions(ServerboundClientInformationPacket packet) {
          // CraftBukkit start
-@@ -1795,9 +1795,10 @@ public class ServerPlayer extends Player {
+@@ -1803,9 +1803,10 @@ public class ServerPlayer extends Player {
              PlayerChangedMainHandEvent event = new PlayerChangedMainHandEvent(this.getBukkitEntity(), getMainArm() == HumanoidArm.LEFT ? MainHand.LEFT : MainHand.RIGHT);
              this.server.server.getPluginManager().callEvent(event);
          }
@@ -30,10 +30,10 @@ index d7b581a34d95b038e548a7380ce00ebba9835606..a95e2e05db626edbedaa604f059e19a5
          this.locale = packet.language;
          // Paper start
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 27f4387a3ac750114c99e41e855c8fb8081a507d..31172053e26a8df53d0987e816b3e03a560332e6 100644
+index e232d0efc0615017d1d64680ff2ad1de9dcc2bee..10572393e1c45ed277f56e3f8978f73a02eed4c4 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2113,8 +2113,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2187,8 +2187,10 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      @Override
      public String getLocale() {

@@ -126,7 +126,7 @@ index ac2b7b5161eaaca3620268ae865d6f2a80227fde..a1192d1f6b99669f843e8d9a8928ff0e
                      });
                      // Paper end
 diff --git a/src/main/java/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java b/src/main/java/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
-index cdc87f14e5d6336856c74d5089e50ae5ebad9923..6b84633bf6956406d2e2c5dd32fa358f41ccc890 100644
+index 4f3387d1b128bc98614cfabfb5306781bdcd93be..0d8fd4eaf912eb4d40bb9f600dd2a8d5c21ab572 100644
 --- a/src/main/java/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
 +++ b/src/main/java/net/minecraft/world/level/levelgen/NoiseBasedChunkGenerator.java
 @@ -207,7 +207,7 @@ public final class NoiseBasedChunkGenerator extends ChunkGenerator {

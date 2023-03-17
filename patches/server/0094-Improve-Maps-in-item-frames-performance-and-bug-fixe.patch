@@ -13,10 +13,10 @@ custom renderers are in use, defaulting to the much simpler Vanilla system.
 Additionally, numerous issues to player position tracking on maps has been fixed.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 0d08690aade0e3334c583b62e0abf7bbab9a0c59..349a9f4596cd1411ec3a69cd7d6f5414971b74ef 100644
+index c4bf60739b0f73729f331f2bb82d9d08f346f19c..343e6da38413ab8dad876884241ad31172466659 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -2246,6 +2246,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -2245,6 +2245,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
                              {
                                  if ( iter.next().player == entity )
                                  {
@@ -25,10 +25,10 @@ index 0d08690aade0e3334c583b62e0abf7bbab9a0c59..349a9f4596cd1411ec3a69cd7d6f5414
                                  }
                              }
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index 60fb74537fdc96005cbf6aa1670e773c0faa2f26..7322c15921e05aaf0dafed89e1d90f2748efb2a9 100644
+index 8726d50841da43729f076a2b0a9645ecea2a3f3a..03b058b5f989b6182de88d2c2fe9d0f90eb9c432 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -758,6 +758,14 @@ public abstract class Player extends LivingEntity {
+@@ -756,6 +756,14 @@ public abstract class Player extends LivingEntity {
                  return null;
              }
              // CraftBukkit end
@@ -44,7 +44,7 @@ index 60fb74537fdc96005cbf6aa1670e773c0faa2f26..7322c15921e05aaf0dafed89e1d90f27
              return entityitem;
          }
 diff --git a/src/main/java/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java b/src/main/java/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java
-index 1fd305ccedfd311dc5238810003889b2c1897089..984da6264cdaf57a49a15861b9ce834a9efac1a7 100644
+index fe14c0d03a0bbd5cbf0608ea88d499984b54d2ed..2c5fb4eb5790f4dff0d03390ceae3afc32134006 100644
 --- a/src/main/java/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java
 +++ b/src/main/java/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java
 @@ -63,6 +63,7 @@ public class MapItemSavedData extends SavedData {

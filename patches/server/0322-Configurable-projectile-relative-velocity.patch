@@ -25,10 +25,10 @@ P3) Solutions for 1) and especially 2) might not be future-proof, while this
 server-internal fix makes this change future-proof.
 
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
-index a904507707475e95b6389ccc437bd234b97c10cc..b226800c15f5adbc40c89b36536db23f08e2857d 100644
+index a85175190c1ebb14b496a0bfe2f7136e06d0072c..ae0e422ee7e1dcf01b4c7b64b23afdbbbe19819e 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/Projectile.java
-@@ -162,7 +162,7 @@ public abstract class Projectile extends Entity {
+@@ -164,7 +164,7 @@ public abstract class Projectile extends Entity implements TraceableEntity {
          this.shoot((double) f5, (double) f6, (double) f7, speed, divergence);
          Vec3 vec3d = shooter.getDeltaMovement();
  

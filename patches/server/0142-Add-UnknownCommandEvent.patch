@@ -25,10 +25,10 @@ index 36bbe7d0b2089361beda89097c15eca9ab48a57d..65d8c7d5aab8c6afe3c5671a90ad0fbc
  
      }
 diff --git a/src/main/java/net/minecraft/commands/Commands.java b/src/main/java/net/minecraft/commands/Commands.java
-index 9eaa7ad424252ea2e033d6041a14bf1ef7dd9fde..4cf76403098cc8565199b29757a29c80150bbaae 100644
+index 971fc7f5f51ba82a7e8abafa6a5139c24a9aac0b..7f561ab6e56cd1749da8eff950080d3ae3f5e028 100644
 --- a/src/main/java/net/minecraft/commands/Commands.java
 +++ b/src/main/java/net/minecraft/commands/Commands.java
-@@ -133,6 +133,7 @@ public class Commands {
+@@ -136,6 +136,7 @@ public class Commands {
      public static final int LEVEL_ADMINS = 3;
      public static final int LEVEL_OWNERS = 4;
      private final com.mojang.brigadier.CommandDispatcher<CommandSourceStack> dispatcher = new com.mojang.brigadier.CommandDispatcher();
@@ -36,7 +36,7 @@ index 9eaa7ad424252ea2e033d6041a14bf1ef7dd9fde..4cf76403098cc8565199b29757a29c80
  
      public Commands(Commands.CommandSelection environment, CommandBuildContext commandRegistryAccess) {
          this(); // CraftBukkit
-@@ -220,6 +221,7 @@ public class Commands {
+@@ -226,6 +227,7 @@ public class Commands {
          if (environment.includeIntegrated) {
              PublishCommand.register(this.dispatcher);
          }
@@ -44,7 +44,7 @@ index 9eaa7ad424252ea2e033d6041a14bf1ef7dd9fde..4cf76403098cc8565199b29757a29c80
  
          // CraftBukkit start
      }
-@@ -311,7 +313,16 @@ public class Commands {
+@@ -317,7 +319,16 @@ public class Commands {
                  b1 = 0;
                  return b1;
              } catch (CommandSyntaxException commandsyntaxexception) {
@@ -62,7 +62,7 @@ index 9eaa7ad424252ea2e033d6041a14bf1ef7dd9fde..4cf76403098cc8565199b29757a29c80
                  if (commandsyntaxexception.getInput() != null && commandsyntaxexception.getCursor() >= 0) {
                      int j = Math.min(commandsyntaxexception.getInput().length(), commandsyntaxexception.getCursor());
                      MutableComponent ichatmutablecomponent = Component.empty().withStyle(ChatFormatting.GRAY).withStyle((chatmodifier) -> {
-@@ -330,7 +341,18 @@ public class Commands {
+@@ -336,7 +347,18 @@ public class Commands {
                      }
  
                      ichatmutablecomponent.append((Component) Component.translatable("command.context.here").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
@@ -83,10 +83,10 @@ index 9eaa7ad424252ea2e033d6041a14bf1ef7dd9fde..4cf76403098cc8565199b29757a29c80
  
                  b1 = 0;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 5f6ddee55b2289d80c55015f44c431b7025ae944..df2ad713d169f458890fc54d53415139d878a4d7 100644
+index 8aaba38c7f4dc17c8536a0049be8bdea204f6481..39e51bbc941b7381c901304d69758b2bca2f02d1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -512,6 +512,7 @@ public final class CraftServer implements Server {
+@@ -507,6 +507,7 @@ public final class CraftServer implements Server {
  
              if (command instanceof VanillaCommandWrapper) {
                  LiteralCommandNode<CommandSourceStack> node = (LiteralCommandNode<CommandSourceStack>) ((VanillaCommandWrapper) command).vanillaCommand;
@@ -94,7 +94,7 @@ index 5f6ddee55b2289d80c55015f44c431b7025ae944..df2ad713d169f458890fc54d53415139
                  if (!node.getLiteral().equals(label)) {
                      LiteralCommandNode<CommandSourceStack> clone = new LiteralCommandNode(label, node.getCommand(), node.getRequirement(), node.getRedirect(), node.getRedirectModifier(), node.isFork());
  
-@@ -886,7 +887,13 @@ public final class CraftServer implements Server {
+@@ -881,7 +882,13 @@ public final class CraftServer implements Server {
  
          // Spigot start
          if (!org.spigotmc.SpigotConfig.unknownCommandMessage.isEmpty()) {

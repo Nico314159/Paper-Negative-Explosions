@@ -5,10 +5,10 @@ Subject: [PATCH] Fix CB call to changed postToMainThread method
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index f18c32e5f100bebbc404f2326f53d906305fc223..df967f84f44584ee2fed79009c65d8930500273c 100644
+index d754c32b1c1c0cf56a690f3b699eb24a795765e4..cb776250920c68d8b8cc0baac804b83b1ec9376a 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -511,7 +511,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -513,7 +513,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
          Objects.requireNonNull(this.connection);
          // CraftBukkit - Don't wait

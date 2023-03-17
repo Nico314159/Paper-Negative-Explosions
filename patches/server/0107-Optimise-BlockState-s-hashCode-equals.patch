@@ -51,10 +51,10 @@ index 59b5b22a567e4e2be499a2a35aedb10218a7432a..bdbe0362e49e73c05237f9f3143230e0
              return true;
          } else if (object instanceof IntegerProperty && super.equals(object)) {
 diff --git a/src/main/java/net/minecraft/world/level/block/state/properties/Property.java b/src/main/java/net/minecraft/world/level/block/state/properties/Property.java
-index 5a973c1536291e79aa8377ca5bda8ef84127e20a..a37424bbc6bee02354abaa793aa0865c556c6bbe 100644
+index d1f2e29623b15fdb99ba082fd757a54fd4713761..66b8e23d799adaf872233ea44c54330d75135544 100644
 --- a/src/main/java/net/minecraft/world/level/block/state/properties/Property.java
 +++ b/src/main/java/net/minecraft/world/level/block/state/properties/Property.java
-@@ -68,14 +68,7 @@ public abstract class Property<T extends Comparable<T>> {
+@@ -70,14 +70,7 @@ public abstract class Property<T extends Comparable<T>> {
  
      @Override
      public boolean equals(Object object) {

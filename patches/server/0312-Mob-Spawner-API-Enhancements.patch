@@ -9,7 +9,7 @@ public net.minecraft.world.level.BaseSpawner delay(Lnet/minecraft/world/level/Le
 public net.minecraft.world.level.BaseSpawner setNextSpawnData(Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/SpawnData;)V
 
 diff --git a/src/main/java/net/minecraft/world/level/BaseSpawner.java b/src/main/java/net/minecraft/world/level/BaseSpawner.java
-index 6ba97a0b4f2cb15d5435657c8e8f5c71c6fee3db..c5a117308f051c20b81818ad91e0ca40177feb69 100644
+index 091c72b95e3c4c3528812ace4aec64d451f25462..54a20433483d5b67a6668fcdbddc1654a246fee2 100644
 --- a/src/main/java/net/minecraft/world/level/BaseSpawner.java
 +++ b/src/main/java/net/minecraft/world/level/BaseSpawner.java
 @@ -239,7 +239,13 @@ public abstract class BaseSpawner {

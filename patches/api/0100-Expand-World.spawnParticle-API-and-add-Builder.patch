@@ -500,10 +500,10 @@ index 0000000000000000000000000000000000000000..f45b8cfd1611345e8d81ecb8297a586f
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/Particle.java b/src/main/java/org/bukkit/Particle.java
-index 9f646171b3ac617fb5217d5ab9c106c3100a8c8d..2315fffc4a1a5bebc50a703e9df59df8121c2200 100644
+index 0ca7955003eea0556a04a54056152ec27d93a9ee..93244e6d940891f1297d4a26a80ba155af306071 100644
 --- a/src/main/java/org/bukkit/Particle.java
 +++ b/src/main/java/org/bukkit/Particle.java
-@@ -160,6 +160,17 @@ public enum Particle {
+@@ -163,6 +163,17 @@ public enum Particle {
          return dataType;
      }
  

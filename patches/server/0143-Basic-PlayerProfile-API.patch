@@ -596,10 +596,10 @@ index d58d44faa40be2421f4cb54740a3abdbad72875c..9ee4dc54039cbe6b8c9bd3018044c73f
       * Calculates distance between 2 entities
       * @param e1
 diff --git a/src/main/java/net/minecraft/server/Main.java b/src/main/java/net/minecraft/server/Main.java
-index b04f7240ba96d06ab51199059d29b0faa554b09a..c5224aac75df248df57018b6245f909f19904d7d 100644
+index 26fa789a44a1d934944e78eae21f489213f50ae3..12ff7071a5b78a8ae5567aa42b69191166a7cbca 100644
 --- a/src/main/java/net/minecraft/server/Main.java
 +++ b/src/main/java/net/minecraft/server/Main.java
-@@ -159,7 +159,7 @@ public class Main {
+@@ -170,7 +170,7 @@ public class Main {
              }
  
              File file = (File) optionset.valueOf("universe"); // CraftBukkit
@@ -631,10 +631,10 @@ index 4038bb76339d43f18770624bd7fecc79b8d7f2a9..2456edc11b29a92b1648937cd3dd6a9a
          String s1 = name.toLowerCase(Locale.ROOT);
          GameProfileCache.GameProfileInfo usercache_usercacheentry = (GameProfileCache.GameProfileInfo) this.profilesByName.get(s1);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index df2ad713d169f458890fc54d53415139d878a4d7..527e22973cb0f7fca9d19a41abf943e48980db19 100644
+index 39e51bbc941b7381c901304d69758b2bca2f02d1..21ca43d22bd9d09bdb03107eec568eb9208ea948 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -257,6 +257,9 @@ import org.yaml.snakeyaml.error.MarkedYAMLException;
+@@ -252,6 +252,9 @@ import org.yaml.snakeyaml.error.MarkedYAMLException;
  
  import net.md_5.bungee.api.chat.BaseComponent; // Spigot
  
@@ -644,7 +644,7 @@ index df2ad713d169f458890fc54d53415139d878a4d7..527e22973cb0f7fca9d19a41abf943e4
  public final class CraftServer implements Server {
      private final String serverName = "Paper"; // Paper
      private final String serverVersion;
-@@ -298,6 +301,7 @@ public final class CraftServer implements Server {
+@@ -293,6 +296,7 @@ public final class CraftServer implements Server {
      static {
          ConfigurationSerialization.registerClass(CraftOfflinePlayer.class);
          ConfigurationSerialization.registerClass(CraftPlayerProfile.class);
@@ -652,7 +652,7 @@ index df2ad713d169f458890fc54d53415139d878a4d7..527e22973cb0f7fca9d19a41abf943e4
          CraftItemFactory.instance();
      }
  
-@@ -2606,5 +2610,37 @@ public final class CraftServer implements Server {
+@@ -2604,5 +2608,37 @@ public final class CraftServer implements Server {
      public boolean suggestPlayerNamesWhenNullTabCompletions() {
          return io.papermc.paper.configuration.GlobalConfiguration.get().commands.suggestPlayerNamesWhenNullTabCompletions;
      }
@@ -680,7 +680,7 @@ index df2ad713d169f458890fc54d53415139d878a4d7..527e22973cb0f7fca9d19a41abf943e4
 +        Player player = uuid != null ? Bukkit.getPlayer(uuid) : (name != null ? Bukkit.getPlayerExact(name) : null);
 +        if (player == null) return new com.destroystokyo.paper.profile.CraftPlayerProfile(uuid, name);
 +
-+        if (Objects.equals(uuid, player.getUniqueId()) && Objects.equals(name, player.getName())) {
++        if (java.util.Objects.equals(uuid, player.getUniqueId()) && java.util.Objects.equals(name, player.getName())) {
 +            return new com.destroystokyo.paper.profile.CraftPlayerProfile((CraftPlayer) player);
 +        }
 +

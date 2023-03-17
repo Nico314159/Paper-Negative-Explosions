@@ -5,7 +5,7 @@ Subject: [PATCH] Add More Creeper API
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Creeper.java b/src/main/java/net/minecraft/world/entity/monster/Creeper.java
-index 802a46ae9f18e0b58a7e0c38c18b367edd6b7a76..805e267090285d625dbeb75b06f8c5ad141a75a4 100644
+index d34945bc60d2b1734ec65be444ae8745cba2029d..29c62525241e2e03686d1bceee740d4f54f33c54 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Creeper.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Creeper.java
 @@ -132,7 +132,7 @@ public class Creeper extends Monster implements PowerableMob {
@@ -17,7 +17,7 @@ index 802a46ae9f18e0b58a7e0c38c18b367edd6b7a76..805e267090285d625dbeb75b06f8c5ad
          }
  
      }
-@@ -309,7 +309,18 @@ public class Creeper extends Monster implements PowerableMob {
+@@ -313,7 +313,18 @@ public class Creeper extends Monster implements PowerableMob {
      }
  
      public void ignite() {

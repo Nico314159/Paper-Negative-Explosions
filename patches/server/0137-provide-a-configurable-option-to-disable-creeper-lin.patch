@@ -6,10 +6,10 @@ Subject: [PATCH] provide a configurable option to disable creeper lingering
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Creeper.java b/src/main/java/net/minecraft/world/entity/monster/Creeper.java
-index 93a0d0ab483fd525accc8bf8b9df5bbbd81c644e..c418c0b2fa757f29dfa3c07977093c67416959f5 100644
+index 6bde61ffd2b46755a5e90c116f0ee5ff30bc3d9b..baa30d4bdc8c31d04c84e4992062575709c4f2a4 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Creeper.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Creeper.java
-@@ -281,7 +281,7 @@ public class Creeper extends Monster implements PowerableMob {
+@@ -285,7 +285,7 @@ public class Creeper extends Monster implements PowerableMob {
      private void spawnLingeringCloud() {
          Collection<MobEffectInstance> collection = this.getActiveEffects();
  

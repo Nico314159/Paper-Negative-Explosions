@@ -5,10 +5,10 @@ Subject: [PATCH] Optional TNT doesn't move in water
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index 6b372ac843e992820ac0a8ebb9c3c5d9795cc6b0..841bb7741ae6b0e9cb98120ee1649b93ef4c3dab 100644
+index 813994c9f4efc7611cad1633b1a1ea0c99e244d3..b3bc4af0b0be7223318e945c6eee4fe042523934 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
-@@ -69,7 +69,7 @@ public class ServerEntity {
+@@ -72,7 +72,7 @@ public class ServerEntity {
      @Nullable
      private List<SynchedEntityData.DataValue<?>> trackedDataValues;
      // CraftBukkit start
@@ -18,10 +18,10 @@ index 6b372ac843e992820ac0a8ebb9c3c5d9795cc6b0..841bb7741ae6b0e9cb98120ee1649b93
      public ServerEntity(ServerLevel worldserver, Entity entity, int i, boolean flag, Consumer<Packet<?>> consumer, Set<ServerPlayerConnection> trackedPlayers) {
          this.trackedPlayers = trackedPlayers;
 diff --git a/src/main/java/net/minecraft/world/entity/item/PrimedTnt.java b/src/main/java/net/minecraft/world/entity/item/PrimedTnt.java
-index aa0dfd08aefbb9363ec96080432f0f75d71b0b95..4b81d62d3250b99cbcb4eb2468ef81c149bf177e 100644
+index ab5817df2c98d24ee627fd5cf1f71e40b044e43e..94e3ce40da0401a94a24a6c0f9e7ffa3d0ef850d 100644
 --- a/src/main/java/net/minecraft/world/entity/item/PrimedTnt.java
 +++ b/src/main/java/net/minecraft/world/entity/item/PrimedTnt.java
-@@ -94,6 +94,27 @@ public class PrimedTnt extends Entity {
+@@ -95,6 +95,27 @@ public class PrimedTnt extends Entity implements TraceableEntity {
              }
          }
  
@@ -49,7 +49,7 @@ index aa0dfd08aefbb9363ec96080432f0f75d71b0b95..4b81d62d3250b99cbcb4eb2468ef81c1
      }
  
      private void explode() {
-@@ -144,4 +165,11 @@ public class PrimedTnt extends Entity {
+@@ -146,4 +167,11 @@ public class PrimedTnt extends Entity implements TraceableEntity {
      public int getFuse() {
          return (Integer) this.entityData.get(PrimedTnt.DATA_FUSE_ID);
      }

@@ -6,10 +6,10 @@ Subject: [PATCH] Server Tick Events
 Fires event at start and end of a server tick
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 038e98c708f9fac8ab6109d02b0297a1d008710c..0f824428003776128f5d92c735df06cd30a8666b 100644
+index ca2a2b1f54f06f9035be8b379fad580128811fc2..9d2186655ae03022ddeaf078028570ef9118fb06 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1309,6 +1309,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1308,6 +1308,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          });
          isOversleep = false;MinecraftTimings.serverOversleep.stopTiming();
          // Paper end
@@ -17,7 +17,7 @@ index 038e98c708f9fac8ab6109d02b0297a1d008710c..0f824428003776128f5d92c735df06cd
  
          ++this.tickCount;
          this.tickChildren(shouldKeepTicking);
-@@ -1347,6 +1348,11 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1329,6 +1330,11 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              this.runAllTasks();
          }
          // Paper end
@@ -27,5 +27,5 @@ index 038e98c708f9fac8ab6109d02b0297a1d008710c..0f824428003776128f5d92c735df06cd
 +        new com.destroystokyo.paper.event.server.ServerTickEndEvent(this.tickCount, ((double)(endTime - lastTick) / 1000000D), remaining).callEvent();
 +        // Paper end
          this.profiler.push("tallying");
-         long l = this.tickTimes[this.tickCount % 100] = Util.getNanos() - i;
+         long j = this.tickTimes[this.tickCount % 100] = Util.getNanos() - i;
  

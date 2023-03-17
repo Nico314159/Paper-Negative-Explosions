@@ -5,10 +5,10 @@ Subject: [PATCH] Cache the result of Material#isBlock
 
 
 diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
-index 89af89e5fb49e202e80ea7688c62f8e119f4ddfe..7e447f8be7dc9768df487e1f7f4b9aafedb33e2d 100644
+index 0aa1692731ffb05e812f904459853da6080c3f9f..f8440fd7a7c9a00124cb387c6ba3b0973df0d145 100644
 --- a/src/main/java/org/bukkit/Material.java
 +++ b/src/main/java/org/bukkit/Material.java
-@@ -4232,6 +4232,7 @@ public enum Material implements Keyed, Translatable, net.kyori.adventure.transla
+@@ -4348,6 +4348,7 @@ public enum Material implements Keyed, Translatable, net.kyori.adventure.transla
      public final Class<?> data;
      private final boolean legacy;
      private final NamespacedKey key;
@@ -16,7 +16,7 @@ index 89af89e5fb49e202e80ea7688c62f8e119f4ddfe..7e447f8be7dc9768df487e1f7f4b9aaf
  
      private Material(final int id) {
          this(id, 64);
-@@ -4430,6 +4431,11 @@ public enum Material implements Keyed, Translatable, net.kyori.adventure.transla
+@@ -4546,6 +4547,11 @@ public enum Material implements Keyed, Translatable, net.kyori.adventure.transla
       * @return true if this material is a block
       */
      public boolean isBlock() {
@@ -28,7 +28,7 @@ index 89af89e5fb49e202e80ea7688c62f8e119f4ddfe..7e447f8be7dc9768df487e1f7f4b9aaf
          switch (this) {
              //<editor-fold defaultstate="collapsed" desc="isBlock">
              case ACACIA_BUTTON:
-@@ -5585,6 +5591,7 @@ public enum Material implements Keyed, Translatable, net.kyori.adventure.transla
+@@ -5727,6 +5733,7 @@ public enum Material implements Keyed, Translatable, net.kyori.adventure.transla
      static {
          for (Material material : values()) {
              BY_NAME.put(material.name(), material);

@@ -6,10 +6,10 @@ Subject: [PATCH] WitchConsumePotionEvent
 Fires when a witch consumes the potion in their hand
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Witch.java b/src/main/java/net/minecraft/world/entity/monster/Witch.java
-index 1b9d1262f60224819dcd77acf09798bfc1895369..312726d7d9030146b0db432493b2efbd5e42847a 100644
+index e8be8054c3d54defe5e42e2c8a48e2b69552cd9c..b1dc61cd1a3ec4a9e8f0a0b0117ead1f31942c11 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Witch.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Witch.java
-@@ -123,7 +123,11 @@ public class Witch extends Raider implements RangedAttackMob {
+@@ -124,7 +124,11 @@ public class Witch extends Raider implements RangedAttackMob {
  
                      this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack.EMPTY);
                      if (itemstack.is(Items.POTION)) {

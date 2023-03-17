@@ -76,7 +76,7 @@ index 6a7b91af3e738613cf79c13e2844efe9a2efd254..bef555b3de44fed312b45a5d5cd811b1
       * Gets the name of the update folder. The update folder is used to safely
       * update plugins at the right moment on a plugin load.
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 3c7665d5e96e710eb1ebb439a0bc0fd441bd2532..1fe1d5a0a777ecaab9ac1d8092e5a46ddacf4e18 100644
+index a8310063973bb18502d561903b78149a6fda4939..a2c813d6d94ae2a87278d92445635ae8dd3ab00a 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -813,6 +813,42 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -120,5 +120,5 @@ index 3c7665d5e96e710eb1ebb439a0bc0fd441bd2532..1fe1d5a0a777ecaab9ac1d8092e5a46d
 +    // Paper end
 +
      /**
-      * Forces an update of the player's entire inventory.
-      *
+      * Add custom chat completion suggestions shown to the player while typing a
+      * message.

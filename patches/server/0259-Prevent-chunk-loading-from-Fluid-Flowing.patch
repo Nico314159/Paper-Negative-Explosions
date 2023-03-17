@@ -5,7 +5,7 @@ Subject: [PATCH] Prevent chunk loading from Fluid Flowing
 
 
 diff --git a/src/main/java/net/minecraft/world/level/material/FlowingFluid.java b/src/main/java/net/minecraft/world/level/material/FlowingFluid.java
-index 6f6358b3b24686cd8995cd71b6f7209b4227fc48..fb0784c8a4950776bd270bec3c80a8c5856c2655 100644
+index f809a19afdfdb7df439e907531f54b2df1baf08c..00516a230073391b31795ec5af2aa7aa48db639a 100644
 --- a/src/main/java/net/minecraft/world/level/material/FlowingFluid.java
 +++ b/src/main/java/net/minecraft/world/level/material/FlowingFluid.java
 @@ -174,7 +174,8 @@ public abstract class FlowingFluid extends Fluid {

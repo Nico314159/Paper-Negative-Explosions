@@ -5,7 +5,7 @@ Subject: [PATCH] All chunks are slime spawn chunks toggle
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Slime.java b/src/main/java/net/minecraft/world/entity/monster/Slime.java
-index 64c4b88f0a64436c126cf32d6e289b3876af8dfb..85abd62434cbe3beb63f61262504372b971d9684 100644
+index ca1d97d6eeea2b0fd2a9b90624ca083026f549de..02aca470c3b41114204da54e2365ee29adad7554 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Slime.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Slime.java
 @@ -318,7 +318,7 @@ public class Slime extends Mob implements Enemy {

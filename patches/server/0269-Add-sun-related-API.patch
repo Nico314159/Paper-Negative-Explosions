@@ -7,7 +7,7 @@ Subject: [PATCH] Add sun related API
 public net.minecraft.world.entity.Mob isSunBurnTick()Z
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index a6989383126d52f339917905b58c2afe943b4e7d..019bb773ced8f0a79611602906bad2366926d5ed 100644
+index dfd87e2711e5bca09e29071375fec239e4e7538c..3889e880e3a8a21e38d613c552829ad998c24fd5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -678,6 +678,13 @@ public class CraftWorld extends CraftRegionAccessor implements World {

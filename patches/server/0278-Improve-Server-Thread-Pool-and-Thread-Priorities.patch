@@ -35,16 +35,14 @@ index 0000000000000000000000000000000000000000..b60f59cf5cc8eb84a6055b7861857dec
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/Util.java b/src/main/java/net/minecraft/Util.java
-index c085ed233eb4d1f2100ec23a77447ef799ecdf1f..8120739e2a7c4c86ecb7058f08bd8179d3a943b8 100644
+index 33ec55ed1f7d10a5235330ad082e7c7b54c42368..d5b37301d4e860c019105445001ed7a9a6f849bd 100644
 --- a/src/main/java/net/minecraft/Util.java
 +++ b/src/main/java/net/minecraft/Util.java
-@@ -79,8 +79,8 @@ public class Util {
+@@ -80,7 +80,7 @@ public class Util {
      private static final int DEFAULT_MAX_THREADS = 255;
      private static final String MAX_THREADS_SYSTEM_PROPERTY = "max.bg.threads";
      private static final AtomicInteger WORKER_COUNT = new AtomicInteger(1);
--    private static final ExecutorService BOOTSTRAP_EXECUTOR = makeExecutor("Bootstrap");
 -    private static final ExecutorService BACKGROUND_EXECUTOR = makeExecutor("Main");
-+    private static final ExecutorService BOOTSTRAP_EXECUTOR = makeExecutor("Bootstrap", -2); // Paper - add -2 priority
 +    private static final ExecutorService BACKGROUND_EXECUTOR = makeExecutor("Main", -1); // Paper - add -1 priority
      // Paper start - don't submit BLOCKING PROFILE LOOKUPS to the world gen thread
      public static final ExecutorService PROFILE_EXECUTOR = Executors.newFixedThreadPool(2, new java.util.concurrent.ThreadFactory() {
@@ -81,10 +79,10 @@ index c085ed233eb4d1f2100ec23a77447ef799ecdf1f..8120739e2a7c4c86ecb7058f08bd8179
          return executorService;
      }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index eef3b01d1304e06d0c9971df82af54d90676957a..2459fc1699582410b1fca4d787c6115563a575ba 100644
+index 8c64c3c1e33cb289ac2eb1b55e1febf6920fd4c6..52d602fdaad361deb3b3e0ff2b99b7808e4a32cf 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -317,6 +317,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -320,6 +320,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          S s0 = serverFactory.apply(thread); // CraftBukkit - decompile error
  
          atomicreference.set(s0);

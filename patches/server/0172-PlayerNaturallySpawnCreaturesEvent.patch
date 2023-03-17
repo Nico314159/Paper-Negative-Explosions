@@ -9,10 +9,10 @@ from triggering monster spawns on a server.
 Also a highly more effecient way to blanket block spawns in a world
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 3c5b6231dc6f3dcc275e032d03989ed638fb03a9..61039a4b61317e293ea054a6a2c0e849e5a302f0 100644
+index 9246ce9f654ad4db6155b026778a83d4ee79624d..526ffddc27d85237dd2f8a1028945fa58ffaefb2 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -692,7 +692,9 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -695,7 +695,9 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          chunkRange = (chunkRange > level.spigotConfig.viewDistance) ? (byte) level.spigotConfig.viewDistance : chunkRange;
          chunkRange = (chunkRange > 8) ? 8 : chunkRange;
  
@@ -23,7 +23,7 @@ index 3c5b6231dc6f3dcc275e032d03989ed638fb03a9..61039a4b61317e293ea054a6a2c0e849
          // Spigot end
          long i = chunkcoordintpair.toLong();
  
-@@ -709,6 +711,15 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -712,6 +714,15 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
                  }
  
                  entityplayer = (ServerPlayer) iterator.next();
@@ -60,7 +60,7 @@ index 80d108ae7faf3fdcb024931e93032215935fe70b..c021733342c09adb04ce3f675209543f
  
              while (iterator1.hasNext()) {
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index dc0c89e39f291e735fc1dbf3ccf262a5b4f22459..673252f54103a7ab34650db85d6200953755c745 100644
+index 66705a8fb0ba4ca27136ee75420a08bc99ebd965..0e44abb38eb90d1943137e8e0f297f5529d3f25b 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -1,5 +1,6 @@
@@ -68,9 +68,9 @@ index dc0c89e39f291e735fc1dbf3ccf262a5b4f22459..673252f54103a7ab34650db85d620095
  
 +import com.destroystokyo.paper.event.entity.PlayerNaturallySpawnCreaturesEvent;
  import com.google.common.collect.Lists;
+ import com.google.common.net.InetAddresses;
  import com.mojang.authlib.GameProfile;
- import com.mojang.datafixers.util.Either;
-@@ -252,6 +253,7 @@ public class ServerPlayer extends Player {
+@@ -257,6 +258,7 @@ public class ServerPlayer extends Player {
      // CraftBukkit end
      public boolean isRealPlayer; // Paper
      public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper

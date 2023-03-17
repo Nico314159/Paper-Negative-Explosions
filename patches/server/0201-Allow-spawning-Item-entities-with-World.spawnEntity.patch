@@ -8,10 +8,10 @@ This API has more capabilities than .dropItem with the Consumer function
 Item can be set inside of the Consumer pre spawn function.
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
-index 7e16cb08ca1ab2c0b6c0079ac7ffe00cfd758e18..100d59c37cf699bd33bdf0c3fc085dfe0065b93a 100644
+index f8399f63d7b511dfeb7a7ee9d24f848afd16e8c1..2c0773fec42c7c6223e2c300086058939ec32a52 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
-@@ -564,6 +564,10 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
+@@ -572,6 +572,10 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
                  entity = net.minecraft.world.entity.EntityType.BOAT.create(world);
              }
              entity.moveTo(x, y, z, yaw, pitch);
@@ -20,5 +20,5 @@ index 7e16cb08ca1ab2c0b6c0079ac7ffe00cfd758e18..100d59c37cf699bd33bdf0c3fc085dfe
 +            entity = new net.minecraft.world.entity.item.ItemEntity(world, x, y, z, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Item.byBlock(net.minecraft.world.level.block.Blocks.DIRT)));
 +            // Paper end
          } else if (FallingBlock.class.isAssignableFrom(clazz)) {
-             BlockPos pos = new BlockPos(x, y, z);
+             BlockPos pos = BlockPos.containing(x, y, z);
              entity = FallingBlockEntity.fall(world, pos, this.getHandle().getBlockState(pos));

@@ -5,7 +5,7 @@ Subject: [PATCH] Also load resources from LibraryLoader
 
 
 diff --git a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
-index b3429d739c74d8b6b692a47ab49b0f0de1e5ea8f..526d313d0922c0c1ce9fbfad14e0bfa1fe86caf2 100644
+index a22b47d452cca95fdd5e468ef61a7f9347cc4b98..86771934c76dd63b219069b045dbb5511ee0f45d 100644
 --- a/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 +++ b/src/main/java/org/bukkit/plugin/java/PluginClassLoader.java
 @@ -95,14 +95,35 @@ public final class PluginClassLoader extends URLClassLoader implements io.paperm

@@ -32,10 +32,10 @@ index 0d47278d68cdf015cb980721c234a3abee39646a..29ccd90e2733b528ef0866f93053adf6
      // Paper end
  }
 diff --git a/src/main/java/org/bukkit/entity/EntityType.java b/src/main/java/org/bukkit/entity/EntityType.java
-index 80897ed8641a2bdc4e3557e20f3a8ae4b8c5da69..4915c1064a9b6bf1d485f9e6e42b9f6e4e12f236 100644
+index 5f78a801d6fd10a0e0fa3ccf13bb1456eed12c13..9f935266f51f4ea5d1193031f52e5327350cc06f 100644
 --- a/src/main/java/org/bukkit/entity/EntityType.java
 +++ b/src/main/java/org/bukkit/entity/EntityType.java
-@@ -444,5 +444,24 @@ public enum EntityType implements Keyed, Translatable, net.kyori.adventure.trans
+@@ -449,5 +449,24 @@ public enum EntityType implements Keyed, Translatable, net.kyori.adventure.trans
          Preconditions.checkArgument(this != UNKNOWN, "UNKNOWN entities do not have translation keys");
          return org.bukkit.Bukkit.getUnsafe().getTranslationKey(this);
      }

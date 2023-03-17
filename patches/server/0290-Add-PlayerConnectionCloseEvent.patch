@@ -39,10 +39,10 @@ public net.minecraft.server.network.ServerLoginPacketListenerImpl state
 public net.minecraft.server.network.ServerLoginPacketListenerImpl gameProfile
 
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index 0e739c0c54eaad5ab8dddcd8294c9ccaa3697fbf..8b1c39cc7f77ca36d0341fb68de1441cc61f19e4 100644
+index f70d81e1a779da840b636b36a913a0dca9427c94..62ee5e32ac0f5d244fa55f9fe45d34cf4d2becaa 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
-@@ -469,6 +469,26 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
+@@ -487,6 +487,26 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
                      this.getPacketListener().onDisconnect(Component.translatable("multiplayer.disconnect.generic"));
                  }
                  this.queue.clear(); // Free up packet queue.

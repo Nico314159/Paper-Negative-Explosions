@@ -5,10 +5,10 @@ Subject: [PATCH] Flying Fall Damage API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index b6284a2e4f66b1f2ec2ac59f36190a44bbce260f..43c9cfef868b2e68e2c5741c095cc214d2095b70 100644
+index 1bca5f0567c4d32d2dac780b0bcebaf0a1d626d8..dfe407ad3f5eef963a447ad4f89605300545a595 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -1423,6 +1423,23 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1454,6 +1454,23 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public void setAllowFlight(boolean flight);
  

@@ -39,10 +39,10 @@ index 0000000000000000000000000000000000000000..74ef8395cc040ce488c2acaa416db202
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
-index 7e447f8be7dc9768df487e1f7f4b9aafedb33e2d..eb8aa093148eea3b2fcafe06e8f1277ebbe2f275 100644
+index f8440fd7a7c9a00124cb387c6ba3b0973df0d145..1afeac98a9facbe25edc9a96d906b31d8327f047 100644
 --- a/src/main/java/org/bukkit/Material.java
 +++ b/src/main/java/org/bukkit/Material.java
-@@ -4298,6 +4298,17 @@ public enum Material implements Keyed, Translatable, net.kyori.adventure.transla
+@@ -4414,6 +4414,17 @@ public enum Material implements Keyed, Translatable, net.kyori.adventure.transla
              return Bukkit.getUnsafe().getBlockTranslationKey(this);
          }
      }
