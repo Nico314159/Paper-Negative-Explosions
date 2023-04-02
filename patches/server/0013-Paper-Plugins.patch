@@ -250,7 +250,7 @@ index 0000000000000000000000000000000000000000..f0fce4113fb07c64adbec029d177c236
 +}
 diff --git a/src/main/java/io/papermc/paper/command/subcommands/DumpPluginsCommand.java b/src/main/java/io/papermc/paper/command/subcommands/DumpPluginsCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..7159c72408f556d676eded668057a4c5ebb21719
+index 0000000000000000000000000000000000000000..615902ac9fd341d6624d8fdb1c2ae6cc9abf9554
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/command/subcommands/DumpPluginsCommand.java
 @@ -0,0 +1,200 @@
@@ -313,7 +313,7 @@ index 0000000000000000000000000000000000000000..7159c72408f556d676eded668057a4c5
 +
 +    private void dumpPlugins(final CommandSender sender, final String[] args) {
 +        Path parent = Path.of("debug");
-+        Path path = parent.resolve("plugin-info" + FORMATTER.format(LocalDateTime.now()) + ".txt");
++        Path path = parent.resolve("plugin-info-" + FORMATTER.format(LocalDateTime.now()) + ".txt");
 +        try {
 +            Files.createDirectories(parent);
 +            Files.createFile(path);
@@ -594,10 +594,10 @@ index 0000000000000000000000000000000000000000..89bf48fd581ee6580b91e2eb31dd532c
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/bootstrap/PluginProviderContextImpl.java b/src/main/java/io/papermc/paper/plugin/bootstrap/PluginProviderContextImpl.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..7bf5daaeec4e4e3911741fa482def13b6044ce97
+index 0000000000000000000000000000000000000000..2e450a9fce66e63ec94ee3d2579265eda28a1c3f
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/bootstrap/PluginProviderContextImpl.java
-@@ -0,0 +1,40 @@
+@@ -0,0 +1,45 @@
 +package io.papermc.paper.plugin.bootstrap;
 +
 +import io.papermc.paper.plugin.PluginInitializerManager;
@@ -609,18 +609,18 @@ index 0000000000000000000000000000000000000000..7bf5daaeec4e4e3911741fa482def13b
 +import java.nio.file.Path;
 +
 +public record PluginProviderContextImpl(PluginMeta config, Path dataFolder,
-+                                        ComponentLogger logger) implements PluginProviderContext {
++                                        ComponentLogger logger, Path pluginSource) implements PluginProviderContext {
 +
-+    public static PluginProviderContextImpl of(PluginMeta config, ComponentLogger logger) {
++    public static PluginProviderContextImpl of(PluginMeta config, ComponentLogger logger, Path pluginSource) {
 +        Path dataFolder = PluginInitializerManager.instance().pluginDirectoryPath().resolve(config.getDisplayName());
 +
-+        return new PluginProviderContextImpl(config, dataFolder, logger);
++        return new PluginProviderContextImpl(config, dataFolder, logger, pluginSource);
 +    }
 +
 +    public static PluginProviderContextImpl of(PluginProvider<?> provider, Path pluginFolder) {
 +        Path dataFolder = pluginFolder.resolve(provider.getMeta().getDisplayName());
 +
-+        return new PluginProviderContextImpl(provider.getMeta(), dataFolder, provider.getLogger());
++        return new PluginProviderContextImpl(provider.getMeta(), dataFolder, provider.getLogger(), provider.getSource());
 +    }
 +
 +    @Override
@@ -636,6 +636,11 @@ index 0000000000000000000000000000000000000000..7bf5daaeec4e4e3911741fa482def13b
 +    @Override
 +    public @NotNull ComponentLogger getLogger() {
 +        return this.logger;
++    }
++
++    @Override
++    public @NotNull Path getPluginSource() {
++        return this.pluginSource;
 +    }
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/entrypoint/Entrypoint.java b/src/main/java/io/papermc/paper/plugin/entrypoint/Entrypoint.java
@@ -808,7 +813,7 @@ index 0000000000000000000000000000000000000000..f9a2c55a354c877749db3f92956de802
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/entrypoint/classloader/PaperPluginClassLoader.java b/src/main/java/io/papermc/paper/plugin/entrypoint/classloader/PaperPluginClassLoader.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..ecd11d3bd6c7e80a9b33cb8c2d7ed8a582857533
+index 0000000000000000000000000000000000000000..79995ab1b624d7c7aaaa467a86255ad97385cf72
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/entrypoint/classloader/PaperPluginClassLoader.java
 @@ -0,0 +1,207 @@
@@ -961,7 +966,7 @@ index 0000000000000000000000000000000000000000..ecd11d3bd6c7e80a9b33cb8c2d7ed8a5
 +        PluginMeta config = this.configuration;
 +        PluginDescriptionFile pluginDescriptionFile = new PluginDescriptionFile(
 +            config.getName(),
-+            config.getDisplayName(),
++            config.getName().replace('_', ' '),
 +            config.getProvidedPlugins(),
 +            config.getMainClass(),
 +            "", // Classloader load order api
@@ -4382,7 +4387,7 @@ index 0000000000000000000000000000000000000000..e3430f535e8e9c3b8b44bf2daece8c47
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/provider/configuration/PaperPluginMeta.java b/src/main/java/io/papermc/paper/plugin/provider/configuration/PaperPluginMeta.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..3808f5a9abc9f084cbabfc4cb95394cc37aaf4bb
+index 0000000000000000000000000000000000000000..7605efe37ac4a63cb95c8c64c576e93c0e676cc0
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/provider/configuration/PaperPluginMeta.java
 @@ -0,0 +1,227 @@
@@ -4495,7 +4500,7 @@ index 0000000000000000000000000000000000000000..3808f5a9abc9f084cbabfc4cb95394cc
 +                .build();
 +        }
 +
-+        pluginConfiguration.displayName = pluginConfiguration.name.replace('_', ' ');
++        pluginConfiguration.displayName = pluginConfiguration.name.replace('_', ' ') + " v" + pluginConfiguration.version;
 +
 +        return pluginConfiguration;
 +    }
@@ -5709,7 +5714,7 @@ index 0000000000000000000000000000000000000000..016c5af192948a3908f77aa6e3e6db1c
 +}
 diff --git a/src/main/java/io/papermc/paper/plugin/provider/type/paper/PaperPluginProviderFactory.java b/src/main/java/io/papermc/paper/plugin/provider/type/paper/PaperPluginProviderFactory.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..eb0464a52d99a916bca8f93cd9294cdc30893671
+index 0000000000000000000000000000000000000000..1ba051931d3ce6ac0bef559911e4453044266aab
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/plugin/provider/type/paper/PaperPluginProviderFactory.java
 @@ -0,0 +1,56 @@
@@ -5741,7 +5746,7 @@ index 0000000000000000000000000000000000000000..eb0464a52d99a916bca8f93cd9294cdc
 +    public PaperPluginParent build(JarFile file, PaperPluginMeta configuration, Path source) throws Exception {
 +        Logger jul = PaperPluginLogger.getLogger(configuration);
 +        ComponentLogger logger = ComponentLogger.logger(jul.getName());
-+        PluginProviderContext context = PluginProviderContextImpl.of(configuration, logger);
++        PluginProviderContext context = PluginProviderContextImpl.of(configuration, logger, source);
 +
 +        PaperClasspathBuilder builder = new PaperClasspathBuilder(context);
 +

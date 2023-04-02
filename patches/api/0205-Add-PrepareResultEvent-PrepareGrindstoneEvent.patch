@@ -11,12 +11,13 @@ Grindstone is a backwards compat from a previous PrepareGrindstoneEvent
 
 diff --git a/src/main/java/com/destroystokyo/paper/event/inventory/PrepareGrindstoneEvent.java b/src/main/java/com/destroystokyo/paper/event/inventory/PrepareGrindstoneEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..a89d189e1175e980e5af8476f539f0a025e8903b
+index 0000000000000000000000000000000000000000..83bfb7276b458bae1e21cb7ba9f4f7c4c2acf76f
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/event/inventory/PrepareGrindstoneEvent.java
-@@ -0,0 +1,26 @@
+@@ -0,0 +1,28 @@
 +package com.destroystokyo.paper.event.inventory;
 +
++import org.bukkit.Warning;
 +import org.bukkit.inventory.GrindstoneInventory;
 +import org.bukkit.inventory.InventoryView;
 +import org.bukkit.inventory.ItemStack;
@@ -28,6 +29,7 @@ index 0000000000000000000000000000000000000000..a89d189e1175e980e5af8476f539f0a0
 + * @deprecated use {@link org.bukkit.event.inventory.PrepareGrindstoneEvent}
 + */
 +@Deprecated
++@Warning(false)
 +public class PrepareGrindstoneEvent extends PrepareResultEvent {
 +
 +    public PrepareGrindstoneEvent(@NotNull InventoryView inventory, @Nullable ItemStack result) {
@@ -85,7 +87,7 @@ index 0000000000000000000000000000000000000000..25e5f0354b3b65c656d6c173ec108825
 +    }
 +}
 diff --git a/src/main/java/org/bukkit/event/inventory/PrepareAnvilEvent.java b/src/main/java/org/bukkit/event/inventory/PrepareAnvilEvent.java
-index 6782024735a885ba0b1b4dba4a576740c1410366..8695715c10d81b06c088ff0c8d401875d26879b5 100644
+index 8977f7609431c3c46324a82de84d4a32f4b71c57..d884ecf40af964e718168ac055dd6c672d108eb1 100644
 --- a/src/main/java/org/bukkit/event/inventory/PrepareAnvilEvent.java
 +++ b/src/main/java/org/bukkit/event/inventory/PrepareAnvilEvent.java
 @@ -10,9 +10,9 @@ import org.jetbrains.annotations.Nullable;
@@ -100,8 +102,8 @@ index 6782024735a885ba0b1b4dba4a576740c1410366..8695715c10d81b06c088ff0c8d401875
  
      public PrepareAnvilEvent(@NotNull InventoryView inventory, @Nullable ItemStack result) {
          super(inventory, result);
-@@ -24,14 +24,5 @@ public class PrepareAnvilEvent extends PrepareInventoryResultEvent {
-         return (AnvilInventory) super.getInventory();
+@@ -38,14 +38,5 @@ public class PrepareAnvilEvent extends PrepareInventoryResultEvent {
+         super.setResult(result);
      }
  
 -    @NotNull

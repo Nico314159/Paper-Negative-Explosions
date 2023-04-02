@@ -55,7 +55,7 @@ index e7442952ef1f03969949014492a7ddc6d0796ba5..69a1852905dd4724c30ac8ab88c14251
  
      public Server getServer() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 39ecd1161b2f2636197eaa157a765cfe5d6f6405..5b2322389c2c2f5277a8891c857ba04f8d347e4d 100644
+index 61baea9efa7c1b35c437f6f0a4387c7611f401c3..05f43fab1fbc121ae6e5113ba485e0b2b89cb98b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -82,6 +82,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -78,7 +78,7 @@ index 39ecd1161b2f2636197eaa157a765cfe5d6f6405..5b2322389c2c2f5277a8891c857ba04f
      @Override
      public InetSocketAddress getAddress() {
          if (this.getHandle().connection == null) return null;
-@@ -1643,8 +1639,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1646,8 +1642,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
  
      private void untrackAndHideEntity(org.bukkit.entity.Entity entity) {
          // Remove this entity from the hidden player's EntityTrackerEntry
@@ -95,7 +95,7 @@ index 39ecd1161b2f2636197eaa157a765cfe5d6f6405..5b2322389c2c2f5277a8891c857ba04f
          ChunkMap.TrackedEntity entry = tracker.entityMap.get(other.getId());
          if (entry != null) {
              entry.removePlayer(this.getHandle());
-@@ -1657,8 +1660,6 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1660,8 +1663,6 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
                  this.getHandle().connection.send(new ClientboundPlayerInfoRemovePacket(List.of(otherPlayer.getUUID())));
              }
          }
@@ -104,7 +104,7 @@ index 39ecd1161b2f2636197eaa157a765cfe5d6f6405..5b2322389c2c2f5277a8891c857ba04f
      }
  
      void resetAndHideEntity(org.bukkit.entity.Entity entity) {
-@@ -1730,8 +1731,38 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1738,8 +1739,38 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          if (entry != null && !entry.seenBy.contains(this.getHandle().connection)) {
              entry.updatePlayer(this.getHandle());
          }
@@ -127,11 +127,11 @@ index 39ecd1161b2f2636197eaa157a765cfe5d6f6405..5b2322389c2c2f5277a8891c857ba04f
 +                bukkitPlayer.unregisterEntity(self);
 +            }
 +        }
- 
--        server.getPluginManager().callEvent(new PlayerShowEntityEvent(this, entity));
++
 +        // Set the game profile here, we should have unregistered the entity via iterating all player entities above.
 +        self.gameProfile = gameProfile;
-+
+ 
+-        server.getPluginManager().callEvent(new PlayerShowEntityEvent(this, entity));
 +        // Re-register the game profile for all players
 +        for (ServerPlayer player : players) {
 +            CraftPlayer bukkitPlayer = player.getBukkitEntity();
@@ -144,7 +144,7 @@ index 39ecd1161b2f2636197eaa157a765cfe5d6f6405..5b2322389c2c2f5277a8891c857ba04f
      }
  
      void resetAndShowEntity(org.bukkit.entity.Entity entity) {
-@@ -1739,6 +1770,30 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -1752,6 +1783,30 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
              this.trackAndShowEntity(entity);
          }
      }
