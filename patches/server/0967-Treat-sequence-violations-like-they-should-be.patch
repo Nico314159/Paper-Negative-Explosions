@@ -1,0 +1,18 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Shane Freeder <theboyetronic@gmail.com>
+Date: Thu, 30 Mar 2023 03:13:58 +0100
+Subject: [PATCH] Treat sequence violations like they should be
+
+
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index f5888a2216a017b0db24ff7bfe2fc8f41b149605..8258764bafe5ad2d9aeaafd830aab3bb6617d2ff 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -2125,6 +2125,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+ 
+     public void ackBlockChangesUpTo(int sequence) {
+         if (sequence < 0) {
++            this.disconnect("Expected packet sequence nr >= 0", org.bukkit.event.player.PlayerKickEvent.Cause.ILLEGAL_ACTION); // Paper
+             throw new IllegalArgumentException("Expected packet sequence nr >= 0");
+         } else {
+             this.ackBlockChangesUpTo = Math.max(sequence, this.ackBlockChangesUpTo);

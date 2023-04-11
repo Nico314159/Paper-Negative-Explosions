@@ -93,10 +93,10 @@ index d769ad908c3454fa9088a42f32250bbdf8f9fa7e..2eaf31f1053787b39184dfa8ac6df87d
  
      /**
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index cadea6a5b8cb04da6de2b8bb70c098dc14157ff4..c1030fb291f8e218a1bfd744850d0c1e4925bc0a 100644
+index c111ab6d5a39ad9430d5bc6cb5c68e9c236504c9..6240b4059cd0847fdb0f1a630c6d7aa6cb43bfbf 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2386,6 +2386,20 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2430,6 +2430,20 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       *         was {@link org.bukkit.event.player.PlayerResourcePackStatusEvent.Status#SUCCESSFULLY_LOADED}
       */
      boolean hasResourcePack();

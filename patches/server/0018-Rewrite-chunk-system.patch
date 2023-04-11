@@ -15915,10 +15915,10 @@ index e96a0ca47e4701ba187555bd92c968345bc85677..73b96f804079288e9c5fcc11da54e61e
 +    // Paper end
  }
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index f4db9e1f22e8954665d8a971b5f044e113fa173b..c1db84d0ed569dd44d1f54cca227f77890e0f66a 100644
+index e9c8c008ce37ceec3be993e672786eaeb8d01a7e..542c6ebbf01b91709b73052eca3889347a5aa90a 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -778,6 +778,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -779,6 +779,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              this.disconnect(Component.translatable("disconnect.spam"));
              return;
          }
@@ -15933,10 +15933,10 @@ index f4db9e1f22e8954665d8a971b5f044e113fa173b..c1db84d0ed569dd44d1f54cca227f778
          StringReader stringreader = new StringReader(packet.getCommand());
  
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 470e752234813d1031721be95d0bf1178e423a59..23edaa206ef8f9ca9ecea0fdd7f0b58ed9fa3a12 100644
+index 53e85923c417cf4d853c27e6fedbe7ff525a897c..cb365522a2b462e8c3e44eac68c64ad99c8738ff 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -252,7 +252,7 @@ public abstract class PlayerList {
+@@ -253,7 +253,7 @@ public abstract class PlayerList {
          boolean flag1 = gamerules.getBoolean(GameRules.RULE_REDUCEDDEBUGINFO);
  
          // Spigot - view distance
@@ -15945,7 +15945,7 @@ index 470e752234813d1031721be95d0bf1178e423a59..23edaa206ef8f9ca9ecea0fdd7f0b58e
          player.getBukkitEntity().sendSupportedChannels(); // CraftBukkit
          playerconnection.send(new ClientboundUpdateEnabledFeaturesPacket(FeatureFlags.REGISTRY.toNames(worldserver1.enabledFeatures())));
          playerconnection.send(new ClientboundCustomPayloadPacket(ClientboundCustomPayloadPacket.BRAND, (new FriendlyByteBuf(Unpooled.buffer())).writeUtf(this.getServer().getServerModName())));
-@@ -790,8 +790,8 @@ public abstract class PlayerList {
+@@ -791,8 +791,8 @@ public abstract class PlayerList {
          // CraftBukkit start
          LevelData worlddata = worldserver1.getLevelData();
          entityplayer1.connection.send(new ClientboundRespawnPacket(worldserver1.dimensionTypeId(), worldserver1.dimension(), BiomeManager.obfuscateSeed(worldserver1.getSeed()), entityplayer1.gameMode.getGameModeForPlayer(), entityplayer1.gameMode.getPreviousGameModeForPlayer(), worldserver1.isDebug(), worldserver1.isFlat(), (byte) i, entityplayer1.getLastDeathLocation()));
@@ -15956,7 +15956,7 @@ index 470e752234813d1031721be95d0bf1178e423a59..23edaa206ef8f9ca9ecea0fdd7f0b58e
          entityplayer1.spawnIn(worldserver1);
          entityplayer1.unsetRemoved();
          entityplayer1.connection.teleport(new Location(worldserver1.getWorld(), entityplayer1.getX(), entityplayer1.getY(), entityplayer1.getZ(), entityplayer1.getYRot(), entityplayer1.getXRot()));
-@@ -1287,7 +1287,7 @@ public abstract class PlayerList {
+@@ -1288,7 +1288,7 @@ public abstract class PlayerList {
  
      public void setViewDistance(int viewDistance) {
          this.viewDistance = viewDistance;
@@ -15965,7 +15965,7 @@ index 470e752234813d1031721be95d0bf1178e423a59..23edaa206ef8f9ca9ecea0fdd7f0b58e
          Iterator iterator = this.server.getAllLevels().iterator();
  
          while (iterator.hasNext()) {
-@@ -1302,7 +1302,7 @@ public abstract class PlayerList {
+@@ -1303,7 +1303,7 @@ public abstract class PlayerList {
  
      public void setSimulationDistance(int simulationDistance) {
          this.simulationDistance = simulationDistance;
@@ -16695,10 +16695,10 @@ index e2278ed457a7342d0d1b1a5fc1b5bdef6358816b..71df7c590e31932f2b8fc26a2afaaa54
  
      public int getIndex() {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 2753e2a1991ec39f03c2a81f3262f94f0e3fe9a7..b696638d63998c6dde6df700fd5c9244ffedb505 100644
+index 975973e858ceb8340d2fdad54f636627d16612fd..a17ea775afb51dd31871a66a1b6f9f623dd7751a 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-@@ -183,6 +183,43 @@ public class LevelChunk extends ChunkAccess {
+@@ -176,6 +176,43 @@ public class LevelChunk extends ChunkAccess {
  
      protected void onNeighbourChange(final long bitsetBefore, final long bitsetAfter) {
  
@@ -16742,7 +16742,7 @@ index 2753e2a1991ec39f03c2a81f3262f94f0e3fe9a7..b696638d63998c6dde6df700fd5c9244
      }
  
      public final boolean isAnyNeighborsLoaded() {
-@@ -660,9 +697,26 @@ public class LevelChunk extends ChunkAccess {
+@@ -653,9 +690,26 @@ public class LevelChunk extends ChunkAccess {
  
      }
  
@@ -16772,7 +16772,7 @@ index 2753e2a1991ec39f03c2a81f3262f94f0e3fe9a7..b696638d63998c6dde6df700fd5c9244
          int chunkX = this.chunkPos.x;
          int chunkZ = this.chunkPos.z;
          ServerChunkCache chunkProvider = this.level.getChunkSource();
-@@ -677,10 +731,56 @@ public class LevelChunk extends ChunkAccess {
+@@ -670,10 +724,56 @@ public class LevelChunk extends ChunkAccess {
              }
          }
          this.setNeighbourLoaded(0, 0, this);
@@ -16831,27 +16831,28 @@ index 2753e2a1991ec39f03c2a81f3262f94f0e3fe9a7..b696638d63998c6dde6df700fd5c9244
          if (server != null) {
              /*
               * If it's a new world, the first few chunks are generated inside
-@@ -688,6 +788,7 @@ public class LevelChunk extends ChunkAccess {
-              * no way of creating a CraftWorld/CraftServer at that point.
+@@ -682,6 +782,7 @@ public class LevelChunk extends ChunkAccess {
               */
-             server.getPluginManager().callEvent(new org.bukkit.event.world.ChunkLoadEvent(this.bukkitChunk, this.needsDecoration));
+             org.bukkit.Chunk bukkitChunk = new org.bukkit.craftbukkit.CraftChunk(this);
+             server.getPluginManager().callEvent(new org.bukkit.event.world.ChunkLoadEvent(bukkitChunk, this.needsDecoration));
 +            this.chunkHolder.getEntityChunk().callEntitiesLoadEvent(); // Paper - rewrite chunk system
  
              if (this.needsDecoration) {
                  try (co.aikar.timings.Timing ignored = this.level.timings.chunkLoadPopulate.startTiming()) { // Paper
-@@ -716,8 +817,10 @@ public class LevelChunk extends ChunkAccess {
+@@ -710,9 +811,11 @@ public class LevelChunk extends ChunkAccess {
      }
  
      public void unloadCallback() {
 +        if (!this.loadedTicketLevel) { LOGGER.error("Double calling chunk unload!", new Throwable()); } // Paper
          org.bukkit.Server server = this.level.getCraftServer();
--        org.bukkit.event.world.ChunkUnloadEvent unloadEvent = new org.bukkit.event.world.ChunkUnloadEvent(this.bukkitChunk, this.isUnsaved());
 +        this.chunkHolder.getEntityChunk().callEntitiesUnloadEvent(); // Paper - rewrite chunk system
-+        org.bukkit.event.world.ChunkUnloadEvent unloadEvent = new org.bukkit.event.world.ChunkUnloadEvent(this.bukkitChunk, true); // Paper - rewrite chunk system - force save to true so that mustNotSave is correctly set below
+         org.bukkit.Chunk bukkitChunk = new org.bukkit.craftbukkit.CraftChunk(this);
+-        org.bukkit.event.world.ChunkUnloadEvent unloadEvent = new org.bukkit.event.world.ChunkUnloadEvent(bukkitChunk, this.isUnsaved());
++        org.bukkit.event.world.ChunkUnloadEvent unloadEvent = new org.bukkit.event.world.ChunkUnloadEvent(bukkitChunk, true); // Paper - rewrite chunk system - force save to true so that mustNotSave is correctly set below
          server.getPluginManager().callEvent(unloadEvent);
          // note: saving can be prevented, but not forced if no saving is actually required
          this.mustNotSave = !unloadEvent.isSaveChunk();
-@@ -739,9 +842,26 @@ public class LevelChunk extends ChunkAccess {
+@@ -734,9 +837,26 @@ public class LevelChunk extends ChunkAccess {
          // Paper end
      }
  
@@ -16879,7 +16880,7 @@ index 2753e2a1991ec39f03c2a81f3262f94f0e3fe9a7..b696638d63998c6dde6df700fd5c9244
      }
      // CraftBukkit end
  
-@@ -816,7 +936,10 @@ public class LevelChunk extends ChunkAccess {
+@@ -811,7 +931,10 @@ public class LevelChunk extends ChunkAccess {
          });
      }
  
@@ -16890,7 +16891,7 @@ index 2753e2a1991ec39f03c2a81f3262f94f0e3fe9a7..b696638d63998c6dde6df700fd5c9244
          ChunkPos chunkcoordintpair = this.getPos();
  
          for (int i = 0; i < this.postProcessing.length; ++i) {
-@@ -854,6 +977,11 @@ public class LevelChunk extends ChunkAccess {
+@@ -849,6 +972,11 @@ public class LevelChunk extends ChunkAccess {
  
          this.pendingBlockEntities.clear();
          this.upgradeData.upgrade(this);
@@ -16902,7 +16903,7 @@ index 2753e2a1991ec39f03c2a81f3262f94f0e3fe9a7..b696638d63998c6dde6df700fd5c9244
      }
  
      @Nullable
-@@ -903,7 +1031,7 @@ public class LevelChunk extends ChunkAccess {
+@@ -898,7 +1026,7 @@ public class LevelChunk extends ChunkAccess {
      }
  
      public ChunkHolder.FullChunkStatus getFullStatus() {
@@ -17780,10 +17781,10 @@ index 9f6c2e5b5d9e8d714a47c770e255d06c0ef7c190..ac807277a6b26d140ea9873d17c7aa4f
  
              for(SavedTick<T> savedTick : this.pendingTicks) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
-index 738d3ce38a42ff8cd53eec042ef8bc74f2b8d059..a895c81ea6af0822c8371ae93cfe4b72d419439d 100644
+index 60907cc435004398c46381b7b32bf47fe8938736..317bf725767e7dc8b916eeb8cd5bcd30ac219aaa 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftChunk.java
-@@ -120,7 +120,7 @@ public class CraftChunk implements Chunk {
+@@ -111,7 +111,7 @@ public class CraftChunk implements Chunk {
  
      @Override
      public boolean isEntitiesLoaded() {
@@ -17792,7 +17793,7 @@ index 738d3ce38a42ff8cd53eec042ef8bc74f2b8d059..a895c81ea6af0822c8371ae93cfe4b72
      }
  
      @Override
-@@ -129,51 +129,7 @@ public class CraftChunk implements Chunk {
+@@ -120,51 +120,7 @@ public class CraftChunk implements Chunk {
              this.getWorld().getChunkAt(x, z); // Transient load for this tick
          }
  
@@ -17846,7 +17847,7 @@ index 738d3ce38a42ff8cd53eec042ef8bc74f2b8d059..a895c81ea6af0822c8371ae93cfe4b72
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 36c1fd2987843d74b6f8f5711e77d67565f25c5b..cfae708f784546be04e4cedbc707c7b35aa40a46 100644
+index 394d8631cb0a143cc7b5d71c919a8298652d5678..cd667805a4ace3edc88a8ff11369fd169e5614e3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1124,7 +1124,7 @@ public final class CraftServer implements Server {
@@ -17877,10 +17878,10 @@ index 36c1fd2987843d74b6f8f5711e77d67565f25c5b..cfae708f784546be04e4cedbc707c7b3
  
      // Paper start
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index 253f965e52cd488af88d55cdd09f1bad0ddbeb56..30137f60a3796cf845e8fd7bd3c291be979b8b0c 100644
+index 4186943ba9e94758d579477e8fadaf8e05ef93f3..1684b3ee1b51597e799486bbe129b344a9fe3098 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -313,10 +313,14 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -325,10 +325,14 @@ public class CraftWorld extends CraftRegionAccessor implements World {
          ChunkHolder playerChunk = this.world.getChunkSource().chunkMap.getVisibleChunkIfPresent(ChunkPos.asLong(x, z));
          if (playerChunk == null) return false;
  
@@ -17898,7 +17899,7 @@ index 253f965e52cd488af88d55cdd09f1bad0ddbeb56..30137f60a3796cf845e8fd7bd3c291be
  
                  ClientboundLevelChunkWithLightPacket refreshPacket = new ClientboundLevelChunkWithLightPacket(chunk, this.world.getLightEngine(), null, null, true);
                  for (ServerPlayer player : playersInRange) {
-@@ -324,8 +328,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -336,8 +340,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
                      player.connection.send(refreshPacket);
                  }
@@ -17908,7 +17909,7 @@ index 253f965e52cd488af88d55cdd09f1bad0ddbeb56..30137f60a3796cf845e8fd7bd3c291be
  
          return true;
      }
-@@ -403,20 +406,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -414,20 +417,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
      @Override
      public Collection<Plugin> getPluginChunkTickets(int x, int z) {
          DistanceManager chunkDistanceManager = this.world.getChunkSource().chunkMap.distanceManager;
@@ -17930,7 +17931,7 @@ index 253f965e52cd488af88d55cdd09f1bad0ddbeb56..30137f60a3796cf845e8fd7bd3c291be
      }
  
      @Override
-@@ -424,7 +414,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -435,7 +425,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
          Map<Plugin, ImmutableList.Builder<Chunk>> ret = new HashMap<>();
          DistanceManager chunkDistanceManager = this.world.getChunkSource().chunkMap.distanceManager;
  
@@ -17939,7 +17940,7 @@ index 253f965e52cd488af88d55cdd09f1bad0ddbeb56..30137f60a3796cf845e8fd7bd3c291be
              long chunkKey = chunkTickets.getLongKey();
              SortedArraySet<Ticket<?>> tickets = chunkTickets.getValue();
  
-@@ -1920,14 +1910,53 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -1931,14 +1921,53 @@ public class CraftWorld extends CraftRegionAccessor implements World {
      // Spigot start
      @Override
      public int getViewDistance() {
@@ -17996,10 +17997,10 @@ index 253f965e52cd488af88d55cdd09f1bad0ddbeb56..30137f60a3796cf845e8fd7bd3c291be
      // Spigot start
      private final org.bukkit.World.Spigot spigot = new org.bukkit.World.Spigot()
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index a983573269d5e575c845df3a566d147668ccd86b..feb848813b80acb527e981b653208350639c97cc 100644
+index 97a8c43ff3f32d929de117ff608a69221b1ab571..6d14414d7ee86dcb176ad46c564d6823b0bd16a3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -177,6 +177,81 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -179,6 +179,81 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          this.firstPlayed = System.currentTimeMillis();
      }
  

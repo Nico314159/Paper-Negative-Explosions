@@ -89,10 +89,10 @@ index 5be828ad63184ee01519ef937e98f621a4e83dee..d560e5dee586bb3b501e9a78083b9aa9
  
                  playerlist.sendPlayerPermissionLevel(this);
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 77f502c279ec471d65f6cc007d2bc08e3b34d79a..1517c09ccd95448cb0fce0f9ffbb7bd2e704113b 100644
+index bd021ff4a5e3bd5dde2829718c0f57d9fc9aa93d..807cbeb8cc6700e5f740b554c7f1893ec9110714 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3382,7 +3382,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3383,7 +3383,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
      public void handleChangeDifficulty(ServerboundChangeDifficultyPacket packet) {
          PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel());
          if (this.player.hasPermissions(2) || this.isSingleplayerOwner()) {
@@ -102,7 +102,7 @@ index 77f502c279ec471d65f6cc007d2bc08e3b34d79a..1517c09ccd95448cb0fce0f9ffbb7bd2
      }
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 9e278a740cf7cb7a593d76f01d6aa590407b087b..5b29bdd8c39bcdec81ed58b8e06ec6b6940363ab 100644
+index e2b5eb02f9d91128c702eb85ad85e47bd6080e02..a461cc5c20287d9dfd2b32323f41cff97b205d1d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -941,8 +941,8 @@ public final class CraftServer implements Server {
@@ -117,10 +117,10 @@ index 9e278a740cf7cb7a593d76f01d6aa590407b087b..5b29bdd8c39bcdec81ed58b8e06ec6b6
              for (SpawnCategory spawnCategory : SpawnCategory.values()) {
                  if (CraftSpawnCategory.isValidForLimits(spawnCategory)) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index c46e875709d83a1684c5e37c6a11bb3e9acd20e5..efa01ad6ac0757da033f2bdf7729717239e474f2 100644
+index a17ae89a82958bdc3bfa0553440e2887585693c1..0084dceef60b23fa79fadc0a3c1a06c1a3b048cd 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-@@ -1146,7 +1146,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
+@@ -1157,7 +1157,7 @@ public class CraftWorld extends CraftRegionAccessor implements World {
  
      @Override
      public void setDifficulty(Difficulty difficulty) {

@@ -116,10 +116,10 @@ index 71fac1a579b375759462b843d9ef7c8a2a463db5..2d54f2abae82521fbd34aa046f26ec8e
          if (getMainArm() != packet.mainHand()) {
              PlayerChangedMainHandEvent event = new PlayerChangedMainHandEvent(this.getBukkitEntity(), getMainArm() == HumanoidArm.LEFT ? MainHand.LEFT : MainHand.RIGHT);
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index fdad04d657612979b5b9d30d132ca38efe81858d..254ff289883b37d42095ee286b138015f8dfb81f 100644
+index c5ee8eadf9966a7077c7790673a1a0582cf355f6..23c489dc297073acb4e119c97c0eb5e0871a1359 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -621,6 +621,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -623,6 +623,28 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
              connection.disconnect(message == null ? net.kyori.adventure.text.Component.empty() : message);
          }
      }

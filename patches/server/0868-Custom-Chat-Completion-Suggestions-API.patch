@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Owen1212055 <23108066+Owen1212055@users.noreply.github.com>
+Date: Sat, 30 Jul 2022 11:23:05 -0400
+Subject: [PATCH] Custom Chat Completion Suggestions API
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+index f47cb81c640810a7401e7ad78e9e0153ae7b2e01..7cc84b6ee26e011cc445f5347bb2a6f0a75343fc 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+@@ -671,6 +671,22 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+ 
+         this.getHandle().getServer().getPlayerList().sendPlayerPermissionLevel(this.getHandle(), level, false);
+     }
++
++    @Override
++    public void addAdditionalChatCompletions(@NotNull Collection<String> completions) {
++        this.getHandle().connection.send(new net.minecraft.network.protocol.game.ClientboundCustomChatCompletionsPacket(
++            net.minecraft.network.protocol.game.ClientboundCustomChatCompletionsPacket.Action.ADD,
++            new ArrayList<>(completions)
++        ));
++    }
++
++    @Override
++    public void removeAdditionalChatCompletions(@NotNull Collection<String> completions) {
++        this.getHandle().connection.send(new net.minecraft.network.protocol.game.ClientboundCustomChatCompletionsPacket(
++            net.minecraft.network.protocol.game.ClientboundCustomChatCompletionsPacket.Action.REMOVE,
++            new ArrayList<>(completions)
++        ));
++    }
+     // Paper end
+ 
+     @Override
