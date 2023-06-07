@@ -5,10 +5,10 @@ Subject: [PATCH] More World API
 
 
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
-index 711fc41dbd029fa2d43f35165b62d09de89509b7..ff1330d091a3bbab99f3ad813e1322c806f4ea32 100644
+index 1ae0e12125421fd0c36fcfb82ccbb994578415d9..0fa6f8e99059b26861bc5bb3505ac544587e51bc 100644
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
-@@ -3697,6 +3697,114 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
+@@ -3698,6 +3698,114 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
      @Nullable
      StructureSearchResult locateNearestStructure(@NotNull Location origin, @NotNull Structure structure, int radius, boolean findUnexplored);
  
@@ -49,7 +49,7 @@ index 711fc41dbd029fa2d43f35165b62d09de89509b7..ff1330d091a3bbab99f3ad813e1322c8
 +     * @return true if ultrawarm, false if not
 +     * @deprecated use {@link #isUltraWarm()}
 +     */
-+    @Deprecated
++    @Deprecated(forRemoval = true) @org.jetbrains.annotations.ApiStatus.ScheduledForRemoval(inVersion = "1.21")
 +    boolean isUltrawarm();
 +
 +    /**
@@ -65,7 +65,7 @@ index 711fc41dbd029fa2d43f35165b62d09de89509b7..ff1330d091a3bbab99f3ad813e1322c8
 +     * @return whether there is skylight
 +     * @deprecated use {@link #hasSkyLight()}
 +     */
-+    @Deprecated
++    @Deprecated(forRemoval = true) @org.jetbrains.annotations.ApiStatus.ScheduledForRemoval(inVersion = "1.21")
 +    boolean hasSkylight();
 +
 +    /**
@@ -74,7 +74,7 @@ index 711fc41dbd029fa2d43f35165b62d09de89509b7..ff1330d091a3bbab99f3ad813e1322c8
 +     * @return whether the world has a bedrock ceiling
 +     * @deprecated use {@link #hasCeiling()}
 +     */
-+    @Deprecated
++    @Deprecated(forRemoval = true) @org.jetbrains.annotations.ApiStatus.ScheduledForRemoval(inVersion = "1.21")
 +    boolean hasBedrockCeiling();
 +
 +    /**
@@ -83,7 +83,7 @@ index 711fc41dbd029fa2d43f35165b62d09de89509b7..ff1330d091a3bbab99f3ad813e1322c8
 +     * @return whether beds work
 +     * @deprecated use {@link #isBedWorks()}
 +     */
-+    @Deprecated
++    @Deprecated(forRemoval = true) @org.jetbrains.annotations.ApiStatus.ScheduledForRemoval(inVersion = "1.21")
 +    boolean doesBedWork();
 +
 +    /**
@@ -92,7 +92,7 @@ index 711fc41dbd029fa2d43f35165b62d09de89509b7..ff1330d091a3bbab99f3ad813e1322c8
 +     * @return whether respawn anchors work
 +     * @deprecated use {@link #isRespawnAnchorWorks()}
 +     */
-+    @Deprecated
++    @Deprecated(forRemoval = true) @org.jetbrains.annotations.ApiStatus.ScheduledForRemoval(inVersion = "1.21")
 +    boolean doesRespawnAnchorWork();
 +
 +    /**
