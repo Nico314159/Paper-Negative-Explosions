@@ -90,10 +90,10 @@ index 20978b269a7757a561d6b872cc77898b44bbd272..2b9a117804a8ca54b47e51e23359bd6e
          if (this.world == null) {
              return null;
 diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
-index 2126636b646068312a49242917808f5d91bce614..96e44836b3634a53d8a9f0785d4cdcec872b95f7 100644
+index 64d01ce77966e895ec494719a4398577be1097a1..7705fece7f58bd66f7d68da85f8f34e43b4bae12 100644
 --- a/src/main/java/org/bukkit/Material.java
 +++ b/src/main/java/org/bukkit/Material.java
-@@ -4578,11 +4578,11 @@ public enum Material implements Keyed, Translatable {
+@@ -4465,11 +4465,11 @@ public enum Material implements Keyed, Translatable {
      }
  
      /**
@@ -107,7 +107,7 @@ index 2126636b646068312a49242917808f5d91bce614..96e44836b3634a53d8a9f0785d4cdcec
      public boolean isLegacy() {
          return legacy;
      }
-@@ -4653,8 +4653,10 @@ public enum Material implements Keyed, Translatable {
+@@ -4540,8 +4540,10 @@ public enum Material implements Keyed, Translatable {
       * Gets the MaterialData class associated with this Material
       *
       * @return MaterialData associated with this Material
@@ -156,10 +156,27 @@ index f43209cf7b752c26718c303ca8c3e1c7d9912ad3..f0094e6fb05e526736629ad3181c8d2c
  
      /**
 diff --git a/src/main/java/org/bukkit/Registry.java b/src/main/java/org/bukkit/Registry.java
-index bb333b90e103e49923808b1ee0e1cd2787086cea..1976ed42f255825d1eaf2ee2c9465d22e81abdb3 100644
+index 6e5e5fecdd7b76dde2e1524fe7b5faa837f491fb..09e3c2872462da546b891cbc396aaffb77f6aadf 100644
 --- a/src/main/java/org/bukkit/Registry.java
 +++ b/src/main/java/org/bukkit/Registry.java
-@@ -248,8 +248,11 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
+@@ -157,14 +157,14 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
+      *
+      * @see TrimMaterial
+      */
+-    @ApiStatus.Experimental
++    //@ApiStatus.Experimental // Paper
+     Registry<TrimMaterial> TRIM_MATERIAL = Bukkit.getRegistry(TrimMaterial.class);
+     /**
+      * Trim patterns.
+      *
+      * @see TrimPattern
+      */
+-    @ApiStatus.Experimental
++    //@ApiStatus.Experimental // Paper
+     Registry<TrimPattern> TRIM_PATTERN = Bukkit.getRegistry(TrimPattern.class);
+     /**
+      * Villager profession.
+@@ -246,8 +246,11 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
       *
       * @param input non-null input
       * @return registered object or null if does not exist
@@ -313,6 +330,19 @@ index 631cbf2be51040eee00aa39a39c5ec4003f91843..3147e278eac674ed21d714bbe318b135
       */
 +    @Deprecated // Paper
      void setData(@NotNull MaterialData data);
+ 
+     /**
+diff --git a/src/main/java/org/bukkit/block/DecoratedPot.java b/src/main/java/org/bukkit/block/DecoratedPot.java
+index 210f4be510c2074db3938d604937dae0270dd994..59b98f411f62e16fafb0efb489562847a090c733 100644
+--- a/src/main/java/org/bukkit/block/DecoratedPot.java
++++ b/src/main/java/org/bukkit/block/DecoratedPot.java
+@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
+ /**
+  * Represents a captured state of a decorated pot.
+  */
+-@ApiStatus.Experimental
++//@ApiStatus.Experimental // Paper
+ public interface DecoratedPot extends TileState {
  
      /**
 diff --git a/src/main/java/org/bukkit/entity/Enderman.java b/src/main/java/org/bukkit/entity/Enderman.java
@@ -857,6 +887,19 @@ index 597a18a767b68b47e81454b7d44613c7178c1366..bc3440eb72127824b3961fbdae583bb6
      @NotNull
      public ItemStack getInput() {
          return this.ingredient.getItemStack();
+diff --git a/src/main/java/org/bukkit/inventory/meta/ColorableArmorMeta.java b/src/main/java/org/bukkit/inventory/meta/ColorableArmorMeta.java
+index 5ccae862dbac393805a47fe26c18a2f33f1e140d..72281899817c5c140cdca2afff75fbcebd942532 100644
+--- a/src/main/java/org/bukkit/inventory/meta/ColorableArmorMeta.java
++++ b/src/main/java/org/bukkit/inventory/meta/ColorableArmorMeta.java
+@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
+ /**
+  * Represents armor that an entity can equip and can also be colored.
+  */
+-@ApiStatus.Experimental
++//@ApiStatus.Experimental // Paper
+ public interface ColorableArmorMeta extends ArmorMeta, LeatherArmorMeta {
+ 
+     @Override
 diff --git a/src/main/java/org/bukkit/inventory/meta/ItemMeta.java b/src/main/java/org/bukkit/inventory/meta/ItemMeta.java
 index 55e9dc5d1d87fbc9d0dabbb7bd59584fe2c5f379..5c1ca0e47f0ac1525c3d37b55f52874878f44c28 100644
 --- a/src/main/java/org/bukkit/inventory/meta/ItemMeta.java

@@ -10,10 +10,10 @@ of giving the player experience points.
 Both an API To standalone mend, and apply mending logic to .giveExp has been added.
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index c7c23873a09c9eb0d86a6984e3dfe3413f88d5e1..e4e254c26adb15be4f60a59a0cf8a41816b9250a 100644
+index ca00c4383095de385f25a7ea311b48eb018642c3..e8ebbba8973e1ea01366b7a6fee71163db7b39b7 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -1174,6 +1174,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1199,6 +1199,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public void resetPlayerWeather();
  
@@ -29,7 +29,7 @@ index c7c23873a09c9eb0d86a6984e3dfe3413f88d5e1..e4e254c26adb15be4f60a59a0cf8a418
      /**
       * Gets the player's cooldown between picking up experience orbs.
       *
-@@ -1199,8 +1208,20 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1224,8 +1233,20 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * Gives the player the amount of experience specified.
       *
       * @param amount Exp amount to give

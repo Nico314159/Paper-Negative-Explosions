@@ -13,10 +13,10 @@ custom renderers are in use, defaulting to the much simpler Vanilla system.
 Additionally, numerous issues to player position tracking on maps has been fixed.
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index c4bf60739b0f73729f331f2bb82d9d08f346f19c..343e6da38413ab8dad876884241ad31172466659 100644
+index 35b59c83a35bc3a4d05bc95b0caec1f1865589c0..17d9c5a6c357ac5e3eacd9e4d2cff9a05ec0f262 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -2245,6 +2245,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -2394,6 +2394,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
                              {
                                  if ( iter.next().player == entity )
                                  {
@@ -25,16 +25,16 @@ index c4bf60739b0f73729f331f2bb82d9d08f346f19c..343e6da38413ab8dad876884241ad311
                                  }
                              }
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index b36a601ac792f2b1a51f0ae72ae12d992ac38d61..aafc1b05b86d9b715cfe5ddbf4abd76a4ad772c3 100644
+index c20753645585143421eb544a03884f0765eafb8b..11e7c30e448f192493c65330a65d89ed3e14139f 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -762,6 +762,14 @@ public abstract class Player extends LivingEntity {
+@@ -763,6 +763,14 @@ public abstract class Player extends LivingEntity {
                  return null;
              }
              // CraftBukkit end
 +            // Paper start - remove player from map on drop
 +            if (itemstack.getItem() == Items.FILLED_MAP) {
-+                net.minecraft.world.level.saveddata.maps.MapItemSavedData worldmap = net.minecraft.world.item.MapItem.getSavedData(itemstack, this.level);
++                net.minecraft.world.level.saveddata.maps.MapItemSavedData worldmap = net.minecraft.world.item.MapItem.getSavedData(itemstack, this.level());
 +                if (worldmap != null) {
 +                    worldmap.tickCarriedBy(this, itemstack);
 +                }
@@ -44,7 +44,7 @@ index b36a601ac792f2b1a51f0ae72ae12d992ac38d61..aafc1b05b86d9b715cfe5ddbf4abd76a
              return entityitem;
          }
 diff --git a/src/main/java/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java b/src/main/java/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java
-index fe14c0d03a0bbd5cbf0608ea88d499984b54d2ed..2c5fb4eb5790f4dff0d03390ceae3afc32134006 100644
+index 60596c4ac2ebb8caf19d65591624275ba63b0199..d6ed799716f13cb3f72e66f9d57c6ec90c1eb272 100644
 --- a/src/main/java/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java
 +++ b/src/main/java/net/minecraft/world/level/saveddata/maps/MapItemSavedData.java
 @@ -63,6 +63,7 @@ public class MapItemSavedData extends SavedData {

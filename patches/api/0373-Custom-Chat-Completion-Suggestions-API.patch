@@ -5,10 +5,10 @@ Subject: [PATCH] Custom Chat Completion Suggestions API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index c100a2815a1ee7bd59ecbd8c12a907d8aabb0290..b886e9a59272ef6c8afa65f31a42bfc47f48b43a 100644
+index 4a86eb3fd2e377e40bbc505df24cf330c9360e48..13b7375ab7c90438c37547d09a112115e0dcbd52 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2737,6 +2737,25 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2766,6 +2766,25 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @throws IllegalArgumentException If the level is negative or greater than {@code 4} (i.e. not within {@code [0, 4]}).
       */
      void sendOpLevel(byte level);

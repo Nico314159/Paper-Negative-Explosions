@@ -6,24 +6,24 @@ Subject: [PATCH] Configurable top of nether void damage
 Co-authored-by: Jake Potrebic <jake.m.potrebic@gmail.com>
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 5fb5e97c7480eea1592b80f8d8e4c4febbb6faa8..e660773a2b0da661e151559f9bf988c4cb148a77 100644
+index c0d19d31aece8abab310b4c7bffa2ffe7a8ac845..d20722a79aa87cae72b1b3b9039d342c9ff9570a 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -709,7 +709,11 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -715,7 +715,11 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
-     public void checkOutOfWorld() {
--        if (this.getY() < (double) (this.level.getMinBuildHeight() - 64)) {
+     public void checkBelowWorld() {
+-        if (this.getY() < (double) (this.level().getMinBuildHeight() - 64)) {
 +        // Paper start - Configurable nether ceiling damage
 +        if (this.getY() < (double) (this.level.getMinBuildHeight() - 64) || (this.level.getWorld().getEnvironment() == org.bukkit.World.Environment.NETHER
 +            && this.level.paperConfig().environment.netherCeilingVoidDamageHeight.test(v -> this.getY() >= v)
 +            && (!(this instanceof Player player) || !player.getAbilities().invulnerable))) {
 +            // Paper end
-             this.outOfWorld();
+             this.onBelowWorld();
          }
  
 diff --git a/src/main/java/net/minecraft/world/level/portal/PortalForcer.java b/src/main/java/net/minecraft/world/level/portal/PortalForcer.java
-index 98cdf291a5d0248091891ad30104adef708eec55..ff57611088eabfb7e2db8fcf6344b1551b17b87b 100644
+index 02e3322ec41108fe9275510e2daa833d180353dc..3668f9775f377434779a8e519b10a11cf7b14dd5 100644
 --- a/src/main/java/net/minecraft/world/level/portal/PortalForcer.java
 +++ b/src/main/java/net/minecraft/world/level/portal/PortalForcer.java
 @@ -55,7 +55,7 @@ public class PortalForcer {

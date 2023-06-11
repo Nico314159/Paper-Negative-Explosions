@@ -7,33 +7,33 @@ Co-authored-by: Evan McCarthy <evanmccarthy@outlook.com>
 Co-authored-by: lexikiq <noellekiq@gmail.com>
 
 diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-index 6c951d25de5fb9301daf46fb412dd766e90c6379..039a5246a2e9a5e84f3b712f1d138053605b33ec 100644
+index 29798faa9cc9aead40e3329307dc63cb7bf838b6..27f99f9ce39aac0bae5e9a7b34fd63833aa4ad26 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-@@ -656,7 +656,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -689,7 +689,7 @@ public class EnderDragon extends Mob implements Enemy {
                  // CraftBukkit start - Use relative location for far away sounds
-                 // this.world.b(1028, this.getChunkCoordinates(), 0);
-                 int viewDistance = ((ServerLevel) this.level).getCraftServer().getViewDistance() * 16;
--                for (net.minecraft.server.level.ServerPlayer player : this.level.getServer().getPlayerList().players) {
-+                for (net.minecraft.server.level.ServerPlayer player : level.spigotConfig.dragonDeathSoundRadius > 0 ? ((ServerLevel) level).players() : level.getServer().getPlayerList().players) { // Paper
+                 // this.level().globalLevelEvent(1028, this.blockPosition(), 0);
+                 int viewDistance = ((ServerLevel) this.level()).getCraftServer().getViewDistance() * 16;
+-                for (net.minecraft.server.level.ServerPlayer player : this.level().getServer().getPlayerList().players) {
++                for (net.minecraft.server.level.ServerPlayer player : this.level().spigotConfig.dragonDeathSoundRadius > 0 ? ((ServerLevel) this.level()).players() : this.level().getServer().getPlayerList().players) { // Paper
                      double deltaX = this.getX() - player.getX();
                      double deltaZ = this.getZ() - player.getZ();
                      double distanceSquared = deltaX * deltaX + deltaZ * deltaZ;
 diff --git a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
-index e6f51c5cc960de30be32df45c1f01d7b4cf314ed..2cbcd304b1117d4791d7e32d7738c12cfd4d1c9e 100644
+index e23347faf763f22301136a013034367ac847c35b..4576c96f85fe5a614a78e53926dfbc2705618423 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/wither/WitherBoss.java
 @@ -271,7 +271,7 @@ public class WitherBoss extends Monster implements PowerableMob, RangedAttackMob
                      // CraftBukkit start - Use relative location for far away sounds
-                     // this.world.globalLevelEvent(1023, new BlockPosition(this), 0);
-                     int viewDistance = ((ServerLevel) this.level).getCraftServer().getViewDistance() * 16;
+                     // this.level().globalLevelEvent(1023, new BlockPosition(this), 0);
+                     int viewDistance = ((ServerLevel) this.level()).getCraftServer().getViewDistance() * 16;
 -                    for (ServerPlayer player : (List<ServerPlayer>) MinecraftServer.getServer().getPlayerList().players) {
-+                    for (ServerPlayer player : level.spigotConfig.witherSpawnSoundRadius > 0 ? ((ServerLevel) level).players() : level.getServer().getPlayerList().players) { // Paper
++                    for (ServerPlayer player : this.level().spigotConfig.witherSpawnSoundRadius > 0 ? ((ServerLevel) this.level()).players() : this.level().getServer().getPlayerList().players) { // Paper
                          double deltaX = this.getX() - player.getX();
                          double deltaZ = this.getZ() - player.getZ();
                          double distanceSquared = deltaX * deltaX + deltaZ * deltaZ;
 diff --git a/src/main/java/net/minecraft/world/item/EnderEyeItem.java b/src/main/java/net/minecraft/world/item/EnderEyeItem.java
-index a88ffff41481d346a99762352094cdb4e8dd6cc2..e0c3aa1285709a40ff0ea8c1d74d43d2b341aecc 100644
+index 5bc68514a1e8a212e2681f06b918548c0ec565b6..1fddc9025a9e5079f05dd6c86f6ca43c5d51d9c3 100644
 --- a/src/main/java/net/minecraft/world/item/EnderEyeItem.java
 +++ b/src/main/java/net/minecraft/world/item/EnderEyeItem.java
 @@ -64,7 +64,7 @@ public class EnderEyeItem extends Item {

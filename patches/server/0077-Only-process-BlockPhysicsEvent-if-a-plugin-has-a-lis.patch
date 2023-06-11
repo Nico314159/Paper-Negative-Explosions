@@ -6,10 +6,10 @@ Subject: [PATCH] Only process BlockPhysicsEvent if a plugin has a listener
 Saves on some object allocation and processing when no plugin listens to this
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 1554f8847e42cdd584b16c0648c21c4071aea6de..f48d3bbbfd5b4ebb9c22c6dc2a17a9030af2edf5 100644
+index 821725460b62ebadedb789f4408ef172416c2092..81abb732e2bb3bca683028d505e7485052c0ec8d 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1369,6 +1369,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1367,6 +1367,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
          while (iterator.hasNext()) {
              ServerLevel worldserver = (ServerLevel) iterator.next();
@@ -18,10 +18,10 @@ index 1554f8847e42cdd584b16c0648c21c4071aea6de..f48d3bbbfd5b4ebb9c22c6dc2a17a903
              this.profiler.push(() -> {
                  return worldserver + " " + worldserver.dimension().location();
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index faf2d6aaf6fba1c7a47ebd2cbc95783afaf5c8ef..0f7c0bf3e773485737aa4a116a712fc7b8ed221e 100644
+index 5cde98b0225799bccdb84ce6b6cf06b904d5986c..699fc5f11efa8240723854cd2e91877b278f9495 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -216,6 +216,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -220,6 +220,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
      // CraftBukkit start
      public final LevelStorageSource.LevelStorageAccess convertable;
      public final UUID uuid;
@@ -30,10 +30,10 @@ index faf2d6aaf6fba1c7a47ebd2cbc95783afaf5c8ef..0f7c0bf3e773485737aa4a116a712fc7
      @Override public LevelChunk getChunkIfLoaded(int x, int z) { // Paper - this was added in world too but keeping here for NMS ABI
          return this.chunkSource.getChunk(x, z, false);
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 6d6145de1db2d57aa7f342e2467401231c3e38ae..ebad2e1bac84bade6dd2b893de832b77705a6f57 100644
+index e5194f0650af2bce8aac24e34752b21015b92d4e..127f4e98e11a57eb3dddbc8efdb0aa33fda37924 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -503,7 +503,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -496,7 +496,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
                  // CraftBukkit start
                  iblockdata1.updateIndirectNeighbourShapes(this, blockposition, k, j - 1); // Don't call an event for the old block to limit event spam
                  CraftWorld world = ((ServerLevel) this).getWorld();

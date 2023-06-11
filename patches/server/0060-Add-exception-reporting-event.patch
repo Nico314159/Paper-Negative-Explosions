@@ -88,7 +88,7 @@ index c6fb4c33d7ea52b88d8fc0d90748cbab7387c565..fed09b886f4fa0006d160e5f2abb00df
              }
  
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 8b554a7310c740f2a67476a189e8d15fb61f3fba..cff0be79e2dbb761ad2971bc3fcbd0d264505f1d 100644
+index 78041052d7ab2e6b60405ce7e02468458650db22..8149286827d9b609be47a4ded0413ca11f7858de 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -1,5 +1,10 @@
@@ -102,9 +102,9 @@ index 8b554a7310c740f2a67476a189e8d15fb61f3fba..cff0be79e2dbb761ad2971bc3fcbd0d2
  import com.google.common.collect.Lists;
  import com.mojang.serialization.Codec;
  import java.io.IOException;
-@@ -737,6 +742,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -730,6 +735,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
              // Paper start - Prevent tile entity and entity crashes
-             final String msg = String.format("Entity threw exception at %s:%s,%s,%s", entity.level.getWorld().getName(), entity.getX(), entity.getY(), entity.getZ());
+             final String msg = String.format("Entity threw exception at %s:%s,%s,%s", entity.level().getWorld().getName(), entity.getX(), entity.getY(), entity.getZ());
              MinecraftServer.LOGGER.error(msg, throwable);
 +            getCraftServer().getPluginManager().callEvent(new ServerExceptionEvent(new ServerInternalException(msg, throwable)));
              entity.discard();
@@ -131,7 +131,7 @@ index f1675e35be0ab7670c875c6b0d1e982a3ae09d1e..b2bb9bbd3af414c50ec3f8e3e171a679
                                  }
  
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 8254e72595ae5c1ddf5cf969570d83758b744c7b..03f7394057c927f55fa962a65988d03553c6a642 100644
+index 1f635d06dcff8672e9bdaf29fba6fdf39618f893..36701f196756dc7c6820cac516ff880d00a43b17 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -1,6 +1,7 @@
@@ -142,7 +142,7 @@ index 8254e72595ae5c1ddf5cf969570d83758b744c7b..03f7394057c927f55fa962a65988d035
  import com.google.common.collect.Maps;
  import com.google.common.collect.UnmodifiableIterator;
  import com.mojang.logging.LogUtils;
-@@ -598,10 +599,16 @@ public class LevelChunk extends ChunkAccess {
+@@ -568,10 +569,16 @@ public class LevelChunk extends ChunkAccess {
  
              // CraftBukkit start
          } else {
@@ -163,7 +163,7 @@ index 8254e72595ae5c1ddf5cf969570d83758b744c7b..03f7394057c927f55fa962a65988d035
              // CraftBukkit end
          }
      }
-@@ -1194,6 +1201,7 @@ public class LevelChunk extends ChunkAccess {
+@@ -1149,6 +1156,7 @@ public class LevelChunk extends ChunkAccess {
                          // Paper start - Prevent tile entity and entity crashes
                          final String msg = String.format("BlockEntity threw exception at %s:%s,%s,%s", LevelChunk.this.getLevel().getWorld().getName(), this.getPos().getX(), this.getPos().getY(), this.getPos().getZ());
                          net.minecraft.server.MinecraftServer.LOGGER.error(msg, throwable);

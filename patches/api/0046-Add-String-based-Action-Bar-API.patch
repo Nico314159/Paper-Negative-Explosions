@@ -5,10 +5,10 @@ Subject: [PATCH] Add String based Action Bar API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 29b1cceff7100cbcde7ddca0d1acbb717f3b6b1c..d85ce38bcae05a643479e7f687431dced1834b93 100644
+index b23e53ff71b50fcbadcb6c4e537a3e8f2164a692..ef8980a8a0f24f31d1e8e2cd80dcc2785e739896 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -850,6 +850,39 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -873,6 +873,39 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      public void sendMap(@NotNull MapView map);
  
      // Paper start
@@ -48,7 +48,7 @@ index 29b1cceff7100cbcde7ddca0d1acbb717f3b6b1c..d85ce38bcae05a643479e7f687431dce
      /**
       * Sends the component to the player
       *
-@@ -877,9 +910,11 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -900,9 +933,11 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      /**
       * Sends an array of components as a single message to the specified screen position of this player
       *

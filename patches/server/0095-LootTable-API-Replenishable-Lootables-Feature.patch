@@ -17,7 +17,7 @@ public org.bukkit.craftbukkit.entity.CraftMinecartContainer setLootTable(Lorg/bu
 
 diff --git a/src/main/java/com/destroystokyo/paper/loottable/PaperContainerEntityLootableInventory.java b/src/main/java/com/destroystokyo/paper/loottable/PaperContainerEntityLootableInventory.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..88e32ed64f90bfd277dac84ba4bd84f0d943f5f8
+index 0000000000000000000000000000000000000000..9ca389ca789dc54bba3542cac0aac2e1dc66c870
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/loottable/PaperContainerEntityLootableInventory.java
 @@ -0,0 +1,63 @@
@@ -81,7 +81,7 @@ index 0000000000000000000000000000000000000000..88e32ed64f90bfd277dac84ba4bd84f0
 +
 +    @Override
 +    public Level getNMSWorld() {
-+        return entity.getLevel();
++        return entity.level();
 +    }
 +}
 diff --git a/src/main/java/com/destroystokyo/paper/loottable/PaperLootableBlockInventory.java b/src/main/java/com/destroystokyo/paper/loottable/PaperLootableBlockInventory.java
@@ -490,7 +490,7 @@ index 0000000000000000000000000000000000000000..9cfa5d36a6991067a3866e0d437749fa
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 4d2491c04b587c8315173ccbcac9686f42937358..d40c4706918aa2cebc1422fba1a09c83e75e6bf7 100644
+index 713052e936d75173cd038b0565d94f9ff451168f..b7b7500c580548fcdcfa2ba36137abf45b43ddf9 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -235,6 +235,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -502,7 +502,7 @@ index 4d2491c04b587c8315173ccbcac9686f42937358..d40c4706918aa2cebc1422fba1a09c83
  
      public CraftEntity getBukkitEntity() {
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/AbstractMinecartContainer.java b/src/main/java/net/minecraft/world/entity/vehicle/AbstractMinecartContainer.java
-index a73a4dc52467fbb5980c2d819083b9461fcb8018..08f027cdcaeeca7b545483cb8c5eb8d13e4933b9 100644
+index 0ec2db500e4a0230a91286a709b8d444d1b529f4..272095d7a09ab41227d741172735f66fd2798ce1 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/AbstractMinecartContainer.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/AbstractMinecartContainer.java
 @@ -32,6 +32,20 @@ public abstract class AbstractMinecartContainer extends AbstractMinecart impleme
@@ -542,7 +542,7 @@ index a73a4dc52467fbb5980c2d819083b9461fcb8018..08f027cdcaeeca7b545483cb8c5eb8d1
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
-index 229e9923584e96b9094dfd9d10818d4ced7cdccb..3a720375c3daa961a34363f78c2c51d301c3fa06 100644
+index d88a6501917306eab57f46cb0d10dc03164a94da..e88c39d405fc7068db64ad34a03dec8d559e749e 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/ChestBoat.java
 @@ -65,12 +65,14 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
@@ -561,7 +561,7 @@ index 229e9923584e96b9094dfd9d10818d4ced7cdccb..3a720375c3daa961a34363f78c2c51d3
      }
  
 @@ -245,6 +247,20 @@ public class ChestBoat extends Boat implements HasCustomInventoryScreen, Contain
-         this.level.gameEvent(GameEvent.CONTAINER_CLOSE, this.position(), GameEvent.Context.of((Entity) player));
+         this.level().gameEvent(GameEvent.CONTAINER_CLOSE, this.position(), GameEvent.Context.of((Entity) player));
      }
  
 +    // Paper start
@@ -582,7 +582,7 @@ index 229e9923584e96b9094dfd9d10818d4ced7cdccb..3a720375c3daa961a34363f78c2c51d3
      public List<HumanEntity> transaction = new java.util.ArrayList<HumanEntity>();
      private int maxStack = MAX_STACK;
 diff --git a/src/main/java/net/minecraft/world/entity/vehicle/ContainerEntity.java b/src/main/java/net/minecraft/world/entity/vehicle/ContainerEntity.java
-index d5cb231495bae089b3ad21e3259ab08afbbcd46b..e30938ed1782d59177e24bb3989d87d3945af0e4 100644
+index e0fbacd574e0c83c2e1d164ded8e9ccf4af30480..94252d346c4f8dfbd1501b142ea0b6985dc8e19a 100644
 --- a/src/main/java/net/minecraft/world/entity/vehicle/ContainerEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/vehicle/ContainerEntity.java
 @@ -59,7 +59,7 @@ public interface ContainerEntity extends Container, MenuProvider {
@@ -603,25 +603,23 @@ index d5cb231495bae089b3ad21e3259ab08afbbcd46b..e30938ed1782d59177e24bb3989d87d3
              ContainerHelper.loadAllItems(nbt, this.getItemStacks());
          }
  
-@@ -96,13 +96,15 @@ public interface ContainerEntity extends Container, MenuProvider {
+@@ -96,13 +96,13 @@ public interface ContainerEntity extends Container, MenuProvider {
  
      default void unpackChestVehicleLootTable(@Nullable Player player) {
-         MinecraftServer minecraftServer = this.getLevel().getServer();
+         MinecraftServer minecraftServer = this.level().getServer();
 -        if (this.getLootTable() != null && minecraftServer != null) {
 +        if (this.getLootableData().shouldReplenish(player) && minecraftServer != null) { // Paper
-             LootTable lootTable = minecraftServer.getLootTables().get(this.getLootTable());
+             LootTable lootTable = minecraftServer.getLootData().getLootTable(this.getLootTable());
              if (player != null) {
                  CriteriaTriggers.GENERATE_LOOT.trigger((ServerPlayer)player, this.getLootTable());
              }
  
 -            this.setLootTable((ResourceLocation)null);
-+            // this.setLootTable((ResourceLocation)null); // Paper
 +            this.getLootableData().processRefill(player); // Paper
-+
-             LootContext.Builder builder = (new LootContext.Builder((ServerLevel)this.getLevel())).withParameter(LootContextParams.ORIGIN, this.position()).withOptionalRandomSeed(this.getLootTableSeed());
+             LootParams.Builder builder = (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, this.position());
              if (player != null) {
                  builder.withLuck(player.getLuck()).withParameter(LootContextParams.THIS_ENTITY, player);
-@@ -176,4 +178,13 @@ public interface ContainerEntity extends Container, MenuProvider {
+@@ -176,4 +176,13 @@ public interface ContainerEntity extends Container, MenuProvider {
      default boolean isChestVehicleStillValid(Player player) {
          return !this.isRemoved() && this.position().closerThan(player.position(), 8.0D);
      }
@@ -636,7 +634,7 @@ index d5cb231495bae089b3ad21e3259ab08afbbcd46b..e30938ed1782d59177e24bb3989d87d3
 +    // Paper end
  }
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/RandomizableContainerBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/RandomizableContainerBlockEntity.java
-index ce0f766fd5f4bb30102f25ed4c68efa6f3c73835..b9f0dae1ec96194fe78c086b63d8a18b1d0cfcf7 100644
+index 111494c30a2b7d8464237a92cf5c98f7f4cca19d..e11618247ad889fa8fadbb2c7addd0de94caf249 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/RandomizableContainerBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/RandomizableContainerBlockEntity.java
 @@ -29,6 +29,7 @@ public abstract class RandomizableContainerBlockEntity extends BaseContainerBloc
@@ -668,7 +666,7 @@ index ce0f766fd5f4bb30102f25ed4c68efa6f3c73835..b9f0dae1ec96194fe78c086b63d8a18b
          if (this.lootTable == null) {
              return false;
          } else {
-@@ -61,18 +65,19 @@ public abstract class RandomizableContainerBlockEntity extends BaseContainerBloc
+@@ -61,18 +65,18 @@ public abstract class RandomizableContainerBlockEntity extends BaseContainerBloc
                  nbt.putLong("LootTableSeed", this.lootTableSeed);
              }
  
@@ -680,17 +678,29 @@ index ce0f766fd5f4bb30102f25ed4c68efa6f3c73835..b9f0dae1ec96194fe78c086b63d8a18b
      public void unpackLootTable(@Nullable Player player) {
 -        if (this.lootTable != null && this.level.getServer() != null) {
 +        if (this.lootableData.shouldReplenish(player) && this.level.getServer() != null) { // Paper
-             LootTable lootTable = this.level.getServer().getLootTables().get(this.lootTable);
+             LootTable lootTable = this.level.getServer().getLootData().getLootTable(this.lootTable);
              if (player instanceof ServerPlayer) {
                  CriteriaTriggers.GENERATE_LOOT.trigger((ServerPlayer)player, this.lootTable);
              }
  
 -            this.lootTable = null;
-+            //this.lootTable = null; // Paper
 +            this.lootableData.processRefill(player); // Paper
-             LootContext.Builder builder = (new LootContext.Builder((ServerLevel)this.level)).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.worldPosition)).withOptionalRandomSeed(this.lootTableSeed);
+             LootParams.Builder builder = (new LootParams.Builder((ServerLevel)this.level)).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(this.worldPosition));
              if (player != null) {
                  builder.withLuck(player.getLuck()).withParameter(LootContextParams.THIS_ENTITY, player);
+diff --git a/src/main/java/org/bukkit/craftbukkit/block/CraftBrushableBlock.java b/src/main/java/org/bukkit/craftbukkit/block/CraftBrushableBlock.java
+index d5bfa06a90158fb6d9cc54f7a9b44a277f2c480f..dbdf9b009a488767bb63b0867943fd932fac16e4 100644
+--- a/src/main/java/org/bukkit/craftbukkit/block/CraftBrushableBlock.java
++++ b/src/main/java/org/bukkit/craftbukkit/block/CraftBrushableBlock.java
+@@ -60,7 +60,7 @@ public class CraftBrushableBlock extends CraftBlockEntityState<BrushableBlockEnt
+         this.setLootTable(this.getLootTable(), seed);
+     }
+ 
+-    private void setLootTable(LootTable table, long seed) {
++    public void setLootTable(LootTable table, long seed) { // Paper - make public since it overrides a public method
+         ResourceLocation key = (table == null) ? null : CraftNamespacedKey.toMinecraft(table.getKey());
+         getSnapshot().setLootTable(key, seed);
+     }
 diff --git a/src/main/java/org/bukkit/craftbukkit/block/CraftChest.java b/src/main/java/org/bukkit/craftbukkit/block/CraftChest.java
 index b31fa63019822bc172d85427b3f3f2c154d7e179..82b3f3b3aced73ce136b6b94fe212972ac6090ef 100644
 --- a/src/main/java/org/bukkit/craftbukkit/block/CraftChest.java
@@ -719,19 +729,6 @@ index 982adacb361b0590799dc68f9b7c13c7195627fd..e49eece9bff3a53469673d03a7bbf8f9
  
      public CraftLootable(World world, T tileEntity) {
          super(world, tileEntity);
-diff --git a/src/main/java/org/bukkit/craftbukkit/block/CraftSuspiciousSand.java b/src/main/java/org/bukkit/craftbukkit/block/CraftSuspiciousSand.java
-index 15fba6668d340a28f07dd9c02aeb28fe53db1530..855d452dcbcaee092965732f14a17a74572290bb 100644
---- a/src/main/java/org/bukkit/craftbukkit/block/CraftSuspiciousSand.java
-+++ b/src/main/java/org/bukkit/craftbukkit/block/CraftSuspiciousSand.java
-@@ -60,7 +60,7 @@ public class CraftSuspiciousSand extends CraftBlockEntityState<SuspiciousSandBlo
-         this.setLootTable(this.getLootTable(), seed);
-     }
- 
--    private void setLootTable(LootTable table, long seed) {
-+    public void setLootTable(LootTable table, long seed) {  // Paper - change visibility since it overrides a public method
-         ResourceLocation key = (table == null) ? null : CraftNamespacedKey.toMinecraft(table.getKey());
-         getSnapshot().setLootTable(key, seed);
-     }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftChestBoat.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftChestBoat.java
 index ae07db69b11b993b50782c94aa5c45b97d949612..06a96f027f90fd5bf05de72c8722ff5a81608b66 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftChestBoat.java
