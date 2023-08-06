@@ -5,10 +5,10 @@ Subject: [PATCH] Elder Guardian appearance API
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 2018df5aff5042034b8d982844d28e71936700dc..4e43793a57ecf78a04972168b5a9a116ff18e30a 100644
+index fbe858323fbabc15ac8533df2018cf5c95f442fa..73c989b03bb6da238300bdd0f1e634e6edce5bcd 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -3020,6 +3020,24 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -3108,6 +3108,24 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      void lookAt(@NotNull org.bukkit.entity.Entity entity, @NotNull io.papermc.paper.entity.LookAnchor playerAnchor, @NotNull io.papermc.paper.entity.LookAnchor entityAnchor);
      // Paper end - Teleport API
  

@@ -200,10 +200,10 @@ index 0000000000000000000000000000000000000000..2ad76b1751ba707f7ae0d283aa1cbaf6
 +}
 diff --git a/src/main/java/io/papermc/paper/event/player/AbstractChatEvent.java b/src/main/java/io/papermc/paper/event/player/AbstractChatEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..e7e13011c76285681ad420e6f356f6b83045d31a
+index 0000000000000000000000000000000000000000..ed8e885f226b02b9875b23ae2294a9056d2e8b29
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/event/player/AbstractChatEvent.java
-@@ -0,0 +1,128 @@
+@@ -0,0 +1,125 @@
 +package io.papermc.paper.event.player;
 +
 +import io.papermc.paper.chat.ChatRenderer;
@@ -213,6 +213,7 @@ index 0000000000000000000000000000000000000000..e7e13011c76285681ad420e6f356f6b8
 +import org.bukkit.entity.Player;
 +import org.bukkit.event.Cancellable;
 +import org.bukkit.event.player.PlayerEvent;
++import org.jetbrains.annotations.ApiStatus;
 +import org.jetbrains.annotations.NotNull;
 +
 +import java.util.Set;
@@ -222,6 +223,7 @@ index 0000000000000000000000000000000000000000..e7e13011c76285681ad420e6f356f6b8
 +/**
 + * An abstract implementation of a chat event, handling shared logic.
 + */
++@ApiStatus.NonExtendable
 +public abstract class AbstractChatEvent extends PlayerEvent implements Cancellable {
 +    private final Set<Audience> viewers;
 +    private final Component originalMessage;
@@ -242,15 +244,10 @@ index 0000000000000000000000000000000000000000..e7e13011c76285681ad420e6f356f6b8
 +    /**
 +     * Gets a set of {@link Audience audiences} that this chat message will be displayed to.
 +     *
-+     * <p>The set returned is not guaranteed to be mutable and may auto-populate
-+     * on access. Any listener accessing the returned set should be aware that
++     * <p>The set returned may auto-populate on access. Any listener accessing the returned set should be aware that
 +     * it may reduce performance for a lazy set implementation.</p>
 +     *
-+     * <p>Listeners should be aware that modifying the list may throw {@link
-+     * UnsupportedOperationException} if the event caller provides an
-+     * unmodifiable set.</p>
-+     *
-+     * @return a set of {@link Audience audiences} who will receive the chat message
++     * @return a mutable set of {@link Audience audiences} who will receive the chat message
 +     */
 +    @NotNull
 +    public final Set<Audience> viewers() {
@@ -491,10 +488,10 @@ index 0000000000000000000000000000000000000000..667bfa6afc35f8a8f475431171ee474a
 +}
 diff --git a/src/main/java/io/papermc/paper/event/player/AsyncChatEvent.java b/src/main/java/io/papermc/paper/event/player/AsyncChatEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..975a767313247d3b1c2a6cfd42c7fa6cd1525c53
+index 0000000000000000000000000000000000000000..4eada40b8abb1833ce623ccee0789555e370d024
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/event/player/AsyncChatEvent.java
-@@ -0,0 +1,32 @@
+@@ -0,0 +1,37 @@
 +package io.papermc.paper.event.player;
 +
 +import java.util.Set;
@@ -504,6 +501,7 @@ index 0000000000000000000000000000000000000000..975a767313247d3b1c2a6cfd42c7fa6c
 +import net.kyori.adventure.text.Component;
 +import org.bukkit.entity.Player;
 +import org.bukkit.event.HandlerList;
++import org.jetbrains.annotations.ApiStatus;
 +import org.jetbrains.annotations.NotNull;
 +
 +/**
@@ -512,6 +510,10 @@ index 0000000000000000000000000000000000000000..975a767313247d3b1c2a6cfd42c7fa6c
 +public final class AsyncChatEvent extends AbstractChatEvent {
 +    private static final HandlerList HANDLERS = new HandlerList();
 +
++    /**
++     * @param viewers A mutable set of viewers
++     */
++    @ApiStatus.Internal
 +    public AsyncChatEvent(final boolean async, final @NotNull Player player, final @NotNull Set<Audience> viewers, final @NotNull ChatRenderer renderer, final @NotNull Component message, final @NotNull Component originalMessage, final @NotNull SignedMessage signedMessage) {
 +        super(async, player, viewers, renderer, message, originalMessage, signedMessage);
 +    }
@@ -529,10 +531,10 @@ index 0000000000000000000000000000000000000000..975a767313247d3b1c2a6cfd42c7fa6c
 +}
 diff --git a/src/main/java/io/papermc/paper/event/player/ChatEvent.java b/src/main/java/io/papermc/paper/event/player/ChatEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..46c209f61135c7d37ccfbbc7bb1d74e608fac9d3
+index 0000000000000000000000000000000000000000..af025704e978dc0b11be277ab4646da77eb3a60b
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/event/player/ChatEvent.java
-@@ -0,0 +1,37 @@
+@@ -0,0 +1,42 @@
 +package io.papermc.paper.event.player;
 +
 +import java.util.Set;
@@ -543,6 +545,7 @@ index 0000000000000000000000000000000000000000..46c209f61135c7d37ccfbbc7bb1d74e6
 +import org.bukkit.Warning;
 +import org.bukkit.entity.Player;
 +import org.bukkit.event.HandlerList;
++import org.jetbrains.annotations.ApiStatus;
 +import org.jetbrains.annotations.NotNull;
 +
 +/**
@@ -555,6 +558,10 @@ index 0000000000000000000000000000000000000000..46c209f61135c7d37ccfbbc7bb1d74e6
 +public final class ChatEvent extends AbstractChatEvent {
 +    private static final HandlerList HANDLERS = new HandlerList();
 +
++    /**
++     * @param viewers A mutable set of viewers
++     */
++    @ApiStatus.Internal
 +    public ChatEvent(final @NotNull Player player, final @NotNull Set<Audience> viewers, final @NotNull ChatRenderer renderer, final @NotNull Component message, final @NotNull Component originalMessage, final @NotNull SignedMessage signedMessage) {
 +        super(false, player, viewers, renderer, message, originalMessage, signedMessage);
 +    }
@@ -1837,7 +1844,7 @@ index 80209bb88a0294d4eedc78509533a6257315d856..75759131bd94b672bec4cd8e271ebff1
          if (sendToSource && !(source instanceof ConsoleCommandSender)) {
              source.sendMessage(message);
 diff --git a/src/main/java/org/bukkit/command/CommandSender.java b/src/main/java/org/bukkit/command/CommandSender.java
-index 284be63a125624a8ae43d2c164aede810ce6bfe5..4e440880bd82f3cd8b267f00b2fcd725b49ce981 100644
+index 284be63a125624a8ae43d2c164aede810ce6bfe5..70fec73328227725f519af845ecbdce8be2fa4e2 100644
 --- a/src/main/java/org/bukkit/command/CommandSender.java
 +++ b/src/main/java/org/bukkit/command/CommandSender.java
 @@ -6,20 +6,28 @@ import org.bukkit.permissions.Permissible;
@@ -1932,7 +1939,7 @@ index 284be63a125624a8ae43d2c164aede810ce6bfe5..4e440880bd82f3cd8b267f00b2fcd725
          public void sendMessage(@Nullable UUID sender, @NotNull net.md_5.bungee.api.chat.BaseComponent... components) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -99,4 +121,39 @@ public interface CommandSender extends Permissible {
+@@ -99,4 +121,52 @@ public interface CommandSender extends Permissible {
      @NotNull
      Spigot spigot();
      // Spigot end
@@ -1960,6 +1967,19 @@ index 284be63a125624a8ae43d2c164aede810ce6bfe5..4e440880bd82f3cd8b267f00b2fcd725
 +     */
 +    default void sendRichMessage(final @NotNull String message) {
 +        this.sendMessage(net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(message));
++    }
++
++    /**
++     * Sends a message with the MiniMessage format to the command sender.
++     * <p>
++     * See <a href="https://docs.advntr.dev/minimessage/">MiniMessage docs</a> and <a href="https://docs.advntr.dev/minimessage/dynamic-replacements">MiniMessage Placeholders docs</a>
++     * for more information on the format.
++     *
++     * @param message MiniMessage content
++     * @param resolvers resolvers to use
++     */
++    default void sendRichMessage(final @NotNull String message, final net.kyori.adventure.text.minimessage.tag.resolver.@NotNull TagResolver... resolvers) {
++        this.sendMessage(net.kyori.adventure.text.minimessage.MiniMessage.miniMessage().deserialize(message, resolvers));
 +    }
 +
 +    /**
@@ -2111,10 +2131,10 @@ index f3afe67f0832cb828d25be3654518ff73a80b0e1..598abaa82c634178043a29f6caa6ac52
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc1d7a8ef1 100644
+index 3d84a75a6999129353a9ead48f9db25bc80f685b..a5010cb46aa5ef69c559ef9fc717f90365c05807 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -49,7 +49,41 @@ import org.jetbrains.annotations.Nullable;
+@@ -51,7 +51,41 @@ import org.jetbrains.annotations.Nullable;
  /**
   * Represents a player, connected or not
   */
@@ -2157,7 +2177,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
  
      /**
       * {@inheritDoc}
-@@ -66,7 +100,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -68,7 +102,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * places defined by plugins.
       *
       * @return the friendly name
@@ -2167,7 +2187,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      @NotNull
      public String getDisplayName();
  
-@@ -78,15 +114,50 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -80,15 +116,50 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * places defined by plugins.
       *
       * @param name The new display name.
@@ -2218,7 +2238,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      public String getPlayerListName();
  
      /**
-@@ -95,14 +166,18 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -97,14 +168,18 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * If the value is null, the name will be identical to {@link #getName()}.
       *
       * @param name new player list name
@@ -2237,7 +2257,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      @Nullable
      public String getPlayerListHeader();
  
-@@ -110,7 +185,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -112,7 +187,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * Gets the currently displayed player list footer for this player.
       *
       * @return player list header or null
@@ -2247,7 +2267,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      @Nullable
      public String getPlayerListFooter();
  
-@@ -118,14 +195,18 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -120,14 +197,18 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * Sets the currently displayed player list header for this player.
       *
       * @param header player list header, null for empty
@@ -2266,7 +2286,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      public void setPlayerListFooter(@Nullable String footer);
  
      /**
-@@ -134,7 +215,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -136,7 +217,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       *
       * @param header player list header, null for empty
       * @param footer player list footer, null for empty
@@ -2276,7 +2296,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      public void setPlayerListHeaderFooter(@Nullable String header, @Nullable String footer);
  
      /**
-@@ -172,9 +255,25 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -174,9 +257,25 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * Kicks player with custom kick message.
       *
       * @param message kick message
@@ -2302,7 +2322,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      /**
       * Adds this user to the {@link ProfileBanList}. If a previous ban exists, this will
       * update the entry.
-@@ -671,6 +770,90 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -737,6 +836,106 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public void sendEquipmentChange(@NotNull LivingEntity entity, @NotNull Map<EquipmentSlot, ItemStack> items);
  
@@ -2321,7 +2341,11 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
 +     * @param lines the new text on the sign or null to clear it
 +     * @throws IllegalArgumentException if location is null
 +     * @throws IllegalArgumentException if lines is non-null and has a length less than 4
++     * @deprecated Use {@link #sendBlockUpdate(Location, TileState)} by creating a new virtual
++     * {@link org.bukkit.block.Sign} block state via {@link BlockData#createBlockState()}
++     * (constructed e.g. via {@link Material#createBlockData()})
 +     */
++    @Deprecated
 +    default void sendSignChange(@NotNull Location loc, @Nullable java.util.List<? extends net.kyori.adventure.text.Component> lines) throws IllegalArgumentException {
 +        this.sendSignChange(loc, lines, DyeColor.BLACK);
 +    }
@@ -2342,7 +2366,11 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
 +     * @throws IllegalArgumentException if location is null
 +     * @throws IllegalArgumentException if dyeColor is null
 +     * @throws IllegalArgumentException if lines is non-null and has a length less than 4
++     * @deprecated Use {@link #sendBlockUpdate(Location, TileState)} by creating a new virtual
++     * {@link org.bukkit.block.Sign} block state via {@link BlockData#createBlockState()}
++     * (constructed e.g. via {@link Material#createBlockData()})
 +     */
++    @Deprecated
 +    default void sendSignChange(@NotNull Location loc, @Nullable java.util.List<? extends net.kyori.adventure.text.Component> lines, @NotNull DyeColor dyeColor) throws IllegalArgumentException {
 +        this.sendSignChange(loc, lines, dyeColor, false);
 +    }
@@ -2363,7 +2391,11 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
 +     * @throws IllegalArgumentException if location is null
 +     * @throws IllegalArgumentException if dyeColor is null
 +     * @throws IllegalArgumentException if lines is non-null and has a length less than 4
++     * @deprecated Use {@link #sendBlockUpdate(Location, TileState)} by creating a new virtual
++     * {@link org.bukkit.block.Sign} block state via {@link BlockData#createBlockState()}
++     * (constructed e.g. via {@link Material#createBlockData()})
 +     */
++    @Deprecated
 +    default void sendSignChange(@NotNull Location loc, @Nullable java.util.List<? extends net.kyori.adventure.text.Component> lines, boolean hasGlowingText) throws IllegalArgumentException {
 +        this.sendSignChange(loc, lines, DyeColor.BLACK, hasGlowingText);
 +    }
@@ -2385,7 +2417,11 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
 +     * @throws IllegalArgumentException if location is null
 +     * @throws IllegalArgumentException if dyeColor is null
 +     * @throws IllegalArgumentException if lines is non-null and has a length less than 4
++     * @deprecated Use {@link #sendBlockUpdate(Location, TileState)} by creating a new virtual
++     * {@link org.bukkit.block.Sign} block state via {@link BlockData#createBlockState()}
++     * (constructed e.g. via {@link Material#createBlockData()})
 +     */
++    @Deprecated
 +    void sendSignChange(@NotNull Location loc, @Nullable java.util.List<? extends net.kyori.adventure.text.Component> lines, @NotNull DyeColor dyeColor, boolean hasGlowingText)
 +        throws IllegalArgumentException;
 +    // Paper end
@@ -2393,37 +2429,43 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      /**
       * Send a sign change. This fakes a sign change packet for a user at
       * a certain location. This will not actually change the world in any way.
-@@ -688,7 +871,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -754,7 +953,11 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @param lines the new text on the sign or null to clear it
       * @throws IllegalArgumentException if location is null
       * @throws IllegalArgumentException if lines is non-null and has a length less than 4
-+     * @deprecated in favour of {@link #sendSignChange(org.bukkit.Location, java.util.List)}
++     * @deprecated Use {@link #sendBlockUpdate(Location, TileState)} by creating a new virtual
++     * {@link org.bukkit.block.Sign} block state via {@link BlockData#createBlockState()}
++     * (constructed e.g. via {@link Material#createBlockData()})
       */
 +    @Deprecated // Paper
      public void sendSignChange(@NotNull Location loc, @Nullable String[] lines) throws IllegalArgumentException;
  
      /**
-@@ -710,7 +895,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -776,7 +979,11 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @throws IllegalArgumentException if location is null
       * @throws IllegalArgumentException if dyeColor is null
       * @throws IllegalArgumentException if lines is non-null and has a length less than 4
-+     * @deprecated in favour of {@link #sendSignChange(org.bukkit.Location, java.util.List, org.bukkit.DyeColor)}
++     * @deprecated Use {@link #sendBlockUpdate(Location, TileState)} by creating a new virtual
++     * {@link org.bukkit.block.Sign} block state via {@link BlockData#createBlockState()}
++     * (constructed e.g. via {@link Material#createBlockData()})
       */
 +    @Deprecated // Paper
      public void sendSignChange(@NotNull Location loc, @Nullable String[] lines, @NotNull DyeColor dyeColor) throws IllegalArgumentException;
  
      /**
-@@ -733,7 +920,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -799,7 +1006,11 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @throws IllegalArgumentException if location is null
       * @throws IllegalArgumentException if dyeColor is null
       * @throws IllegalArgumentException if lines is non-null and has a length less than 4
-+     * @deprecated Deprecated in favour of {@link #sendSignChange(Location, java.util.List, DyeColor, boolean)}
++     * @deprecated Use {@link #sendBlockUpdate(Location, TileState)} by creating a new virtual
++     * {@link org.bukkit.block.Sign} block state via {@link BlockData#createBlockState()}
++     * (constructed e.g. via {@link Material#createBlockData()})
       */
 +    @Deprecated // Paper
      public void sendSignChange(@NotNull Location loc, @Nullable String[] lines, @NotNull DyeColor dyeColor, boolean hasGlowingText) throws IllegalArgumentException;
  
      /**
-@@ -1249,6 +1438,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1315,6 +1526,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       *     pack correctly.
       * </ul>
       *
@@ -2431,7 +2473,15 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
       * @param url The URL from which the client will download the resource
       *     pack. The string must contain only US-ASCII characters and should
       *     be encoded as per RFC 1738.
-@@ -1305,8 +1495,57 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1358,6 +1570,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+      *     pack correctly.
+      * </ul>
+      *
++     * @deprecated in favour of {@link #setResourcePack(String, byte[], Component, boolean)}
+      * @param url The URL from which the client will download the resource
+      *     pack. The string must contain only US-ASCII characters and should
+      *     be encoded as per RFC 1738.
+@@ -1371,8 +1584,57 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @throws IllegalArgumentException Thrown if the hash is not 20 bytes
       *     long.
       */
@@ -2489,15 +2539,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      /**
       * Request that the player's client download and switch resource packs.
       * <p>
-@@ -1336,6 +1575,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
-      *     pack correctly.
-      * </ul>
-      *
-+     * @deprecated in favour of {@link #setResourcePack(String, byte[], Component, boolean)}
-      * @param url The URL from which the client will download the resource
-      *     pack. The string must contain only US-ASCII characters and should
-      *     be encoded as per RFC 1738.
-@@ -1396,8 +1636,57 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1462,8 +1724,57 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @throws IllegalArgumentException Thrown if the hash is not 20 bytes
       *     long.
       */
@@ -2555,7 +2597,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      /**
       * Gets the Scoreboard displayed to this player
       *
-@@ -1532,7 +1821,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1598,7 +1909,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       *
       * @param title Title text
       * @param subtitle Subtitle text
@@ -2564,7 +2606,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
       */
      @Deprecated
      public void sendTitle(@Nullable String title, @Nullable String subtitle);
-@@ -1551,7 +1840,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1617,7 +1928,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @param fadeIn time in ticks for titles to fade in. Defaults to 10.
       * @param stay time in ticks for titles to stay. Defaults to 70.
       * @param fadeOut time in ticks for titles to fade out. Defaults to 20.
@@ -2574,7 +2616,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      public void sendTitle(@Nullable String title, @Nullable String subtitle, int fadeIn, int stay, int fadeOut);
  
      /**
-@@ -1778,6 +2069,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1844,6 +2157,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public int getClientViewDistance();
  
@@ -2589,7 +2631,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      /**
       * Gets the player's estimated ping in milliseconds.
       *
-@@ -1803,8 +2102,10 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1869,8 +2190,10 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * they wish.
       *
       * @return the player's locale
@@ -2600,7 +2642,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      public String getLocale();
  
      /**
-@@ -1856,6 +2157,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1922,6 +2245,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public boolean isAllowingServerListings();
  
@@ -2615,7 +2657,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
      // Spigot start
      public class Spigot extends Entity.Spigot {
  
-@@ -1887,11 +2196,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1953,11 +2284,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
              throw new UnsupportedOperationException("Not supported yet.");
          }
  
@@ -2629,7 +2671,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
          @Override
          public void sendMessage(@NotNull net.md_5.bungee.api.chat.BaseComponent... components) {
              throw new UnsupportedOperationException("Not supported yet.");
-@@ -1902,7 +2213,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1968,7 +2301,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           *
           * @param position the screen position
           * @param component the components to send
@@ -2639,7 +2681,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
          public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @NotNull net.md_5.bungee.api.chat.BaseComponent component) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1912,7 +2225,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1978,7 +2313,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           *
           * @param position the screen position
           * @param components the components to send
@@ -2649,7 +2691,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
          public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @NotNull net.md_5.bungee.api.chat.BaseComponent... components) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1923,7 +2238,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -1989,7 +2326,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           * @param position the screen position
           * @param sender the sender of the message
           * @param component the components to send
@@ -2659,7 +2701,7 @@ index 7591d6de16694467b0fa5ab7ee746f3efdafad82..72b014ebf1a88bf0bf583f570b339ecc
          public void sendMessage(@NotNull net.md_5.bungee.api.ChatMessageType position, @Nullable java.util.UUID sender, @NotNull net.md_5.bungee.api.chat.BaseComponent component) {
              throw new UnsupportedOperationException("Not supported yet.");
          }
-@@ -1934,7 +2251,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2000,7 +2339,9 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
           * @param position the screen position
           * @param sender the sender of the message
           * @param components the components to send
@@ -3946,15 +3988,15 @@ index e12996492c1558fed9fab30de9f8018e0ed7fac3..002acfbdce1db10f7ba1b6a013e678f5
  
      /**
 diff --git a/src/main/java/org/bukkit/inventory/ItemFactory.java b/src/main/java/org/bukkit/inventory/ItemFactory.java
-index f89d71b77d1200314df6ca23614d5ca6fb15ceb3..af4a7ce37eb10bab06eadb6583c7894b3ec55ae6 100644
+index a66bec33fffd4e11d859efd8d17d274a5fa75f69..9578d6b0fa54feac75fa9a0727d878bd13b9e19e 100644
 --- a/src/main/java/org/bukkit/inventory/ItemFactory.java
 +++ b/src/main/java/org/bukkit/inventory/ItemFactory.java
-@@ -159,4 +159,24 @@ public interface ItemFactory {
-     @Deprecated
-     @NotNull
-     Material updateMaterial(@NotNull final ItemMeta meta, @NotNull final Material material) throws IllegalArgumentException;
+@@ -171,4 +171,24 @@ public interface ItemFactory {
+      */
+     @Nullable
+     Material getSpawnEgg(@NotNull EntityType type);
 +
-+    // Paper start
++    // Paper start - Adventure
 +    /**
 +     * Creates a hover event for the given item.
 +     *
@@ -3972,7 +4014,7 @@ index f89d71b77d1200314df6ca23614d5ca6fb15ceb3..af4a7ce37eb10bab06eadb6583c7894b
 +     */
 +    @NotNull
 +    net.kyori.adventure.text.Component displayName(@NotNull ItemStack itemStack);
-+    // Paper end
++    // Paper end - Adventure
  }
 diff --git a/src/main/java/org/bukkit/inventory/ItemStack.java b/src/main/java/org/bukkit/inventory/ItemStack.java
 index d80b0a52968920b990a75cff85e436a16d782500..9d327f0832c40d4a8d212346284274f6cf78834f 100644
@@ -4575,21 +4617,21 @@ index 03ca87a1cbace2459174bb7bb8847bda766e80c5..b37938745f916b5f0111b07b1a1c9752
       * Returns the name of the plugin.
       * <p>
 diff --git a/src/main/java/org/bukkit/scoreboard/Objective.java b/src/main/java/org/bukkit/scoreboard/Objective.java
-index 2ff3a11f1f9c115722ea224873e7eb6dc6dc63e6..86a0a6f9e8487d6dfaf60876ace3dcc9b4722826 100644
+index 78fd35e6115072c6bc2ff5a899ffc2edb8f45801..22b1dc5fd4d453161a5ee520072f8e8f955b3a80 100644
 --- a/src/main/java/org/bukkit/scoreboard/Objective.java
 +++ b/src/main/java/org/bukkit/scoreboard/Objective.java
-@@ -19,14 +19,35 @@ public interface Objective {
-      */
+@@ -20,13 +20,35 @@ public interface Objective {
      @NotNull
-     String getName() throws IllegalStateException;
-+    // Paper start
+     String getName();
+ 
++    // Paper start - Adventure
 +    /**
-+     * Gets the name displayed to players for this objective
++     * Gets the display name for this objective
 +     *
 +     * @return this objective's display name
 +     * @throws IllegalStateException if this objective has been unregistered
 +     */
-+    net.kyori.adventure.text.@NotNull Component displayName() throws IllegalStateException;
++    net.kyori.adventure.text.@NotNull Component displayName();
 +    /**
 +     * Sets the name displayed to players for this objective.
 +     *
@@ -4599,9 +4641,9 @@ index 2ff3a11f1f9c115722ea224873e7eb6dc6dc63e6..86a0a6f9e8487d6dfaf60876ace3dcc9
 +     * @throws IllegalArgumentException if displayName is longer than 128
 +     *     characters.
 +     */
-+    void displayName(net.kyori.adventure.text.@Nullable Component displayName) throws IllegalStateException, IllegalArgumentException;
-+    // Paper end
- 
++    void displayName(net.kyori.adventure.text.@Nullable Component displayName);
++    // Paper end - Adventure
++
      /**
       * Gets the name displayed to players for this objective
       *
@@ -4611,41 +4653,36 @@ index 2ff3a11f1f9c115722ea224873e7eb6dc6dc63e6..86a0a6f9e8487d6dfaf60876ace3dcc9
       */
      @NotNull
 +    @Deprecated // Paper
-     String getDisplayName() throws IllegalStateException;
+     String getDisplayName();
  
      /**
-@@ -37,7 +58,9 @@ public interface Objective {
-      * @throws IllegalArgumentException if displayName is null
-      * @throws IllegalArgumentException if displayName is longer than 128
-      *     characters.
+@@ -34,7 +56,9 @@ public interface Objective {
+      *
+      * @param displayName Display name to set
+      * @throws IllegalStateException if this objective has been unregistered
 +     * @deprecated in favour of {@link #displayName(net.kyori.adventure.text.Component)}
       */
 +    @Deprecated // Paper
-     void setDisplayName(@NotNull String displayName) throws IllegalStateException, IllegalArgumentException;
+     void setDisplayName(@NotNull String displayName);
  
      /**
 diff --git a/src/main/java/org/bukkit/scoreboard/Scoreboard.java b/src/main/java/org/bukkit/scoreboard/Scoreboard.java
-index a15183f302de42956d8965efe5f0585fc2cd030e..ebb72912c1f8431606162b0643f6289203331253 100644
+index 083bb2c92a2c557e10b705b773ced97401586c3c..d5723e977d9a25701a4f387f1b26d2414e0fffb8 100644
 --- a/src/main/java/org/bukkit/scoreboard/Scoreboard.java
 +++ b/src/main/java/org/bukkit/scoreboard/Scoreboard.java
-@@ -27,6 +27,92 @@ public interface Scoreboard {
-     @Deprecated
+@@ -26,6 +26,71 @@ public interface Scoreboard {
      @NotNull
-     Objective registerNewObjective(@NotNull String name, @NotNull String criteria) throws IllegalArgumentException;
-+    // Paper start
+     Objective registerNewObjective(@NotNull String name, @NotNull String criteria);
+ 
++    // Paper start - Adventure
 +    /**
 +     * Registers an Objective on this Scoreboard
 +     *
 +     * @param name Name of the Objective
 +     * @param criteria Criteria for the Objective
-+     * @param displayName Name displayed to players for the Objective.
++     * @param displayName display name for the Objective.
 +     * @return The registered Objective
-+     * @throws IllegalArgumentException if name is null
 +     * @throws IllegalArgumentException if name is longer than 32767
-+     *     characters.
-+     * @throws IllegalArgumentException if criteria is null
-+     * @throws IllegalArgumentException if displayName is null
-+     * @throws IllegalArgumentException if displayName is longer than 128
 +     *     characters.
 +     * @throws IllegalArgumentException if an objective by that name already
 +     *     exists
@@ -4653,7 +4690,7 @@ index a15183f302de42956d8965efe5f0585fc2cd030e..ebb72912c1f8431606162b0643f62892
 +     */
 +    @NotNull
 +    @Deprecated
-+    Objective registerNewObjective(@NotNull String name, @NotNull String criteria, net.kyori.adventure.text.@Nullable Component displayName) throws IllegalArgumentException;
++    Objective registerNewObjective(@NotNull String name, @NotNull String criteria, net.kyori.adventure.text.@Nullable Component displayName);
 +    /**
 +     * Registers an Objective on this Scoreboard
 +     *
@@ -4662,14 +4699,8 @@ index a15183f302de42956d8965efe5f0585fc2cd030e..ebb72912c1f8431606162b0643f62892
 +     * @param displayName Name displayed to players for the Objective.
 +     * @param renderType Manner of rendering the Objective
 +     * @return The registered Objective
-+     * @throws IllegalArgumentException if name is null
 +     * @throws IllegalArgumentException if name is longer than 32767
 +     *     characters.
-+     * @throws IllegalArgumentException if criteria is null
-+     * @throws IllegalArgumentException if displayName is null
-+     * @throws IllegalArgumentException if displayName is longer than 128
-+     *     characters.
-+     * @throws IllegalArgumentException if renderType is null
 +     * @throws IllegalArgumentException if an objective by that name already
 +     *     exists
 +     * @deprecated use {@link #registerNewObjective(String, Criteria, net.kyori.adventure.text.Component, RenderType)}
@@ -4684,12 +4715,7 @@ index a15183f302de42956d8965efe5f0585fc2cd030e..ebb72912c1f8431606162b0643f62892
 +     * @param criteria Criteria for the Objective
 +     * @param displayName Name displayed to players for the Objective.
 +     * @return The registered Objective
-+     * @throws IllegalArgumentException if name is null
 +     * @throws IllegalArgumentException if name is longer than 32767
-+     *     characters.
-+     * @throws IllegalArgumentException if criteria is null
-+     * @throws IllegalArgumentException if displayName is null
-+     * @throws IllegalArgumentException if displayName is longer than 128
 +     *     characters.
 +     * @throws IllegalArgumentException if an objective by that name already
 +     *     exists
@@ -4704,40 +4730,43 @@ index a15183f302de42956d8965efe5f0585fc2cd030e..ebb72912c1f8431606162b0643f62892
 +     * @param displayName Name displayed to players for the Objective.
 +     * @param renderType Manner of rendering the Objective
 +     * @return The registered Objective
-+     * @throws IllegalArgumentException if name is null
 +     * @throws IllegalArgumentException if name is longer than 32767
 +     *     characters.
-+     * @throws IllegalArgumentException if criteria is null
-+     * @throws IllegalArgumentException if displayName is null
-+     * @throws IllegalArgumentException if displayName is longer than 128
-+     *     characters.
-+     * @throws IllegalArgumentException if renderType is null
 +     * @throws IllegalArgumentException if an objective by that name already
 +     *     exists
 +     */
 +    @NotNull
 +    Objective registerNewObjective(@NotNull String name, @NotNull Criteria criteria, net.kyori.adventure.text.@Nullable Component displayName, @NotNull RenderType renderType) throws IllegalArgumentException;
-+    // Paper end
- 
++    // Paper end - Adventure
++
      /**
       * Registers an Objective on this Scoreboard
-@@ -47,6 +133,7 @@ public interface Scoreboard {
-      * @deprecated use {@link #registerNewObjective(String, Criteria, String)}
+      *
+@@ -37,9 +102,10 @@ public interface Scoreboard {
+      *     characters.
+      * @throws IllegalArgumentException if an objective by that name already
+      *     exists
+-     * @deprecated use {@link #registerNewObjective(String, Criteria, String)}
++     * @deprecated use {@link #registerNewObjective(String, Criteria, net.kyori.adventure.text.Component)}
       */
      @NotNull
 +    @Deprecated // Paper
-     Objective registerNewObjective(@NotNull String name, @NotNull String criteria, @NotNull String displayName) throws IllegalArgumentException;
+     Objective registerNewObjective(@NotNull String name, @NotNull String criteria, @NotNull String displayName);
  
      /**
-@@ -70,6 +157,7 @@ public interface Scoreboard {
-      * @deprecated use {@link #registerNewObjective(String, Criteria, String, RenderType)}
+@@ -54,9 +120,10 @@ public interface Scoreboard {
+      *     characters.
+      * @throws IllegalArgumentException if an objective by that name already
+      *     exists
+-     * @deprecated use {@link #registerNewObjective(String, Criteria, String, RenderType)}
++     * @deprecated use {@link #registerNewObjective(String, Criteria, net.kyori.adventure.text.Component, RenderType)}
       */
      @NotNull
 +    @Deprecated // Paper
-     Objective registerNewObjective(@NotNull String name, @NotNull String criteria, @NotNull String displayName, @NotNull RenderType renderType) throws IllegalArgumentException;
+     Objective registerNewObjective(@NotNull String name, @NotNull String criteria, @NotNull String displayName, @NotNull RenderType renderType);
  
      /**
-@@ -88,8 +176,10 @@ public interface Scoreboard {
+@@ -70,8 +137,10 @@ public interface Scoreboard {
       *     characters.
       * @throws IllegalArgumentException if an objective by that name already
       *     exists
@@ -4745,36 +4774,36 @@ index a15183f302de42956d8965efe5f0585fc2cd030e..ebb72912c1f8431606162b0643f62892
       */
      @NotNull
 +    @Deprecated // Paper
-     Objective registerNewObjective(@NotNull String name, @NotNull Criteria criteria, @NotNull String displayName) throws IllegalArgumentException;
+     Objective registerNewObjective(@NotNull String name, @NotNull Criteria criteria, @NotNull String displayName);
  
      /**
-@@ -110,8 +200,10 @@ public interface Scoreboard {
-      * @throws IllegalArgumentException if renderType is null
+@@ -86,8 +155,10 @@ public interface Scoreboard {
+      *     characters.
       * @throws IllegalArgumentException if an objective by that name already
       *     exists
 +     * @deprecated in favour of {@link #registerNewObjective(String, Criteria, net.kyori.adventure.text.Component, RenderType)}
       */
      @NotNull
 +    @Deprecated // Paper
-     Objective registerNewObjective(@NotNull String name, @NotNull Criteria criteria, @NotNull String displayName, @NotNull RenderType renderType) throws IllegalArgumentException;
+     Objective registerNewObjective(@NotNull String name, @NotNull Criteria criteria, @NotNull String displayName, @NotNull RenderType renderType);
  
      /**
 diff --git a/src/main/java/org/bukkit/scoreboard/Team.java b/src/main/java/org/bukkit/scoreboard/Team.java
-index 0db7fe1b9fe5621ceed3f4f046691e359f5949dd..4d625f79ba2e3fe074feade98f7c1bc2798cb82e 100644
+index 7b9a7890b25ca4bd95ab81f3181288bf79ed649c..e5a38e3568148170025e05c7ba69e8615f578047 100644
 --- a/src/main/java/org/bukkit/scoreboard/Team.java
 +++ b/src/main/java/org/bukkit/scoreboard/Team.java
-@@ -22,14 +22,100 @@ public interface Team {
-      */
+@@ -23,13 +23,96 @@ public interface Team {
      @NotNull
-     String getName() throws IllegalStateException;
-+    // Paper start
+     String getName();
+ 
++    // Paper start - Adventure
 +    /**
-+     * Gets the name displayed to entries for this team
++     * Gets the display name for this team
 +     *
 +     * @return Team display name
 +     * @throws IllegalStateException if this team has been unregistered
 +     */
-+    net.kyori.adventure.text.@NotNull Component displayName() throws IllegalStateException;
++    net.kyori.adventure.text.@NotNull Component displayName();
 +
 +    /**
 +     * Sets the name displayed to entries for this team
@@ -4782,7 +4811,7 @@ index 0db7fe1b9fe5621ceed3f4f046691e359f5949dd..4d625f79ba2e3fe074feade98f7c1bc2
 +     * @param displayName New display name
 +     * @throws IllegalStateException if this team has been unregistered
 +     */
-+    void displayName(net.kyori.adventure.text.@Nullable Component displayName) throws IllegalStateException, IllegalArgumentException;
++    void displayName(net.kyori.adventure.text.@Nullable Component displayName);
 +
 +    /**
 +     * Gets the prefix prepended to the display of entries on this team.
@@ -4790,17 +4819,15 @@ index 0db7fe1b9fe5621ceed3f4f046691e359f5949dd..4d625f79ba2e3fe074feade98f7c1bc2
 +     * @return Team prefix
 +     * @throws IllegalStateException if this team has been unregistered
 +     */
-+    net.kyori.adventure.text.@NotNull Component prefix() throws IllegalStateException;
++    net.kyori.adventure.text.@NotNull Component prefix();
 +
 +    /**
 +     * Sets the prefix prepended to the display of entries on this team.
 +     *
 +     * @param prefix New prefix
-+     * @throws IllegalArgumentException if prefix is null
-+     *     characters
 +     * @throws IllegalStateException if this team has been unregistered
 +     */
-+    void prefix(net.kyori.adventure.text.@Nullable Component prefix) throws IllegalStateException, IllegalArgumentException;
++    void prefix(net.kyori.adventure.text.@Nullable Component prefix);
 +
 +    /**
 +     * Gets the suffix appended to the display of entries on this team.
@@ -4808,17 +4835,15 @@ index 0db7fe1b9fe5621ceed3f4f046691e359f5949dd..4d625f79ba2e3fe074feade98f7c1bc2
 +     * @return the team's current suffix
 +     * @throws IllegalStateException if this team has been unregistered
 +     */
-+    net.kyori.adventure.text.@NotNull Component suffix() throws IllegalStateException;
++    net.kyori.adventure.text.@NotNull Component suffix();
 +
 +    /**
 +     * Sets the suffix appended to the display of entries on this team.
 +     *
 +     * @param suffix the new suffix for this team.
-+     * @throws IllegalArgumentException if suffix is null
-+     *     characters
 +     * @throws IllegalStateException if this team has been unregistered
 +     */
-+    void suffix(net.kyori.adventure.text.@Nullable Component suffix) throws IllegalStateException, IllegalArgumentException;
++    void suffix(net.kyori.adventure.text.@Nullable Component suffix);
 +
 +    /**
 +     * Checks if the team has a color specified
@@ -4839,7 +4864,7 @@ index 0db7fe1b9fe5621ceed3f4f046691e359f5949dd..4d625f79ba2e3fe074feade98f7c1bc2
 +     * @throws IllegalStateException if the team doesn't have a color
 +     * @see #hasColor()
 +     */
-+    net.kyori.adventure.text.format.@NotNull TextColor color() throws IllegalStateException;
++    net.kyori.adventure.text.format.@NotNull TextColor color();
 +
 +    /**
 +     * Sets the color of the team.
@@ -4850,8 +4875,8 @@ index 0db7fe1b9fe5621ceed3f4f046691e359f5949dd..4d625f79ba2e3fe074feade98f7c1bc2
 +     * @param color new color, null for no color
 +     */
 +    void color(net.kyori.adventure.text.format.@Nullable NamedTextColor color);
-+    // Paper end
- 
++    // Paper end - Adventure
++
      /**
       * Gets the name displayed to entries for this team
       *
@@ -4861,20 +4886,20 @@ index 0db7fe1b9fe5621ceed3f4f046691e359f5949dd..4d625f79ba2e3fe074feade98f7c1bc2
       */
      @NotNull
 +    @Deprecated // Paper
-     String getDisplayName() throws IllegalStateException;
+     String getDisplayName();
  
      /**
-@@ -39,7 +125,9 @@ public interface Team {
-      * @throws IllegalArgumentException if displayName is longer than 128
-      *     characters.
+@@ -37,7 +120,9 @@ public interface Team {
+      *
+      * @param displayName New display name
       * @throws IllegalStateException if this team has been unregistered
 +     * @deprecated in favour of {@link #displayName(net.kyori.adventure.text.Component)}
       */
 +    @Deprecated // Paper
-     void setDisplayName(@NotNull String displayName) throws IllegalStateException, IllegalArgumentException;
+     void setDisplayName(@NotNull String displayName);
  
      /**
-@@ -47,8 +135,10 @@ public interface Team {
+@@ -45,8 +130,10 @@ public interface Team {
       *
       * @return Team prefix
       * @throws IllegalStateException if this team has been unregistered
@@ -4882,20 +4907,20 @@ index 0db7fe1b9fe5621ceed3f4f046691e359f5949dd..4d625f79ba2e3fe074feade98f7c1bc2
       */
      @NotNull
 +    @Deprecated // Paper
-     String getPrefix() throws IllegalStateException;
+     String getPrefix();
  
      /**
-@@ -59,7 +149,9 @@ public interface Team {
-      * @throws IllegalArgumentException if prefix is longer than 64
-      *     characters
+@@ -54,7 +141,9 @@ public interface Team {
+      *
+      * @param prefix New prefix
       * @throws IllegalStateException if this team has been unregistered
 +     * @deprecated in favour of {@link #prefix(net.kyori.adventure.text.Component)}
       */
 +    @Deprecated // Paper
-     void setPrefix(@NotNull String prefix) throws IllegalStateException, IllegalArgumentException;
+     void setPrefix(@NotNull String prefix);
  
      /**
-@@ -67,8 +159,10 @@ public interface Team {
+@@ -62,8 +151,10 @@ public interface Team {
       *
       * @return the team's current suffix
       * @throws IllegalStateException if this team has been unregistered
@@ -4903,20 +4928,20 @@ index 0db7fe1b9fe5621ceed3f4f046691e359f5949dd..4d625f79ba2e3fe074feade98f7c1bc2
       */
      @NotNull
 +    @Deprecated // Paper
-     String getSuffix() throws IllegalStateException;
+     String getSuffix();
  
      /**
-@@ -79,7 +173,9 @@ public interface Team {
-      * @throws IllegalArgumentException if suffix is longer than 64
-      *     characters
+@@ -71,7 +162,9 @@ public interface Team {
+      *
+      * @param suffix the new suffix for this team.
       * @throws IllegalStateException if this team has been unregistered
 +     * @deprecated in favour of {@link #suffix(net.kyori.adventure.text.Component)}
       */
 +    @Deprecated // Paper
-     void setSuffix(@NotNull String suffix) throws IllegalStateException, IllegalArgumentException;
+     void setSuffix(@NotNull String suffix);
  
      /**
-@@ -90,8 +186,10 @@ public interface Team {
+@@ -82,8 +175,10 @@ public interface Team {
       *
       * @return team color, defaults to {@link ChatColor#RESET}
       * @throws IllegalStateException if this team has been unregistered
@@ -4924,10 +4949,10 @@ index 0db7fe1b9fe5621ceed3f4f046691e359f5949dd..4d625f79ba2e3fe074feade98f7c1bc2
       */
      @NotNull
 +    @Deprecated // Paper
-     ChatColor getColor() throws IllegalStateException;
+     ChatColor getColor();
  
      /**
-@@ -102,7 +200,9 @@ public interface Team {
+@@ -94,7 +189,9 @@ public interface Team {
       *
       * @param color new color, must be non-null. Use {@link ChatColor#RESET} for
       * no color
