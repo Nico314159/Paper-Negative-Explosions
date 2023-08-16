@@ -159,10 +159,10 @@ index 0000000000000000000000000000000000000000..2fba5bc0f982e143ad5f5bda55d768ed
 +}
 diff --git a/src/main/java/com/destroystokyo/paper/loottable/PaperLootableInventory.java b/src/main/java/com/destroystokyo/paper/loottable/PaperLootableInventory.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..ce135d990c785b02df468391ea622aa236290f07
+index 0000000000000000000000000000000000000000..8e6dac2cef7af26ad74928eff631c1826c2980bb
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/loottable/PaperLootableInventory.java
-@@ -0,0 +1,70 @@
+@@ -0,0 +1,75 @@
 +package com.destroystokyo.paper.loottable;
 +
 +import org.bukkit.loot.Lootable;
@@ -193,6 +193,11 @@ index 0000000000000000000000000000000000000000..ce135d990c785b02df468391ea622aa2
 +    @Override
 +    default boolean hasPlayerLooted(UUID player) {
 +        return getLootableData().hasPlayerLooted(player);
++    }
++
++    @Override
++    default boolean canPlayerLoot(final UUID player) {
++        return getLootableData().canPlayerLoot(player, this.getNMSWorld().paperConfig());
 +    }
 +
 +    @Override
@@ -235,13 +240,16 @@ index 0000000000000000000000000000000000000000..ce135d990c785b02df468391ea622aa2
 +}
 diff --git a/src/main/java/com/destroystokyo/paper/loottable/PaperLootableInventoryData.java b/src/main/java/com/destroystokyo/paper/loottable/PaperLootableInventoryData.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..e5ea9f27a1936ed9e329e74317c91c5df89b9fbd
+index 0000000000000000000000000000000000000000..87c5f8a43b8643486ba898e1cea33873398f3b1c
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/loottable/PaperLootableInventoryData.java
-@@ -0,0 +1,179 @@
+@@ -0,0 +1,188 @@
 +package com.destroystokyo.paper.loottable;
 +
 +import io.papermc.paper.configuration.WorldConfiguration;
++import io.papermc.paper.configuration.type.DurationOrDisabled;
++import java.time.temporal.ChronoUnit;
++import java.util.concurrent.TimeUnit;
 +import org.bukkit.entity.Player;
 +import org.bukkit.loot.LootTable;
 +import javax.annotation.Nullable;
@@ -318,9 +326,7 @@ index 0000000000000000000000000000000000000000..e5ea9f27a1936ed9e329e74317c91c5d
 +
 +        final Player bukkitPlayer = (Player) player.getBukkitEntity();
 +        LootableInventoryReplenishEvent event = new LootableInventoryReplenishEvent(bukkitPlayer, lootable.getAPILootableInventory());
-+        if (paperConfig.lootables.restrictPlayerReloot && hasPlayerLooted(player.getUUID())) {
-+            event.setCancelled(true);
-+        }
++        event.setCancelled(!canPlayerLoot(player.getUUID(), paperConfig));
 +        return event.callEvent();
 +    }
 +    public void processRefill(@Nullable net.minecraft.world.entity.player.Player player) {
@@ -402,12 +408,20 @@ index 0000000000000000000000000000000000000000..e5ea9f27a1936ed9e329e74317c91c5d
 +            this.lootedPlayers = new HashMap<>();
 +        }
 +        if (looted) {
-+            if (!this.lootedPlayers.containsKey(player)) {
-+                this.lootedPlayers.put(player, System.currentTimeMillis());
-+            }
++            this.lootedPlayers.put(player, System.currentTimeMillis());
 +        } else if (this.lootedPlayers != null) {
 +            this.lootedPlayers.remove(player);
 +        }
++    }
++
++    boolean canPlayerLoot(final UUID player, final WorldConfiguration worldConfiguration) {
++        final Long lastLooted = getLastLooted(player);
++        if (!worldConfiguration.lootables.restrictPlayerReloot || lastLooted == null) return true;
++
++        final DurationOrDisabled restrictPlayerRelootTime = worldConfiguration.lootables.restrictPlayerRelootTime;
++        if (restrictPlayerRelootTime.value().isEmpty()) return true;
++
++        return TimeUnit.SECONDS.toMillis(restrictPlayerRelootTime.value().get().seconds()) + lastLooted < System.currentTimeMillis();
 +    }
 +
 +    boolean hasPlayerLooted(UUID player) {
@@ -490,7 +504,7 @@ index 0000000000000000000000000000000000000000..9cfa5d36a6991067a3866e0d437749fa
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 9fadfb41a41b575aa1ca1c28e34118708eded498..fbd28a3f571766e6ed4ba73f337b2e835ef50453 100644
+index 2f15c9df59ebfbe7619e190b8d6ef1fe122809f8..069fe5df02806103c9bbef396c2e39ca3be90101 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -235,6 +235,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -736,10 +750,10 @@ index 982adacb361b0590799dc68f9b7c13c7195627fd..e49eece9bff3a53469673d03a7bbf8f9
      public CraftLootable(World world, T tileEntity) {
          super(world, tileEntity);
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftChestBoat.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftChestBoat.java
-index ae07db69b11b993b50782c94aa5c45b97d949612..06a96f027f90fd5bf05de72c8722ff5a81608b66 100644
+index 9ba61f791c0ca9b283c0f1f30f12600c4e49a4cb..c332e8504b96a4437325b5a64430c97c5afb6b4b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftChestBoat.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftChestBoat.java
-@@ -11,8 +11,7 @@ import org.bukkit.entity.EntityType;
+@@ -10,8 +10,7 @@ import org.bukkit.craftbukkit.util.CraftNamespacedKey;
  import org.bukkit.inventory.Inventory;
  import org.bukkit.loot.LootTable;
  
@@ -749,7 +763,7 @@ index ae07db69b11b993b50782c94aa5c45b97d949612..06a96f027f90fd5bf05de72c8722ff5a
      private final Inventory inventory;
  
      public CraftChestBoat(CraftServer server, ChestBoat entity) {
-@@ -66,7 +65,7 @@ public class CraftChestBoat extends CraftBoat implements org.bukkit.entity.Chest
+@@ -60,7 +59,7 @@ public class CraftChestBoat extends CraftBoat implements org.bukkit.entity.Chest
          return this.getHandle().getLootTableSeed();
      }
  
@@ -759,10 +773,10 @@ index ae07db69b11b993b50782c94aa5c45b97d949612..06a96f027f90fd5bf05de72c8722ff5a
          this.getHandle().setLootTable(newKey);
          this.getHandle().setLootTableSeed(seed);
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftMinecartChest.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftMinecartChest.java
-index eb21b8457774d5ac765fa9008157cb29d9b72509..abf58bef2042a9efba5a78fd7f97339deceaa780 100644
+index fd42f0b20132d08039ca7735d31a61806a6b07dc..b1a708de6790bbe336202b13ab862ced78de084f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftMinecartChest.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftMinecartChest.java
-@@ -8,7 +8,7 @@ import org.bukkit.entity.minecart.StorageMinecart;
+@@ -7,7 +7,7 @@ import org.bukkit.entity.minecart.StorageMinecart;
  import org.bukkit.inventory.Inventory;
  
  @SuppressWarnings("deprecation")
@@ -772,10 +786,10 @@ index eb21b8457774d5ac765fa9008157cb29d9b72509..abf58bef2042a9efba5a78fd7f97339d
  
      public CraftMinecartChest(CraftServer server, MinecartChest entity) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftMinecartHopper.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftMinecartHopper.java
-index 34b8f103625f087bb725bed595dd9c30f4a6f70c..ee9648739fb39c5842063d7442df6eb5c9336d7f 100644
+index ec3ab12442b7371e16059b902f71e573f0bc9816..3ba7e8ef1035e1de2c195b6919fe57aee398af51 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftMinecartHopper.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftMinecartHopper.java
-@@ -7,7 +7,7 @@ import org.bukkit.entity.EntityType;
+@@ -6,7 +6,7 @@ import org.bukkit.craftbukkit.inventory.CraftInventory;
  import org.bukkit.entity.minecart.HopperMinecart;
  import org.bukkit.inventory.Inventory;
  
