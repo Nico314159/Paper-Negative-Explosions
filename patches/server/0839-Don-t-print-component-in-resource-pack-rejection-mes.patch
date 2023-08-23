@@ -5,7 +5,7 @@ Subject: [PATCH] Don't print component in resource pack rejection message
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index aae750e2b6067a8fccff7e70b3b0422bd609904a..ae7e333ff9da224422b61b3b8c2d409144f18b9d 100644
+index bb36a5c934252ce11c2705e676ecb943d362fcd4..0a5ab47ecbfa4c7d1653fdc4b918387a1389f42e 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2037,7 +2037,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic

@@ -82,7 +82,7 @@ index d088479d160dbd2fc90b48a30553be141db8eef2..15add3f4dfd718ec09bb1db4f2222346
      public static class DataItem<T> {
  
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 11e37de9481d82bcc9de4aae82a04acd6659f869..afdef7501e6071932d569657d60a39305f5ca4be 100644
+index 7bb601078ef3a983d1807246b91b669ae5d5a8e4..dbc93883b8529b0aab3ea21ddd466bc8c3739351 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2805,7 +2805,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic

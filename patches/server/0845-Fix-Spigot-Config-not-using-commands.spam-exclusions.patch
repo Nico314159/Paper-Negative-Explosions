@@ -5,7 +5,7 @@ Subject: [PATCH] Fix Spigot Config not using commands.spam-exclusions
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 7b42f4be71566f9d91496ae05177e5d5f398ac9a..81ba625e01dad1373ef7d5377bb28f9f0b0ae34e 100644
+index e8f40d5baec146262385f14f9b2e028f47c3ac6d..502ee7d0629b2b2e9b2513beb9b4e2fee3e6966f 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2536,7 +2536,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic

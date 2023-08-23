@@ -5,7 +5,7 @@ Subject: [PATCH] Add missing SpigotConfig logCommands check
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 3d2ca3ae49a85a91773510ca93d60b9b098e39ba..4947265c3b7a9da8782be3ae8d35ef99c5836e81 100644
+index d7a4e200853f4eb980f1ea4a5c6a338039979cf1..4434cad1a854fb514245c4afb3e3d469efb223f9 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2259,7 +2259,9 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic

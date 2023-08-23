@@ -34,7 +34,7 @@ index 34ecfb89372f459117db99d57a7edd6f681bbe8a..baf3e79489e310f443788bc917c553ae
          return enuminteractionresult;
          // CraftBukkit end
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 7ee70536cfb621702388bd13dddf08f0224ba6bb..75bd92e1d40588d3bc40fa7837943eec9f2062a6 100644
+index 3876bcddb3ab69aee1feb0fe19cb343e097a6824..f61b6e0eea4132347ced3c7c18d027337f8e6b15 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2031,6 +2031,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic

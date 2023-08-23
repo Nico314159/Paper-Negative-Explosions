@@ -7,7 +7,7 @@ Subject: [PATCH] More Teleport API
 public net.minecraft.server.network.ServerGamePacketListenerImpl internalTeleport(DDDFFLjava/util/Set;Z)V
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 81ba625e01dad1373ef7d5377bb28f9f0b0ae34e..9a5ec7667b99ab271ff9824d3f250c11d5836ac3 100644
+index 502ee7d0629b2b2e9b2513beb9b4e2fee3e6966f..12b7cc8bb261888e8686b8fdd1db9cf44f1dbb65 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -1713,11 +1713,17 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
