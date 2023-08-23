@@ -5,6 +5,8 @@ In vanilla, a creeper with a negative `ExplosionRadius` value will deal knockbac
 
 Unfortunately, Spigot and Paper makes it so negative radius creepers do nothing at all. As such, I have created this fork so that mapmakers can enjoy the performance benefits of Paper without having to give up useful vanilla functionality.
 
+**Important:** This is *not* a plugin, it is a replacement for the paper.jar file. So it is unfortunately not usable if your server host doesn't let you change the .jar directly.
+
 I will try my best to keep this fully in-sync with regular PaperMC. DM me on Discord at Nicoder#6884 if you have any issues.
 
 Compiling
