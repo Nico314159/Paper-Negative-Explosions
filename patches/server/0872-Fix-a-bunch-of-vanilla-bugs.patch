@@ -57,6 +57,18 @@ https://bugs.mojang.com/browse/MC-84789
 https://bugs.mojang.com/browse/MC-225381
   Fix overfilled bundles duplicating items / being filled with air
 
+https://bugs.mojang.com/browse/MC-173303
+  Fix leashed pets teleporting to owner when loaded
+
+https://bugs.mojang.com/browse/MC-174630
+  Fix secondary beacon effect remaining after switching effect
+
+https://bugs.mojang.com/browse/MC-153086
+  Fix the beacon deactivation sound always playing when broken
+
+== AT ==
+public net/minecraft/world/entity/Mob leashInfoTag
+
 Co-authored-by: William Blake Galbreath <blake.galbreath@gmail.com>
 
 diff --git a/src/main/java/net/minecraft/core/dispenser/DispenseItemBehavior.java b/src/main/java/net/minecraft/core/dispenser/DispenseItemBehavior.java
@@ -99,10 +111,10 @@ index 6cd6d69a20e95e344fc18ab67dc300824537a59b..2e2a7c2cf3081187da817479a9da3eb1
              }
          }
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 9209b598d7168b82574e4800056b8b9f84265dd0..469083208110d5735e1bbda7a15c55a032d0e8cc 100644
+index 153b82e4a3134ff0e40f267f1a005bc9184785ef..1337abd1ad70fb67d1ebba0fc0245470c988f7c5 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -1000,7 +1000,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -1003,7 +1003,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
      }
      // Paper end
  
@@ -198,6 +210,19 @@ index b0caf52d00d8cd76550ab116291f8e11144a5e59..93bbda61f0eb2dd52573602b1f9cc7b0
          if (this.mob.getRandom().nextInt(this.mob.isBaby() ? 50 : 1000) != 0) {
              return false;
          } else {
+diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/FollowOwnerGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/FollowOwnerGoal.java
+index 11cc26954b4e97114b59df35a4f9b75a09132e20..0a3f7dcc0e205a85dbaa6dee1fc9ae2c7fa9e02d 100644
+--- a/src/main/java/net/minecraft/world/entity/ai/goal/FollowOwnerGoal.java
++++ b/src/main/java/net/minecraft/world/entity/ai/goal/FollowOwnerGoal.java
+@@ -74,7 +74,7 @@ public class FollowOwnerGoal extends Goal {
+     }
+ 
+     private boolean unableToMove() {
+-        return this.tamable.isOrderedToSit() || this.tamable.isPassenger() || this.tamable.isLeashed();
++        return this.tamable.isOrderedToSit() || this.tamable.isPassenger() || this.tamable.isLeashed() || this.tamable.leashInfoTag != null; // Paper - Fix MC-173303
+     }
+ 
+     @Override
 diff --git a/src/main/java/net/minecraft/world/entity/ai/goal/SwellGoal.java b/src/main/java/net/minecraft/world/entity/ai/goal/SwellGoal.java
 index 19540fd4a7f992888fadb6501d0c8a5a7e71fcf6..e241ae250f4f04a17ef2c583d00b065a4ca56a4c 100644
 --- a/src/main/java/net/minecraft/world/entity/ai/goal/SwellGoal.java
@@ -319,6 +344,22 @@ index 380afb885e85e4cf80e746d217033345a7514443..41457c9f27b18fa2734a6cca297ec518
                      if (!raid.hasFirstWaveSpawned()) {
                          player.awardStat(Stats.RAID_TRIGGER);
                          CriteriaTriggers.BAD_OMEN.trigger(player);
+diff --git a/src/main/java/net/minecraft/world/inventory/BeaconMenu.java b/src/main/java/net/minecraft/world/inventory/BeaconMenu.java
+index 335d0a85378c04dd466fafd42048b2474c815cb9..f984af71fc034e09147fa339bd5f260a7466e127 100644
+--- a/src/main/java/net/minecraft/world/inventory/BeaconMenu.java
++++ b/src/main/java/net/minecraft/world/inventory/BeaconMenu.java
+@@ -167,6 +167,11 @@ public class BeaconMenu extends AbstractContainerMenu {
+     // Paper end
+ 
+     public void updateEffects(Optional<MobEffect> primary, Optional<MobEffect> secondary) {
++        // Paper start - fix MC-174630 - validate secondary power
++        if (secondary.isPresent() && secondary.get() != net.minecraft.world.effect.MobEffects.REGENERATION && (primary.isPresent() && secondary.get() != primary.get())) {
++            secondary = Optional.empty();
++        }
++        // Paper end
+         if (this.paymentSlot.hasItem()) {
+             // Paper start
+             io.papermc.paper.event.player.PlayerChangeBeaconEffectEvent event = new io.papermc.paper.event.player.PlayerChangeBeaconEffectEvent((org.bukkit.entity.Player) this.player.player.getBukkitEntity(), convert(primary), convert(secondary), this.access.getLocation().getBlock());
 diff --git a/src/main/java/net/minecraft/world/item/BundleItem.java b/src/main/java/net/minecraft/world/item/BundleItem.java
 index 10b0720ce7eed58fa3cd8c8051efa6225f7d73e1..ac0bc87f60c4e1562d1301522183e449558d42f8 100644
 --- a/src/main/java/net/minecraft/world/item/BundleItem.java
@@ -405,3 +446,19 @@ index 436290eaa0dab05a642b67b265117dbe5eceb8b7..5ccc419b904aec590c5624438da61ca6
  
      }
  }
+diff --git a/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
+index 147e808c7e2b3ed16861c989c1ba4a0b99a5be38..2b3bb4513557e8d81bf2b0a3e10c34cec6a6d43e 100644
+--- a/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
++++ b/src/main/java/net/minecraft/world/level/block/entity/BeaconBlockEntity.java
+@@ -282,7 +282,11 @@ public class BeaconBlockEntity extends BlockEntity implements MenuProvider, Name
+         org.bukkit.block.Block block = org.bukkit.craftbukkit.block.CraftBlock.at(level, worldPosition);
+         new io.papermc.paper.event.block.BeaconDeactivatedEvent(block).callEvent();
+         // Paper end
++        // Paper start - fix MC-153086
++        if (this.levels > 0 && !this.beamSections.isEmpty()) {
+         BeaconBlockEntity.playSound(this.level, this.worldPosition, SoundEvents.BEACON_DEACTIVATE);
++        }
++        // Paper end
+         super.setRemoved();
+     }
+ 
