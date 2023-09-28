@@ -19,10 +19,10 @@ spectate the target entity.
 Co-authored-by: Spottedleaf <Spottedleaf@users.noreply.github.com>
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 41e0b2826bae59e48fef7e35caeb3ce6e46031ea..040f93638d3c71fb8f23301b8903e7cfda980e5d 100644
+index ba938eb9844157cccedb5f673a44720538912bc5..be56cbfc2a7d966a8c5fc9c89f99f73c94e23ab6 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -1978,6 +1978,19 @@ public class ServerPlayer extends Player {
+@@ -1983,6 +1983,19 @@ public class ServerPlayer extends Player {
  
          this.camera = (Entity) (entity == null ? this : entity);
          if (entity1 != this.camera) {
@@ -42,7 +42,7 @@ index 41e0b2826bae59e48fef7e35caeb3ce6e46031ea..040f93638d3c71fb8f23301b8903e7cf
              Level world = this.camera.level();
  
              if (world instanceof ServerLevel) {
-@@ -1993,7 +2006,6 @@ public class ServerPlayer extends Player {
+@@ -1998,7 +2011,6 @@ public class ServerPlayer extends Player {
              this.connection.send(new ClientboundSetCameraPacket(this.camera));
              this.connection.resetPosition();
          }

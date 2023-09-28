@@ -6,10 +6,10 @@ Subject: [PATCH] Properly fix item duplication bug
 Credit to prplz for figuring out the real issue
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 9e182c4cdf54c9ca7701660df72052d5c8936a55..5c855a15f7847ca37c263755f643eeb1fd79668b 100644
+index 5d95cc1f0f66cdad867265c38a06938c00b3a2ed..c6c046f3089759214739fc9c3b6f2936e41d1334 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -2392,7 +2392,7 @@ public class ServerPlayer extends Player {
+@@ -2393,7 +2393,7 @@ public class ServerPlayer extends Player {
  
      @Override
      public boolean isImmobile() {
@@ -18,11 +18,11 @@ index 9e182c4cdf54c9ca7701660df72052d5c8936a55..5c855a15f7847ca37c263755f643eeb1
      }
  
      @Override
-diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 54433d42a13b8967e38eeeb3052b8ff94c62c730..4233b912d44fb66d2a0502ad66bcf0b29e670f6d 100644
---- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-+++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3140,7 +3140,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+diff --git a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
+index e8b12a8ae009023afa2818ecbf398a1440b9926e..6faec2ca225fcebbad65190ab485e2cab77cfd6e 100644
+--- a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
+@@ -145,7 +145,7 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack
      }
  
      public final boolean isDisconnected() {

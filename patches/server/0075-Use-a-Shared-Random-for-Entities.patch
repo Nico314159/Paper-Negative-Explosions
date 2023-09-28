@@ -6,7 +6,7 @@ Subject: [PATCH] Use a Shared Random for Entities
 Reduces memory usage and provides ensures more randomness, Especially since a lot of garbage entity objects get created.
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 2d37f4da83282e3430353e01c756a0d952150360..2f15c9df59ebfbe7619e190b8d6ef1fe122809f8 100644
+index a8608e7b3dae15a54185d720c01a49d3a7e59994..fc39c3742e852bc9f4131b1ade62c32b318bdb02 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -162,6 +162,79 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {

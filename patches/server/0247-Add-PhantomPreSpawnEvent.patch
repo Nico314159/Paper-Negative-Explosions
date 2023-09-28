@@ -5,10 +5,10 @@ Subject: [PATCH] Add PhantomPreSpawnEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Phantom.java b/src/main/java/net/minecraft/world/entity/monster/Phantom.java
-index 7582efc69928718a164f704a54bce026ad6f7dd9..9bd6e71ea38bf050832f0f7bbed4a5db6ddcef71 100644
+index d19bf99d03bf505a1a277b49fba6ee4769802ef2..658393f451e46a93c5665fe3c580aa395ace68d1 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Phantom.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Phantom.java
-@@ -171,6 +171,11 @@ public class Phantom extends FlyingMob implements Enemy {
+@@ -172,6 +172,11 @@ public class Phantom extends FlyingMob implements Enemy {
          }
  
          this.setPhantomSize(nbt.getInt("Size"));
@@ -20,7 +20,7 @@ index 7582efc69928718a164f704a54bce026ad6f7dd9..9bd6e71ea38bf050832f0f7bbed4a5db
      }
  
      @Override
-@@ -180,6 +185,11 @@ public class Phantom extends FlyingMob implements Enemy {
+@@ -181,6 +186,11 @@ public class Phantom extends FlyingMob implements Enemy {
          nbt.putInt("AY", this.anchorPoint.getY());
          nbt.putInt("AZ", this.anchorPoint.getZ());
          nbt.putInt("Size", this.getPhantomSize());
@@ -32,8 +32,8 @@ index 7582efc69928718a164f704a54bce026ad6f7dd9..9bd6e71ea38bf050832f0f7bbed4a5db
      }
  
      @Override
-@@ -236,6 +246,14 @@ public class Phantom extends FlyingMob implements Enemy {
-         return (double) this.getEyeHeight();
+@@ -241,6 +251,14 @@ public class Phantom extends FlyingMob implements Enemy {
+         return -0.125F;
      }
  
 +    // Paper start

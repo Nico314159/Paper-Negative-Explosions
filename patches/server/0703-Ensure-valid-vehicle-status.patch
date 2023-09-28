@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Nassim Jahnke <nassim@njahnke.dev>
+Date: Tue, 28 Sep 2021 09:47:47 +0200
+Subject: [PATCH] Ensure valid vehicle status
+
+
+diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
+index 5f0ff1b2466469eff0bf78042b9cdd2fcf747dc7..981a2b55a58f85f551991945adc7a202b4a4ec72 100644
+--- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
++++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
+@@ -568,7 +568,7 @@ public class ServerPlayer extends Player {
+             }
+         }
+ 
+-        if (persistVehicle && entity1 != null && entity != this && entity.hasExactlyOnePlayerPassenger()) {
++        if (persistVehicle && entity1 != null && entity != this && entity.hasExactlyOnePlayerPassenger() && !entity.isRemoved()) { // Paper
+             // CraftBukkit end
+             CompoundTag nbttagcompound2 = new CompoundTag();
+             CompoundTag nbttagcompound3 = new CompoundTag();

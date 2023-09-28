@@ -6,10 +6,10 @@ Subject: [PATCH] Add UnknownCommandEvent
 Co-authored-by: Jake Potrebic <jake.m.potrebic@gmail.com>
 
 diff --git a/src/main/java/net/minecraft/commands/CommandSourceStack.java b/src/main/java/net/minecraft/commands/CommandSourceStack.java
-index fb381a7f3362b5c7848f9c326e9378b76f6fdad9..34fdef41d1eb3fe78bf688d69aae437d89a337bb 100644
+index 2ee328f204acf97b23702b4dc3b13b7f33b97a8e..902671a335da23d3945c363afc8abde6f5a1d444 100644
 --- a/src/main/java/net/minecraft/commands/CommandSourceStack.java
 +++ b/src/main/java/net/minecraft/commands/CommandSourceStack.java
-@@ -348,8 +348,13 @@ public class CommandSourceStack implements SharedSuggestionProvider {
+@@ -344,8 +344,13 @@ public class CommandSourceStack implements SharedSuggestionProvider {
      }
  
      public void sendFailure(Component message) {
@@ -25,10 +25,10 @@ index fb381a7f3362b5c7848f9c326e9378b76f6fdad9..34fdef41d1eb3fe78bf688d69aae437d
  
      }
 diff --git a/src/main/java/net/minecraft/commands/Commands.java b/src/main/java/net/minecraft/commands/Commands.java
-index 2fdfc17ef3daf9fb5cc32c807292c71e256d5356..e3394864e29357fec036f9e616472aeab95d035e 100644
+index d1ecf61ffecb8669214ad85334374a4569811de8..e63632f09d608371aaeaf09a6dac57c1d8a719d4 100644
 --- a/src/main/java/net/minecraft/commands/Commands.java
 +++ b/src/main/java/net/minecraft/commands/Commands.java
-@@ -137,6 +137,7 @@ public class Commands {
+@@ -139,6 +139,7 @@ public class Commands {
      public static final int LEVEL_ADMINS = 3;
      public static final int LEVEL_OWNERS = 4;
      private final com.mojang.brigadier.CommandDispatcher<CommandSourceStack> dispatcher = new com.mojang.brigadier.CommandDispatcher();
@@ -36,7 +36,7 @@ index 2fdfc17ef3daf9fb5cc32c807292c71e256d5356..e3394864e29357fec036f9e616472aea
  
      public Commands(Commands.CommandSelection environment, CommandBuildContext commandRegistryAccess) {
          this(); // CraftBukkit
-@@ -228,6 +229,7 @@ public class Commands {
+@@ -234,6 +235,7 @@ public class Commands {
          if (environment.includeIntegrated) {
              PublishCommand.register(this.dispatcher);
          }
@@ -44,7 +44,7 @@ index 2fdfc17ef3daf9fb5cc32c807292c71e256d5356..e3394864e29357fec036f9e616472aea
  
          // CraftBukkit start
      }
-@@ -319,7 +321,16 @@ public class Commands {
+@@ -325,7 +327,16 @@ public class Commands {
                  b1 = 0;
                  return b1;
              } catch (CommandSyntaxException commandsyntaxexception) {
@@ -62,7 +62,7 @@ index 2fdfc17ef3daf9fb5cc32c807292c71e256d5356..e3394864e29357fec036f9e616472aea
                  if (commandsyntaxexception.getInput() != null && commandsyntaxexception.getCursor() >= 0) {
                      int j = Math.min(commandsyntaxexception.getInput().length(), commandsyntaxexception.getCursor());
                      MutableComponent ichatmutablecomponent = Component.empty().withStyle(ChatFormatting.GRAY).withStyle((chatmodifier) -> {
-@@ -338,7 +349,18 @@ public class Commands {
+@@ -344,7 +355,18 @@ public class Commands {
                      }
  
                      ichatmutablecomponent.append((Component) Component.translatable("command.context.here").withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
@@ -83,10 +83,10 @@ index 2fdfc17ef3daf9fb5cc32c807292c71e256d5356..e3394864e29357fec036f9e616472aea
  
                  b1 = 0;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 22a359e3883765044e349cd4e785a64d00d6044d..2ffc67b0b8f2e0f1fbc70099541f093887d9945c 100644
+index 66de956051f6c5b66f806063869e25430144c6ce..0ef8750c7c862a44dfb0e15602ef819790c9f1a4 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -526,6 +526,7 @@ public final class CraftServer implements Server {
+@@ -530,6 +530,7 @@ public final class CraftServer implements Server {
                      }
                      node = clone;
                  }
@@ -94,7 +94,7 @@ index 22a359e3883765044e349cd4e785a64d00d6044d..2ffc67b0b8f2e0f1fbc70099541f0938
  
                  dispatcher.getDispatcher().getRoot().addChild(node);
              } else {
-@@ -893,7 +894,13 @@ public final class CraftServer implements Server {
+@@ -897,7 +898,13 @@ public final class CraftServer implements Server {
  
          // Spigot start
          if (!org.spigotmc.SpigotConfig.unknownCommandMessage.isEmpty()) {

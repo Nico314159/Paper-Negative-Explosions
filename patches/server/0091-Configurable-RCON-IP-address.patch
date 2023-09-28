@@ -9,10 +9,10 @@ For servers with multiple IP's, ability to bind to a specific interface.
 public net.minecraft.server.dedicated.Settings getStringRaw(Ljava/lang/String;)Ljava/lang/String;
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-index d2d5a6cd70299c169f50684e442ce90be5840f62..d144fc518442762e45f213550a9b0a21f77fcdd1 100644
+index 20d02405b8e6476b11a8c8518c9a3949d3df11a4..bdf520c32847658fefaf2bde33bac16ea807002f 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-@@ -108,6 +108,8 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+@@ -109,6 +109,8 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
      private final DedicatedServerProperties.WorldDimensionData worldDimensionData;
      public final WorldOptions worldOptions;
  
@@ -21,7 +21,7 @@ index d2d5a6cd70299c169f50684e442ce90be5840f62..d144fc518442762e45f213550a9b0a21
      // CraftBukkit start
      public DedicatedServerProperties(Properties properties, OptionSet optionset) {
          super(properties, optionset);
-@@ -165,6 +167,10 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+@@ -167,6 +169,10 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
          }, WorldPresets.NORMAL.location().toString()));
          this.serverResourcePackInfo = DedicatedServerProperties.getServerPackInfo(this.get("resource-pack", ""), this.get("resource-pack-sha1", ""), this.getLegacyString("resource-pack-hash"), this.get("require-resource-pack", false), this.get("resource-pack-prompt", ""));
          this.initialDataPackConfiguration = DedicatedServerProperties.getDatapackConfig(this.get("initial-enabled-packs", String.join(",", WorldDataConfiguration.DEFAULT.dataPacks().getEnabled())), this.get("initial-disabled-packs", String.join(",", WorldDataConfiguration.DEFAULT.dataPacks().getDisabled())));

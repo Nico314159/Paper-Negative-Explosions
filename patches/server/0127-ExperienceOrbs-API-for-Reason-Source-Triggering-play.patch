@@ -133,10 +133,10 @@ index 9dffdfe5bbd0517e9a2c6a6770eea07b43ef9b33..6de7fcccb6da757185a38b79b3a22821
  
      @Override
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index d7c437dc575a06e1cdf7b393acaeee6007424687..01b9635e71a55f29e565fc095cc53f102945423d 100644
+index c61ddc868fa2eed1dce72ebcf98940756cca401e..45d1b869b0aa2d12000a58c5c3cd1c8232429d36 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -1759,7 +1759,8 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -1792,7 +1792,8 @@ public abstract class LivingEntity extends Entity implements Attackable {
      protected void dropExperience() {
          // CraftBukkit start - Update getExpReward() above if the removed if() changes!
          if (true && !(this instanceof net.minecraft.world.entity.boss.enderdragon.EnderDragon)) { // CraftBukkit - SPIGOT-2420: Special case ender dragon will drop the xp over time
@@ -147,10 +147,10 @@ index d7c437dc575a06e1cdf7b393acaeee6007424687..01b9635e71a55f29e565fc095cc53f10
          }
          // CraftBukkit end
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Animal.java b/src/main/java/net/minecraft/world/entity/animal/Animal.java
-index dfccfde4484d4a495f796caaff31d243ed6cdddc..c2f61ed153260692c96af4f20bc5b7d55cbbc380 100644
+index b5b93396166202cbe5a4456794fd394de932262a..be105a4460e9bf2ef4b72a307fa31291c37d5e0e 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Animal.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Animal.java
-@@ -261,12 +261,14 @@ public abstract class Animal extends AgeableMob {
+@@ -256,12 +256,14 @@ public abstract class Animal extends AgeableMob {
  
      public void finalizeSpawnChildFromBreeding(ServerLevel worldserver, Animal entityanimal, @Nullable AgeableMob entityageable, int experience) {
          // CraftBukkit end
@@ -169,7 +169,7 @@ index dfccfde4484d4a495f796caaff31d243ed6cdddc..c2f61ed153260692c96af4f20bc5b7d5
          this.setAge(6000);
          entityanimal.setAge(6000);
          this.resetLove();
-@@ -275,7 +277,7 @@ public abstract class Animal extends AgeableMob {
+@@ -270,7 +272,7 @@ public abstract class Animal extends AgeableMob {
          if (worldserver.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
              // CraftBukkit start - use event experience
              if (experience > 0) {
@@ -179,10 +179,10 @@ index dfccfde4484d4a495f796caaff31d243ed6cdddc..c2f61ed153260692c96af4f20bc5b7d5
              // CraftBukkit end
          }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Fox.java b/src/main/java/net/minecraft/world/entity/animal/Fox.java
-index 3e14e79847a0992687420ecb3bbeb742ee287714..44b6d232d940d4020fa7664e48a483c20959dde0 100644
+index 1bf6126b38dd127bb72b174b049fb3b396db713c..0d4b86411d2d064b04334b508b1cb65695afaebd 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Fox.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Fox.java
-@@ -898,7 +898,7 @@ public class Fox extends Animal implements VariantHolder<Fox.Type> {
+@@ -909,7 +909,7 @@ public class Fox extends Animal implements VariantHolder<Fox.Type> {
                  if (this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
                      // CraftBukkit start - use event experience
                      if (experience > 0) {
@@ -192,10 +192,10 @@ index 3e14e79847a0992687420ecb3bbeb742ee287714..44b6d232d940d4020fa7664e48a483c2
                      // CraftBukkit end
                  }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Turtle.java b/src/main/java/net/minecraft/world/entity/animal/Turtle.java
-index c9c9a7f75ab239829026f419774945341d364e66..3a3f5e567fdefad6887e42c8e9147194ae0c4d89 100644
+index 6dba24f47ca76a432a836178af178c2d52631eee..ed1f6e77d5fc9b6f5f52b1a10275783b514c162c 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Turtle.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Turtle.java
-@@ -455,7 +455,7 @@ public class Turtle extends Animal {
+@@ -464,7 +464,7 @@ public class Turtle extends Animal {
              RandomSource randomsource = this.animal.getRandom();
  
              if (this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
@@ -205,10 +205,10 @@ index c9c9a7f75ab239829026f419774945341d364e66..3a3f5e567fdefad6887e42c8e9147194
  
          }
 diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-index 27f99f9ce39aac0bae5e9a7b34fd63833aa4ad26..0f39550f82aa1646dd5e4a887e33c414160ee7d9 100644
+index 1a787bd4bdbbf7c78f4bf6bd7e2f36540fec7d50..8bfb2f94226e6b623def141a7af79d0f46d7d445 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-@@ -682,7 +682,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -673,7 +673,7 @@ public class EnderDragon extends Mob implements Enemy {
  
          if (this.level() instanceof ServerLevel) {
              if (this.dragonDeathTime > 150 && this.dragonDeathTime % 5 == 0 && true) {  // CraftBukkit - SPIGOT-2420: Already checked for the game rule when calculating the xp
@@ -217,7 +217,7 @@ index 27f99f9ce39aac0bae5e9a7b34fd63833aa4ad26..0f39550f82aa1646dd5e4a887e33c414
              }
  
              if (this.dragonDeathTime == 1 && !this.isSilent()) {
-@@ -710,7 +710,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -701,7 +701,7 @@ public class EnderDragon extends Mob implements Enemy {
          this.move(MoverType.SELF, new Vec3(0.0D, 0.10000000149011612D, 0.0D));
          if (this.dragonDeathTime == 200 && this.level() instanceof ServerLevel) {
              if (true) { // CraftBukkit - SPIGOT-2420: Already checked for the game rule when calculating the xp
@@ -227,10 +227,10 @@ index 27f99f9ce39aac0bae5e9a7b34fd63833aa4ad26..0f39550f82aa1646dd5e4a887e33c414
  
              if (this.dragonFight != null) {
 diff --git a/src/main/java/net/minecraft/world/entity/npc/Villager.java b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-index e04f3f1159c5d5fa2e3956a36e95f8afb5a1d4aa..68594d2621267f4b112b4d14d2bec3a0dd6a044a 100644
+index b70ee1dff0442de32a9e20ad54b246d5eae45e58..b3127238cea62c47d710abab44f6570103ba9364 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-@@ -637,7 +637,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -638,7 +638,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
          }
  
          if (offer.shouldRewardExp()) {
@@ -240,10 +240,10 @@ index e04f3f1159c5d5fa2e3956a36e95f8afb5a1d4aa..68594d2621267f4b112b4d14d2bec3a0
  
      }
 diff --git a/src/main/java/net/minecraft/world/entity/npc/WanderingTrader.java b/src/main/java/net/minecraft/world/entity/npc/WanderingTrader.java
-index fb80311e90ec83ca39b213d9348c821c402a1933..65592c41b1519eff77ccd7ddd3c885058f3ed138 100644
+index eb15d694ad8c24b659feba53e6992661ba1a9b76..5ea5f424c55f60bf63d3a4d3fe51362939f42f4c 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/WanderingTrader.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/WanderingTrader.java
-@@ -186,7 +186,7 @@ public class WanderingTrader extends net.minecraft.world.entity.npc.AbstractVill
+@@ -207,7 +207,7 @@ public class WanderingTrader extends net.minecraft.world.entity.npc.AbstractVill
          if (offer.shouldRewardExp()) {
              int i = 3 + this.random.nextInt(4);
  
@@ -253,7 +253,7 @@ index fb80311e90ec83ca39b213d9348c821c402a1933..65592c41b1519eff77ccd7ddd3c88505
  
      }
 diff --git a/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java b/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
-index 4377a0f7387a09983a5580d408775f386ea5f487..dbff697927e6a6c745377aafd3b476b58f005882 100644
+index af6829c25fcd186adc3575d50cab6d46db9a2fac..5c77992e0c49eb217dd66657b35164225b400518 100644
 --- a/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
 +++ b/src/main/java/net/minecraft/world/entity/projectile/FishingHook.java
 @@ -522,7 +522,7 @@ public class FishingHook extends Projectile {
@@ -311,10 +311,10 @@ index 7ed82beb538a25a5246f6288c1dddb4f5f85e997..7646b66bc5ba0288608de0d836c7307e
  
      }
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
-index 9113fd7070596ecf504837f335022d5eb4ef9a77..d56a64b058d8848e405e33d9884a61ea952a8f71 100644
+index e72ed2ed8664cbc408cbe1e38f1f0acacc3841dd..2f628f36c32752d1bac910e180b90639c1ae2c9d 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/AbstractFurnaceBlockEntity.java
-@@ -647,7 +647,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
+@@ -650,7 +650,7 @@ public abstract class AbstractFurnaceBlockEntity extends BaseContainerBlockEntit
          j = event.getExpToDrop();
          // CraftBukkit end
  
@@ -324,10 +324,10 @@ index 9113fd7070596ecf504837f335022d5eb4ef9a77..d56a64b058d8848e405e33d9884a61ea
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
-index 8e1d70bbc433780f264dde137aa7f37e7f6362cd..3dd759d030411420f93eb5ac51f2087ecbf2dc49 100644
+index 8beb4670fffa2df0a9bd64ebb8810b25ce670f16..134b138abdf17fae340226ecac3868ad7a993086 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftRegionAccessor.java
-@@ -942,7 +942,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
+@@ -943,7 +943,7 @@ public abstract class CraftRegionAccessor implements RegionAccessor {
          } else if (TNTPrimed.class.isAssignableFrom(clazz)) {
              entity = new PrimedTnt(world, x, y, z, null);
          } else if (ExperienceOrb.class.isAssignableFrom(clazz)) {

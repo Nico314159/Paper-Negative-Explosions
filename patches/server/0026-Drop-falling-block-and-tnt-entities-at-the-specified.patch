@@ -6,7 +6,7 @@ Subject: [PATCH] Drop falling block and tnt entities at the specified height
 Co-authored-by: Jake Potrebic <jake.m.potrebic@gmail.com>
 
 diff --git a/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java b/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
-index 99bfbe282fe98f23cc73f082628dab740eda944b..2d32a2b41100b0e32ec64c8724734f22c7c883e2 100644
+index fd16e26875ac4adfb76affd81724dedafe5b4130..57323813e26964af991dc9aead35fc86f23b602a 100644
 --- a/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/FallingBlockEntity.java
 @@ -142,6 +142,16 @@ public class FallingBlockEntity extends Entity {

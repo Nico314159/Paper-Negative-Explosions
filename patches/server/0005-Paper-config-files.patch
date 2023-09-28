@@ -11,20 +11,21 @@ public org.spigotmc.SpigotWorldConfig getInt(Ljava/lang/String;)I
 public org.spigotmc.SpigotWorldConfig getInt(Ljava/lang/String;I)I
 public org.spigotmc.SpigotWorldConfig getList(Ljava/lang/String;Ljava/lang/Object;)Ljava/util/List;
 public org.spigotmc.SpigotWorldConfig getString(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+public net.minecraft.server.dedicated.DedicatedServerProperties reload(Lnet/minecraft/core/RegistryAccess;Ljava/util/Properties;Ljoptsimple/OptionSet;)Lnet/minecraft/server/dedicated/DedicatedServerProperties;
 public net.minecraft.world.level.NaturalSpawner SPAWNING_CATEGORIES
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 75ca9df9f74e41802ba102fa052dd3446f400785..d67bfb162d122f6944aa16219b754d8d6ee40fb8 100644
+index 067440c8cb05bee3539303716a93a4369849a5af..82562c36460ae14aff6a2fafceeee36eddd8558a 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -13,6 +13,7 @@ dependencies {
-     implementation("org.ow2.asm:asm:9.4")
-     implementation("org.ow2.asm:asm-commons:9.4") // Paper - ASM event executor generation
+     implementation("org.ow2.asm:asm:9.5")
+     implementation("org.ow2.asm:asm-commons:9.5") // Paper - ASM event executor generation
      testImplementation("org.mockito:mockito-core:4.9.0") // Paper - switch to mockito
 +    implementation("org.spongepowered:configurate-yaml:4.1.2") // Paper - config files
      implementation("commons-lang:commons-lang:2.6")
-     runtimeOnly("org.xerial:sqlite-jdbc:3.42.0.0")
-     runtimeOnly("com.mysql:mysql-connector-j:8.0.33")
+     runtimeOnly("org.xerial:sqlite-jdbc:3.43.0.0")
+     runtimeOnly("com.mysql:mysql-connector-j:8.1.0")
 diff --git a/src/main/java/com/destroystokyo/paper/PaperConfig.java b/src/main/java/com/destroystokyo/paper/PaperConfig.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..ef41cf3a7d1e6f2bfe81e0fb865d2f969bbc77c1
@@ -440,10 +441,10 @@ index 0000000000000000000000000000000000000000..9ef6712c70fcd8912a79f3f61e351aac
 +}
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..4b3bb5fad1d80c9baea20ca224663b1ebc2b83e9
+index 0000000000000000000000000000000000000000..dcfc085d355410723dbeef369579e1875a7a997b
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-@@ -0,0 +1,294 @@
+@@ -0,0 +1,293 @@
 +package io.papermc.paper.configuration;
 +
 +import co.aikar.timings.MinecraftTimings;
@@ -466,7 +467,7 @@ index 0000000000000000000000000000000000000000..4b3bb5fad1d80c9baea20ca224663b1e
 +
 +@SuppressWarnings({"CanBeFinal", "FieldCanBeLocal", "FieldMayBeFinal", "NotNullFieldNotInitialized", "InnerClassMayBeStatic"})
 +public class GlobalConfiguration extends ConfigurationPart {
-+    static final int CURRENT_VERSION = 28;
++    static final int CURRENT_VERSION = 29;
 +    private static GlobalConfiguration instance;
 +    public static GlobalConfiguration get() {
 +        return instance;
@@ -611,7 +612,6 @@ index 0000000000000000000000000000000000000000..4b3bb5fad1d80c9baea20ca224663b1e
 +    public Logging logging;
 +
 +    public class Logging extends ConfigurationPart {
-+        public boolean logPlayerIpAddresses = true;
 +        public boolean deobfuscateStacktraces = true;
 +    }
 +
@@ -951,10 +951,10 @@ index 0000000000000000000000000000000000000000..69add4a7f1147015806bc9b63a8340d1
 +}
 diff --git a/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java b/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..2d3068b7748032342edd81e6ea4a7c08988fb28d
+index 0000000000000000000000000000000000000000..9b5c2abaa28fa60cedd9f0111e5eb018f93a0561
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/configuration/PaperConfigurations.java
-@@ -0,0 +1,445 @@
+@@ -0,0 +1,450 @@
 +package io.papermc.paper.configuration;
 +
 +import com.google.common.base.Suppliers;
@@ -974,6 +974,7 @@ index 0000000000000000000000000000000000000000..2d3068b7748032342edd81e6ea4a7c08
 +import io.papermc.paper.configuration.serializer.registry.RegistryValueSerializer;
 +import io.papermc.paper.configuration.transformation.Transformations;
 +import io.papermc.paper.configuration.transformation.global.LegacyPaperConfig;
++import io.papermc.paper.configuration.transformation.global.versioned.V29_LogIPs;
 +import io.papermc.paper.configuration.transformation.world.FeatureSeedsGeneration;
 +import io.papermc.paper.configuration.transformation.world.LegacyPaperWorldConfig;
 +import io.papermc.paper.configuration.transformation.world.versioned.V29_ZeroWorldHeight;
@@ -1212,8 +1213,12 @@ index 0000000000000000000000000000000000000000..2d3068b7748032342edd81e6ea4a7c08
 +        for (NodePath path : RemovedConfigurations.REMOVED_GLOBAL_PATHS) {
 +            builder.addAction(path, TransformAction.remove());
 +        }
-+        // ADD FUTURE TRANSFORMS TO builder HERE
 +        builder.build().apply(node);
++
++        final ConfigurationTransformation.VersionedBuilder versionedBuilder = Transformations.versionedBuilder();
++        V29_LogIPs.apply(versionedBuilder);
++        // ADD FUTURE VERSIONED TRANSFORMS TO versionedBuilder HERE
++        versionedBuilder.build().apply(node);
 +    }
 +
 +    private static final List<Transformations.DefaultsAware> DEFAULT_AWARE_TRANSFORMATIONS = List.of(FeatureSeedsGeneration::apply);
@@ -1485,10 +1490,10 @@ index 0000000000000000000000000000000000000000..f0d4ec73bc8872a85e34f5c6b4d342e7
 +}
 diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f45afb7e2607617d1239abeca13a9002dd9a3a18
+index 0000000000000000000000000000000000000000..ec5e23136423e42e4f55e6ea646b8285c1ca14e2
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
-@@ -0,0 +1,531 @@
+@@ -0,0 +1,534 @@
 +package io.papermc.paper.configuration;
 +
 +import com.google.common.collect.HashBasedTable;
@@ -1800,6 +1805,8 @@ index 0000000000000000000000000000000000000000..f45afb7e2607617d1239abeca13a9002
 +            public IntOr.Default other = IntOr.Default.USE_DEFAULT;
 +
 +            public int get(Entity entity, int def) {
++                return def; // TODO https://github.com/PaperMC/Paper/issues/9742
++                /*
 +                switch (TrackingRange.getTrackingRangeType(entity)) {
 +                    case PLAYER -> {
 +                        return player.or(def);
@@ -1822,6 +1829,7 @@ index 0000000000000000000000000000000000000000..f45afb7e2607617d1239abeca13a9002
 +                }
 +                
 +                return other.or(def);
++                 */
 +            }
 +        }
 +    }
@@ -3370,6 +3378,58 @@ index 0000000000000000000000000000000000000000..ef0e834c164b0ccc1a61b349348e6799
 +        });
 +    }
 +}
+diff --git a/src/main/java/io/papermc/paper/configuration/transformation/global/versioned/V29_LogIPs.java b/src/main/java/io/papermc/paper/configuration/transformation/global/versioned/V29_LogIPs.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..f250ea5acd2edce924ee52b8ec16a23261f5e90d
+--- /dev/null
++++ b/src/main/java/io/papermc/paper/configuration/transformation/global/versioned/V29_LogIPs.java
+@@ -0,0 +1,46 @@
++package io.papermc.paper.configuration.transformation.global.versioned;
++
++import net.minecraft.server.MinecraftServer;
++import net.minecraft.server.dedicated.DedicatedServer;
++import org.checkerframework.checker.nullness.qual.Nullable;
++import org.spongepowered.configurate.ConfigurateException;
++import org.spongepowered.configurate.ConfigurationNode;
++import org.spongepowered.configurate.NodePath;
++import org.spongepowered.configurate.transformation.ConfigurationTransformation;
++import org.spongepowered.configurate.transformation.TransformAction;
++
++import java.util.Properties;
++
++import static org.spongepowered.configurate.NodePath.path;
++
++public class V29_LogIPs implements TransformAction {
++
++    private static final int VERSION = 29;
++    private static final NodePath PATH = path("logging", "log-player-ip-addresses");
++    private static final V29_LogIPs INSTANCE = new V29_LogIPs();
++
++    private V29_LogIPs() {
++    }
++
++    public static void apply(ConfigurationTransformation.VersionedBuilder builder) {
++        builder.addVersion(VERSION, ConfigurationTransformation.builder().addAction(PATH, INSTANCE).build());
++    }
++
++    @Nullable
++    @Override
++    public Object[] visitPath(final NodePath path, final ConfigurationNode value) throws ConfigurateException {
++        DedicatedServer server = ((DedicatedServer) MinecraftServer.getServer());
++
++        boolean val = value.getBoolean(server.settings.getProperties().logIPs);
++        server.settings.update((config) -> {
++            Properties newProps = new Properties(config.properties);
++            newProps.setProperty("log-ips", String.valueOf(val));
++            return config.reload(server.registryAccess(), newProps, server.options);
++        });
++
++        value.raw(null);
++
++        return null;
++    }
++
++}
 diff --git a/src/main/java/io/papermc/paper/configuration/transformation/world/FeatureSeedsGeneration.java b/src/main/java/io/papermc/paper/configuration/transformation/world/FeatureSeedsGeneration.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..1326aae8f95ab11f840abdee0c8c7a557705fd73
@@ -4567,10 +4627,10 @@ index 0000000000000000000000000000000000000000..70cc7b45e7355f6c8476a74a070f1266
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/Main.java b/src/main/java/net/minecraft/server/Main.java
-index 1b2ec70b244cb43bbce218ff1aaa16bb4b640ed9..29269596b94b68f441355202b74c735ebfd44c71 100644
+index 2ac60ea28ce722cdef61cfdc69bbbdf391628238..9cfdd5d8c1650d9c9bdfbc07980239e507ff942d 100644
 --- a/src/main/java/net/minecraft/server/Main.java
 +++ b/src/main/java/net/minecraft/server/Main.java
-@@ -142,6 +142,10 @@ public class Main {
+@@ -139,6 +139,10 @@ public class Main {
              dedicatedserversettings.forceSave();
              Path path2 = Paths.get("eula.txt");
              Eula eula = new Eula(path2);
@@ -4581,7 +4641,7 @@ index 1b2ec70b244cb43bbce218ff1aaa16bb4b640ed9..29269596b94b68f441355202b74c735e
  
              if (optionset.has("initSettings")) { // CraftBukkit
                  // CraftBukkit start - SPIGOT-5761: Create bukkit.yml and commands.yml if not present
-@@ -176,7 +180,7 @@ public class Main {
+@@ -173,7 +177,7 @@ public class Main {
              }
  
              File file = (File) optionset.valueOf("universe"); // CraftBukkit
@@ -4591,10 +4651,10 @@ index 1b2ec70b244cb43bbce218ff1aaa16bb4b640ed9..29269596b94b68f441355202b74c735e
              String s = (String) Optional.ofNullable((String) optionset.valueOf("world")).orElse(dedicatedserversettings.getProperties().levelName);
              LevelStorageSource convertable = LevelStorageSource.createDefault(file.toPath());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 60e683ac0adaa192c502d059f6e448d0a23e8a09..6877a10fe56b46cf3fb7ccccf5a55e57d03048e9 100644
+index bc4f2e0a7086825ba8d1a503a65a4375d6c90d72..1561b26e1b4115f4d5631f20b31c2238d1d23202 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -294,6 +294,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -289,6 +289,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      private static final int SAMPLE_INTERVAL = 100;
      public final double[] recentTps = new double[ 3 ];
      // Spigot end
@@ -4602,14 +4662,14 @@ index 60e683ac0adaa192c502d059f6e448d0a23e8a09..6877a10fe56b46cf3fb7ccccf5a55e57
  
      public static <S extends MinecraftServer> S spin(Function<Thread, S> serverFactory) {
          AtomicReference<S> atomicreference = new AtomicReference();
-@@ -384,6 +385,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
-             }
+@@ -379,6 +380,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          }
          Runtime.getRuntime().addShutdownHook(new org.bukkit.craftbukkit.util.ServerShutdownThread(this));
+         // CraftBukkit end
 +        this.paperConfigurations = services.paperConfigurations(); // Paper
      }
-     // CraftBukkit end
  
+     private void readScoreboard(DimensionDataStorage persistentStateManager) {
 diff --git a/src/main/java/net/minecraft/server/Services.java b/src/main/java/net/minecraft/server/Services.java
 index 71e7beac6cf1e0f813d5ff3e9c51c13491be7139..f1cc27809c1e8612f7c4fa912f5e39c07b09d808 100644
 --- a/src/main/java/net/minecraft/server/Services.java
@@ -4649,7 +4709,7 @@ index 71e7beac6cf1e0f813d5ff3e9c51c13491be7139..f1cc27809c1e8612f7c4fa912f5e39c0
  
      @Nullable
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index ea5657d31f51469d6c0b9463fcc5cea9c270fb2e..546ad678af2705e3956f5f139aa847354a6fdeae 100644
+index 97065ae5eb30edfb2cb3fbc53769f8ffc7712377..a9ec28c3cf3ed50d929c80ac21959d82603ff0aa 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -183,6 +183,10 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -4676,7 +4736,7 @@ index 37ab411817008d4e6194e177d88d50931e53b42e..ca23639f15107ccd43b874ae38fa3727
              }
              // CraftBukkit end
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index d40998a5330be64849a5bc2b49781b70ef149a0e..82435da47f0f7db73556310f84dc538a7c5f0809 100644
+index df03b655bc5b864164da101bbf7edbca4cc7e147..f3a41559be5ad0b40762d368d8582704c8305961 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -234,7 +234,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -4717,10 +4777,10 @@ index cda55e481ddbcc1de5478125c5db20ebba168e7d..bacd4d875642cd93c3185f788745dd73
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 9aa71c85b630590b49a922fcc8d4badd01d46db4..3f5d20c65d9980b57f676d56a074c8e34a0e2fc8 100644
+index 671095a9fb124cc496700e680bab1ef118a7fb5b..2d5627f5dc48c0d51464452907b50bbeb069e67c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -914,6 +914,7 @@ public final class CraftServer implements Server {
+@@ -918,6 +918,7 @@ public final class CraftServer implements Server {
          }
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
@@ -4729,7 +4789,7 @@ index 9aa71c85b630590b49a922fcc8d4badd01d46db4..3f5d20c65d9980b57f676d56a074c8e3
              world.serverLevelData.setDifficulty(config.difficulty);
              world.setSpawnSettings(config.spawnMonsters, config.spawnAnimals);
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 5a39201392fefe8da495244fdbc380e882ec938f..e8fb9e3454282ad328e6bc0d078142285d9cfa76 100644
+index 541aa0cd6c89a6df8e4244aaea7a610cf7200e54..8d5c4fbaab751802fdb47d218c7d28f619d9eb62 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -141,6 +141,19 @@ public class Main {
@@ -4813,14 +4873,14 @@ index 0000000000000000000000000000000000000000..0396589795da1f83ddf62426236dde9a
 +    }
 +}
 diff --git a/src/test/java/org/bukkit/support/AbstractTestingBase.java b/src/test/java/org/bukkit/support/AbstractTestingBase.java
-index c440dcf3cc2ddb8fd9094fe8495e820ae7797f5c..d1fd4cf65c31bc00d0bffa3123fc2223f1498a34 100644
+index bedb1c43fd9d27eda2411e23d46eb1ad96429507..8174b6bb78553cbe124b499ffa235368179d1564 100644
 --- a/src/test/java/org/bukkit/support/AbstractTestingBase.java
 +++ b/src/test/java/org/bukkit/support/AbstractTestingBase.java
-@@ -62,6 +62,7 @@ public abstract class AbstractTestingBase {
+@@ -63,6 +63,7 @@ public abstract class AbstractTestingBase {
          BIOMES = REGISTRY_CUSTOM.registryOrThrow(Registries.BIOME);
  
          DummyEnchantments.setup();
 +        io.papermc.paper.configuration.GlobalConfigTestingBase.setupGlobalConfigForTest(); // Paper
  
-         ImmutableList.Builder<Material> builder = ImmutableList.builder();
-         for (Material m : Material.values()) {
+         CraftRegistry.setMinecraftRegistry(REGISTRY_CUSTOM);
+ 

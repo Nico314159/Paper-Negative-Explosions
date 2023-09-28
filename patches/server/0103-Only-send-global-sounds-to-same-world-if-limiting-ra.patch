@@ -7,10 +7,10 @@ Co-authored-by: Evan McCarthy <evanmccarthy@outlook.com>
 Co-authored-by: lexikiq <noellekiq@gmail.com>
 
 diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-index 29798faa9cc9aead40e3329307dc63cb7bf838b6..27f99f9ce39aac0bae5e9a7b34fd63833aa4ad26 100644
+index 3bf174b1e259aebef9007c66cf2ee8b87eae7681..1a787bd4bdbbf7c78f4bf6bd7e2f36540fec7d50 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-@@ -689,7 +689,7 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -680,7 +680,7 @@ public class EnderDragon extends Mob implements Enemy {
                  // CraftBukkit start - Use relative location for far away sounds
                  // this.level().globalLevelEvent(1028, this.blockPosition(), 0);
                  int viewDistance = ((ServerLevel) this.level()).getCraftServer().getViewDistance() * 16;

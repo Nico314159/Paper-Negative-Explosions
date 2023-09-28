@@ -5,10 +5,10 @@ Subject: [PATCH] Disable explosion knockback
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 5bdebdd16939480afac536ce7aaa4fe720021e74..5dda05f7bf08dec8b48fe0b87aa227c3e0392c6f 100644
+index cef17e8165009169f8de21915d2efc8e97aae21f..c1eb34c19ce713d750f8628b69e9c4dc5cbf9a02 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -1444,10 +1444,12 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -1476,10 +1476,12 @@ public abstract class LivingEntity extends Entity implements Attackable {
                  }
              }
  
@@ -21,7 +21,7 @@ index 5bdebdd16939480afac536ce7aaa4fe720021e74..5dda05f7bf08dec8b48fe0b87aa227c3
                      this.level().broadcastDamageEvent(this, source);
                  }
  
-@@ -1471,6 +1473,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -1503,6 +1505,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
                  }
              }
  
@@ -30,10 +30,10 @@ index 5bdebdd16939480afac536ce7aaa4fe720021e74..5dda05f7bf08dec8b48fe0b87aa227c3
                  if (!this.checkTotemDeathProtection(source)) {
                      SoundEvent soundeffect = this.getDeathSound();
 diff --git a/src/main/java/net/minecraft/world/level/Explosion.java b/src/main/java/net/minecraft/world/level/Explosion.java
-index 925d37ca684e7e6a3ad88e6e040f3599225f0b1d..401076c5350429052994d98c414a83a21f908010 100644
+index 03151b8042912882ebb969dda16cc378562a0005..aea135503da20b7c4e2c6cd2dba81998f101b0c4 100644
 --- a/src/main/java/net/minecraft/world/level/Explosion.java
 +++ b/src/main/java/net/minecraft/world/level/Explosion.java
-@@ -262,7 +262,7 @@ public class Explosion {
+@@ -264,7 +264,7 @@ public class Explosion {
                          if (entity instanceof LivingEntity) {
                              LivingEntity entityliving = (LivingEntity) entity;
  
@@ -42,7 +42,7 @@ index 925d37ca684e7e6a3ad88e6e040f3599225f0b1d..401076c5350429052994d98c414a83a2
                          } else {
                              d14 = d13;
                          }
-@@ -276,7 +276,7 @@ public class Explosion {
+@@ -278,7 +278,7 @@ public class Explosion {
                          if (entity instanceof Player) {
                              Player entityhuman = (Player) entity;
  

@@ -5,7 +5,7 @@ Subject: [PATCH] Add API methods to control if armour stands can move
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java b/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java
-index af6a2e8c4ce41aaf55b645c37f809c2de7ea780a..be7ed906b4a5a8ffda87ecf66f967061b58f8034 100644
+index c0c4bbf25b2da40f53b1cdedb47fdd74b493fba2..d79fbc3e1cab0d4ec38ae25325e55eb23a1b5a19 100644
 --- a/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java
 +++ b/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java
 @@ -92,6 +92,7 @@ public class ArmorStand extends LivingEntity {
@@ -16,7 +16,7 @@ index af6a2e8c4ce41aaf55b645c37f809c2de7ea780a..be7ed906b4a5a8ffda87ecf66f967061
  
      public ArmorStand(EntityType<? extends ArmorStand> type, Level world) {
          super(type, world);
-@@ -942,4 +943,13 @@ public class ArmorStand extends LivingEntity {
+@@ -950,4 +951,13 @@ public class ArmorStand extends LivingEntity {
      public boolean canBeSeenByAnyone() {
          return !this.isInvisible() && !this.isMarker();
      }

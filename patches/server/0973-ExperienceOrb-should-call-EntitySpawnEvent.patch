@@ -1,0 +1,22 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Golfing8 <atroo@me.com>
+Date: Mon, 8 May 2023 09:18:17 -0400
+Subject: [PATCH] ExperienceOrb should call EntitySpawnEvent
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
+index bef88faefc8023a9640b843eaa5216594d0c4386..11f413f6c06a7da58c9411e4e240d48099774356 100644
+--- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
++++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
+@@ -720,7 +720,10 @@ public class CraftEventFactory {
+         } else if (entity instanceof net.minecraft.world.entity.ExperienceOrb) {
+             net.minecraft.world.entity.ExperienceOrb xp = (net.minecraft.world.entity.ExperienceOrb) entity;
+             double radius = world.spigotConfig.expMerge;
+-            if (radius > 0) {
++            // Paper start - Call EntitySpawnEvent for ExperienceOrb entities.
++            event = CraftEventFactory.callEntitySpawnEvent(entity);
++            if (radius > 0 && !event.isCancelled() && !entity.isRemoved()) {
++                // Paper end
+                 // Paper start - Maximum exp value when merging - Whole section has been tweaked, see comments for specifics
+                 final int maxValue = world.paperConfig().entities.behavior.experienceMergeMaxValue;
+                 final boolean mergeUnconditionally = world.paperConfig().entities.behavior.experienceMergeMaxValue <= 0;

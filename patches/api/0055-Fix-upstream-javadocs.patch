@@ -74,6 +74,32 @@ index 0cf808356a1a5c6fc4bcf97a694ed9beb80a776a..dc765dea47a9a1c1520fb16ddb24f814
       * @param z Z-coordinate (0-15)
       * @return temperature at given coordinate
       */
+diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
+index 0b6c1065751b4315b30f9710a18bbcd5620ef97c..8e04b99ee2152209d132c2b2e4228d5ddae9e339 100644
+--- a/src/main/java/org/bukkit/Material.java
++++ b/src/main/java/org/bukkit/Material.java
+@@ -7919,7 +7919,7 @@ public enum Material implements Keyed, Translatable {
+      *   <li>Only occluding blocks can be "powered" ({@link Block#isBlockPowered()}).
+      * </ul>
+      * This list may be inconclusive. For a full list of the side effects of an occluding
+-     * block, see the <a href="https://minecraft.fandom.com/wiki/Opacity">Minecraft Wiki</a>.
++     * block, see the <a href="https://minecraft.wiki/wiki/Opacity">Minecraft Wiki</a>.
+      *
+      * @return True if this material is a block and occludes light
+      */
+diff --git a/src/main/java/org/bukkit/MinecraftExperimental.java b/src/main/java/org/bukkit/MinecraftExperimental.java
+index 4e7e69219876eb6162f6e2cdf2ac3d242f7d75f6..41dbf018e26efe3624d78293aed7159cbd5dc123 100644
+--- a/src/main/java/org/bukkit/MinecraftExperimental.java
++++ b/src/main/java/org/bukkit/MinecraftExperimental.java
+@@ -9,7 +9,7 @@ import org.jetbrains.annotations.ApiStatus;
+ 
+ /**
+  * Indicates that the annotated element (class, method, field, etc.) is part of a
+- * <a href="https://minecraft.fandom.com/wiki/Experimental_Gameplay">minecraft experimental feature</a>
++ * <a href="https://minecraft.wiki/wiki/Experimental_Gameplay">minecraft experimental feature</a>
+  * and is subject to changes by Mojang.
+  * <p>
+  * <b>Note:</b> Elements marked with this annotation require the use of a datapack or otherwise
 diff --git a/src/main/java/org/bukkit/Particle.java b/src/main/java/org/bukkit/Particle.java
 index 73b782c3975ad13159b6236976783fcfabd20493..e9cbbdf310e48011ee538c5592baee2535965fee 100644
 --- a/src/main/java/org/bukkit/Particle.java
@@ -94,7 +120,7 @@ index 73b782c3975ad13159b6236976783fcfabd20493..e9cbbdf310e48011ee538c5592baee25
      CHERRY_LEAVES,
      EGG_CRACK,
 diff --git a/src/main/java/org/bukkit/RegionAccessor.java b/src/main/java/org/bukkit/RegionAccessor.java
-index 43f5aab2fe70af5f570de1f21eca83905f1e2f57..05c29cbd2ae1ca0434a90f8389479bd608ca2ac1 100644
+index 02de62c083ceaa466c80cb732e8304b8cc3f07f8..7c2b1eff41dd43fda84d84e76c05bbbf37c186b8 100644
 --- a/src/main/java/org/bukkit/RegionAccessor.java
 +++ b/src/main/java/org/bukkit/RegionAccessor.java
 @@ -158,7 +158,7 @@ public interface RegionAccessor {
@@ -161,7 +187,7 @@ index 22d508a6c80d7e19352bceb57009fdbcb16bc723..3c1862b9a9293155f756615b5bd23cc8
       * @return an array containing all previous players
       */
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
-index 4ef6bbfa753da439ac57bd8d70dd114d73665c8d..7f23527168a33b92d823f76765edfe00abe0e4f6 100644
+index 9c8cfd05bbac5155b723414113ab9a9ec9ada81f..bb36bb6e98d36d407fc0ed8e9562feffb45f3f97 100644
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
 @@ -2576,7 +2576,7 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
@@ -405,7 +431,7 @@ index ae9eaaa8e38e1d9dfc459926c7fc51ddb89de84a..b2ec535bb1b0ce0c114ddd7638b90218
      @Override
      public int getConversionTime();
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 87b67723cb9dcead110eb88dd741d3348eb9ec1b..266e89b48d4991f6099290cf9d44fa06b43ffa2c 100644
+index 3954f40b23536fec495585a8b14e82d092d62e39..264c6bdeb2f1f0d937e4356d761a3264a1c4d58a 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
 @@ -431,15 +431,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
@@ -508,6 +534,19 @@ index af5110b4160979c39cc1e5de6fa3bd7957b21403..15a0a733b0e5804655b5957cbf208312
       *
       * @param location the location to remove
       * @see #getExploredLocations()
+diff --git a/src/main/java/org/bukkit/entity/SpawnCategory.java b/src/main/java/org/bukkit/entity/SpawnCategory.java
+index a2772ada27a3d26be1a01a5389a57d8a6b7c54fe..87daa4cf7c92e193fb581ff941ac1243d81785d7 100644
+--- a/src/main/java/org/bukkit/entity/SpawnCategory.java
++++ b/src/main/java/org/bukkit/entity/SpawnCategory.java
+@@ -3,7 +3,7 @@ package org.bukkit.entity;
+ /**
+  * Represents groups of entities with shared spawn behaviors and mob caps.
+  *
+- * @see <a href="https://minecraft.fandom.com/wiki/Spawn#Java_Edition_mob_cap">Minecraft Wiki</a>
++ * @see <a href="https://minecraft.wiki/wiki/Spawn#Java_Edition_mob_cap">Minecraft Wiki</a>
+  */
+ public enum SpawnCategory {
+ 
 diff --git a/src/main/java/org/bukkit/entity/Villager.java b/src/main/java/org/bukkit/entity/Villager.java
 index 6bf3af3ed81b66f61e53105d3591165ea74dba0e..a91400cd8bb4c72d1f3200a17f6de025540fe09d 100644
 --- a/src/main/java/org/bukkit/entity/Villager.java

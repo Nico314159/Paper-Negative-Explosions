@@ -6,11 +6,11 @@ Subject: [PATCH] Ability to change PlayerProfile in AsyncPreLoginEvent
 This will allow you to change the players name or skin on login.
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-index 9607c3297c1a977cb33fb730eacb35ce9604b74c..6b31b0894e52ad6fc397624e50587ec04e46c099 100644
+index 1202a60cf955dbfbfc2135c06d3304f215b23c2c..41de3c342f1dae9fc6af1b4938a676d337bcf5fa 100644
 --- a/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerLoginPacketListenerImpl.java
-@@ -329,8 +329,16 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
-                         java.util.UUID uniqueId = ServerLoginPacketListenerImpl.this.gameProfile.getId();
+@@ -292,8 +292,16 @@ public class ServerLoginPacketListenerImpl implements ServerLoginPacketListener,
+                         java.util.UUID uniqueId = gameprofile.getId();
                          final org.bukkit.craftbukkit.CraftServer server = ServerLoginPacketListenerImpl.this.server.server;
  
 -                        AsyncPlayerPreLoginEvent asyncEvent = new AsyncPlayerPreLoginEvent(playerName, address, uniqueId);
@@ -20,9 +20,9 @@ index 9607c3297c1a977cb33fb730eacb35ce9604b74c..6b31b0894e52ad6fc397624e50587ec0
                          server.getPluginManager().callEvent(asyncEvent);
 +                        profile = asyncEvent.getPlayerProfile();
 +                        profile.complete();
-+                        gameProfile = com.destroystokyo.paper.profile.CraftPlayerProfile.asAuthlibCopy(profile);
-+                        playerName = gameProfile.getName();
-+                        uniqueId = gameProfile.getId();
++                        gameprofile = com.destroystokyo.paper.profile.CraftPlayerProfile.asAuthlibCopy(profile);
++                        playerName = gameprofile.getName();
++                        uniqueId = gameprofile.getId();
 +                        // Paper end
  
                          if (PlayerPreLoginEvent.getHandlerList().getRegisteredListeners().length != 0) {

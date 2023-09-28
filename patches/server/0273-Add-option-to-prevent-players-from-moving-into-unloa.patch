@@ -6,10 +6,10 @@ Subject: [PATCH] Add option to prevent players from moving into unloaded
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 196d19fe999372f4cda56e2ad55ec263be685f79..e94389567ccca1565d1430220022548d52283e38 100644
+index 67b19f5672f6834ea4e6eccd553d926114bcc2c3..c5de649f2a63e913fca5f915a7e52350eb45ef1b 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -569,9 +569,9 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -466,9 +466,9 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                  double d0 = entity.getX();
                  double d1 = entity.getY();
                  double d2 = entity.getZ();
@@ -22,7 +22,7 @@ index 196d19fe999372f4cda56e2ad55ec263be685f79..e94389567ccca1565d1430220022548d
                  float f = Mth.wrapDegrees(packet.getYRot());
                  float f1 = Mth.wrapDegrees(packet.getXRot());
                  double d6 = d3 - this.vehicleFirstGoodX;
-@@ -606,6 +606,16 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -503,6 +503,16 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                  }
                  speed *= 2f; // TODO: Get the speed of the vehicle instead of the player
  
@@ -39,7 +39,7 @@ index 196d19fe999372f4cda56e2ad55ec263be685f79..e94389567ccca1565d1430220022548d
                  if (d10 - d9 > Math.max(100.0D, Math.pow((double) (org.spigotmc.SpigotConfig.movedTooQuicklyMultiplier * (float) i * speed), 2)) && !this.isSingleplayerOwner()) {
                  // CraftBukkit end
                      ServerGamePacketListenerImpl.LOGGER.warn("{} (vehicle of {}) moved too quickly! {},{},{}", new Object[]{entity.getName().getString(), this.player.getName().getString(), d6, d7, d8});
-@@ -1259,9 +1269,9 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -1156,9 +1166,9 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                      this.allowedPlayerTicks = 20; // CraftBukkit
                  } else {
                      this.awaitingTeleportTime = this.tickCount;
@@ -52,7 +52,7 @@ index 196d19fe999372f4cda56e2ad55ec263be685f79..e94389567ccca1565d1430220022548d
                      float f = Mth.wrapDegrees(packet.getYRot(this.player.getYRot()));
                      float f1 = Mth.wrapDegrees(packet.getXRot(this.player.getXRot()));
  
-@@ -1316,6 +1326,12 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -1213,6 +1223,12 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                              } else {
                                  speed = this.player.getAbilities().walkingSpeed * 10f;
                              }

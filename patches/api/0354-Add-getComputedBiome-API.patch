@@ -5,7 +5,7 @@ Subject: [PATCH] Add getComputedBiome API
 
 
 diff --git a/src/main/java/org/bukkit/RegionAccessor.java b/src/main/java/org/bukkit/RegionAccessor.java
-index cd83348de3f82b3fddcf2d4bb9187ec8173b0e40..8f50eb9b902236f5e039f5d26f3ca9a044b01a75 100644
+index 63503cf17847a85264c930a9fc23a5aab5955c3c..93e20ca14a2b7e5817fab788b6dfa73c6ced6acb 100644
 --- a/src/main/java/org/bukkit/RegionAccessor.java
 +++ b/src/main/java/org/bukkit/RegionAccessor.java
 @@ -26,6 +26,7 @@ public interface RegionAccessor extends Keyed { // Paper
@@ -51,7 +51,7 @@ index cd83348de3f82b3fddcf2d4bb9187ec8173b0e40..8f50eb9b902236f5e039f5d26f3ca9a0
       * Sets the {@link Biome} at the given {@link Location}.
       *
 diff --git a/src/main/java/org/bukkit/block/Block.java b/src/main/java/org/bukkit/block/Block.java
-index cb0dcbbfb77158c3b17bd7994a9bbcef8060941a..921864e748407291b7fa153381e7d9701e1c4608 100644
+index c5670b40880fa124c7615f9b1d379b75d7110f05..5e42a4c3aa872d9755f8cd5ce3f4ee36bcc71fb9 100644
 --- a/src/main/java/org/bukkit/block/Block.java
 +++ b/src/main/java/org/bukkit/block/Block.java
 @@ -371,10 +371,22 @@ public interface Block extends Metadatable, Translatable, net.kyori.adventure.tr

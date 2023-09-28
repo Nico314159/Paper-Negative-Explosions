@@ -90,10 +90,10 @@ index 8508aa2c6fb7c9f41f3d185f5228c86dd3b8b627..f7564581c18425c903e54f949728dd37
          if (this.world == null) {
              return null;
 diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
-index 64d01ce77966e895ec494719a4398577be1097a1..7705fece7f58bd66f7d68da85f8f34e43b4bae12 100644
+index 56de3e2c3a7e2de59e739b64004002689a0cf691..1e5116b7633e4a8607cf73100990ff952c1cce5f 100644
 --- a/src/main/java/org/bukkit/Material.java
 +++ b/src/main/java/org/bukkit/Material.java
-@@ -4465,11 +4465,11 @@ public enum Material implements Keyed, Translatable {
+@@ -4468,11 +4468,11 @@ public enum Material implements Keyed, Translatable {
      }
  
      /**
@@ -107,7 +107,7 @@ index 64d01ce77966e895ec494719a4398577be1097a1..7705fece7f58bd66f7d68da85f8f34e4
      public boolean isLegacy() {
          return legacy;
      }
-@@ -4540,8 +4540,10 @@ public enum Material implements Keyed, Translatable {
+@@ -4543,8 +4543,10 @@ public enum Material implements Keyed, Translatable {
       * Gets the MaterialData class associated with this Material
       *
       * @return MaterialData associated with this Material
@@ -156,10 +156,10 @@ index f43209cf7b752c26718c303ca8c3e1c7d9912ad3..f0094e6fb05e526736629ad3181c8d2c
  
      /**
 diff --git a/src/main/java/org/bukkit/Registry.java b/src/main/java/org/bukkit/Registry.java
-index 6e5e5fecdd7b76dde2e1524fe7b5faa837f491fb..09e3c2872462da546b891cbc396aaffb77f6aadf 100644
+index 44b8c9111ddc93719d9f3bb23ee1799897389f52..74c81f73649507f21351fc003d00fbeca274d92a 100644
 --- a/src/main/java/org/bukkit/Registry.java
 +++ b/src/main/java/org/bukkit/Registry.java
-@@ -157,14 +157,14 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
+@@ -184,14 +184,14 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
       *
       * @see TrimMaterial
       */
@@ -176,7 +176,7 @@ index 6e5e5fecdd7b76dde2e1524fe7b5faa837f491fb..09e3c2872462da546b891cbc396aaffb
      Registry<TrimPattern> TRIM_PATTERN = Bukkit.getRegistry(TrimPattern.class);
      /**
       * Villager profession.
-@@ -246,8 +246,11 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
+@@ -273,8 +273,11 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
       *
       * @param input non-null input
       * @return registered object or null if does not exist
@@ -282,7 +282,7 @@ index e455eb21abf121dc6ff10ff8a13dd06f67096a8f..bbc01e7c192ae6689c301670047ff114
          return origin;
      }
 diff --git a/src/main/java/org/bukkit/World.java b/src/main/java/org/bukkit/World.java
-index c6019065869130608ac97af951c7036031eec242..31fc272b0e82e4eef6d9bf01dd25d39513d354b3 100644
+index be5baaf499cc76dd737d6203570e3d431c18afcf..c748679337989a7b4e2a39e542268b7fd851ed91 100644
 --- a/src/main/java/org/bukkit/World.java
 +++ b/src/main/java/org/bukkit/World.java
 @@ -415,9 +415,8 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
@@ -307,6 +307,53 @@ index c6019065869130608ac97af951c7036031eec242..31fc272b0e82e4eef6d9bf01dd25d395
      public FallingBlock spawnFallingBlock(@NotNull Location location, @NotNull MaterialData data) throws IllegalArgumentException;
  
      /**
+@@ -3707,6 +3708,10 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
+     // Paper end - view distance api
+ 
+     // Spigot start
++    /**
++     * @deprecated Unsupported api
++     */
++    @Deprecated // Paper
+     public class Spigot {
+ 
+         /**
+@@ -3715,8 +3720,12 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
+          * @param loc The location to strike lightning
+          * @param isSilent Whether this strike makes no sound
+          * @return The lightning entity.
++         * @deprecated The lightning strike sound has been moved into the client and
++         * this doesn't prevent the sound being played. Use the regular (non spigot) methods instead
++         * for a consistent behavior.
+          */
+         @NotNull
++        @Deprecated // Paper
+         public LightningStrike strikeLightning(@NotNull Location loc, boolean isSilent) {
+             throw new UnsupportedOperationException("Not supported yet.");
+         }
+@@ -3727,14 +3736,22 @@ public interface World extends RegionAccessor, WorldInfo, PluginMessageRecipient
+          * @param loc The location to strike lightning
+          * @param isSilent Whether this strike makes no sound
+          * @return The lightning entity.
++         * @deprecated The lightning strike sound has been moved into the client and
++         * this doesn't prevent the sound being played. Use the regular (non spigot) methods instead
++         * for a consistent behavior.
+          */
+         @NotNull
++        @Deprecated // Paper
+         public LightningStrike strikeLightningEffect(@NotNull Location loc, boolean isSilent) {
+             throw new UnsupportedOperationException("Not supported yet.");
+         }
+     }
+ 
++    /**
++     * @deprecated Unsupported api
++     */
+     @NotNull
++    @Deprecated // Paper
+     Spigot spigot();
+     // Spigot end
+ 
 diff --git a/src/main/java/org/bukkit/block/BlockState.java b/src/main/java/org/bukkit/block/BlockState.java
 index 631cbf2be51040eee00aa39a39c5ec4003f91843..3147e278eac674ed21d714bbe318b135c0a6b408 100644
 --- a/src/main/java/org/bukkit/block/BlockState.java
@@ -369,6 +416,43 @@ index 605af1a9fc48602643aec57dd14e8c4ab657a0bc..b3085c7ff8b3e96083d209f6612c0065
      public void setCarriedMaterial(@NotNull MaterialData material);
  
      /**
+diff --git a/src/main/java/org/bukkit/entity/LightningStrike.java b/src/main/java/org/bukkit/entity/LightningStrike.java
+index be347c3d0291f44036bae29a4e7e4645d6a4cdf6..76407851a3401982214c3e20aefb406fc5c63310 100644
+--- a/src/main/java/org/bukkit/entity/LightningStrike.java
++++ b/src/main/java/org/bukkit/entity/LightningStrike.java
+@@ -15,20 +15,31 @@ public interface LightningStrike extends Entity {
+     public boolean isEffect();
+ 
+     // Spigot start
++    /**
++     * @deprecated Unsupported api
++     */
++    @Deprecated // Paper
+     public class Spigot extends Entity.Spigot {
+ 
+-        /*
++        /**
+          * Returns whether the strike is silent.
+          *
+          * @return whether the strike is silent.
++         * @deprecated The lightning strike sound has been moved into the client and
++         * this can't predict if the sound will be played or not accurately.
+          */
++        @Deprecated // Paper
+         public boolean isSilent() {
+             throw new UnsupportedOperationException("Not supported yet.");
+         }
+     }
+ 
++    /**
++     * @deprecated Unsupported api
++     */
+     @NotNull
+     @Override
++    @Deprecated // Paper
+     Spigot spigot();
+     // Spigot end
+ }
 diff --git a/src/main/java/org/bukkit/entity/LingeringPotion.java b/src/main/java/org/bukkit/entity/LingeringPotion.java
 index f124b35ec76e6cb6a1a0dc464005087043c3efd0..f50aaddf8582be55fd4860ad374d8f2206991897 100644
 --- a/src/main/java/org/bukkit/entity/LingeringPotion.java
@@ -604,6 +688,32 @@ index fe58058f9b5d29388d48115cc81dc48ab08c58c1..ac67a4e321f43d1ede09dafe2daa1f07
 +    @NotNull // Paper - fix nullability
      public ItemStack getCursor() {
          return getView().getCursor();
+     }
+diff --git a/src/main/java/org/bukkit/event/player/PlayerBedLeaveEvent.java b/src/main/java/org/bukkit/event/player/PlayerBedLeaveEvent.java
+index 1cb70b5c8776863f44f1c4cdde152c35cb51edb5..f09b378508fcc6299e7cb40f174028f6f88ba067 100644
+--- a/src/main/java/org/bukkit/event/player/PlayerBedLeaveEvent.java
++++ b/src/main/java/org/bukkit/event/player/PlayerBedLeaveEvent.java
+@@ -43,7 +43,10 @@ public class PlayerBedLeaveEvent extends PlayerEvent implements Cancellable {
+      * {@link Player#setBedSpawnLocation(Location)}.
+      *
+      * @return true if the spawn location will be changed
++     * @deprecated the respawn point is now set when the player enter the bed and
++     * this option doesn't work since MC 1.15.
+      */
++    @Deprecated(forRemoval = true) // Paper - Unused
+     public boolean shouldSetSpawnLocation() {
+         return setBedSpawn;
+     }
+@@ -59,7 +62,10 @@ public class PlayerBedLeaveEvent extends PlayerEvent implements Cancellable {
+      * {@link Player#setBedSpawnLocation(Location)}.
+      *
+      * @param setBedSpawn true to change the new spawn location
++     * @deprecated the respawn point is now set when the player enter the bed and
++     * this option doesn't work since MC 1.15.
+      */
++    @Deprecated(forRemoval = true) // Paper - Unused
+     public void setSpawnLocation(boolean setBedSpawn) {
+         this.setBedSpawn = setBedSpawn;
      }
 diff --git a/src/main/java/org/bukkit/event/player/PlayerMoveEvent.java b/src/main/java/org/bukkit/event/player/PlayerMoveEvent.java
 index 1b2267f4e8ebded198773ec80e2bff2c861c7084..1a58734d919fae247eeb85dd785fd59990856505 100644
@@ -1155,12 +1265,12 @@ index 0ea9c6b2420a0f990bd1fdf50fc015e37a7060d8..e99644eae1c662b117aa19060d2484ac
  
      /**
 diff --git a/src/test/java/org/bukkit/materials/MaterialDataTest.java b/src/test/java/org/bukkit/materials/MaterialDataTest.java
-index a935ae4a25b7955416652bf8c4690a804f12e903..e83321263bb0e2b67af981dbb2e8fec4e973ae56 100644
+index 8d78435cc42a9e668b2d4d674b79b4094c3bd1b1..24a8ce4387b897c717b55405f363ffafff45894d 100644
 --- a/src/test/java/org/bukkit/materials/MaterialDataTest.java
 +++ b/src/test/java/org/bukkit/materials/MaterialDataTest.java
 @@ -22,6 +22,7 @@ import org.bukkit.material.WoodenStep;
  import org.bukkit.material.types.MushroomBlockTexture;
- import org.junit.Test;
+ import org.junit.jupiter.api.Test;
  
 +@Deprecated // Paper
  public class MaterialDataTest {

@@ -11,18 +11,19 @@ public org.bukkit.craftbukkit.profile.CraftPlayerTextures
 public org.bukkit.craftbukkit.profile.CraftPlayerTextures copyFrom(Lorg/bukkit/profile/PlayerTextures;)V
 public org.bukkit.craftbukkit.profile.CraftPlayerTextures rebuildPropertyIfDirty()V
 public org.bukkit.craftbukkit.profile.CraftPlayerProfile toString(Lcom/mojang/authlib/properties/PropertyMap;)Ljava/lang/String;
-# needed to maintain visibility with overriden methods
+# needed to maintain visibility with overridden methods
 public org.bukkit.craftbukkit.profile.CraftPlayerProfile getProperty(Ljava/lang/String;)Lcom/mojang/authlib/properties/Property;
 public org.bukkit.craftbukkit.profile.CraftPlayerProfile setProperty(Ljava/lang/String;Lcom/mojang/authlib/properties/Property;)V
 
 diff --git a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..3ff790cec1ad89caec4be64421dd7d51652be598
+index 0000000000000000000000000000000000000000..e513ce5bcb5070b8a57737228904381f1bda658e
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
-@@ -0,0 +1,399 @@
+@@ -0,0 +1,401 @@
 +package com.destroystokyo.paper.profile;
 +
++import com.mojang.authlib.yggdrasil.ProfileResult;
 +import io.papermc.paper.configuration.GlobalConfiguration;
 +import com.google.common.base.Charsets;
 +import com.google.common.collect.Iterables;
@@ -32,6 +33,7 @@ index 0000000000000000000000000000000000000000..3ff790cec1ad89caec4be64421dd7d51
 +import net.minecraft.Util;
 +import net.minecraft.server.MinecraftServer;
 +import net.minecraft.server.players.GameProfileCache;
++import org.apache.commons.lang3.StringUtils;
 +import org.apache.commons.lang3.Validate;
 +import org.bukkit.configuration.serialization.SerializableAs;
 +import org.bukkit.craftbukkit.configuration.ConfigSerializationUtil;
@@ -186,7 +188,7 @@ index 0000000000000000000000000000000000000000..3ff790cec1ad89caec4be64421dd7d51
 +
 +    @Override
 +    public boolean isComplete() {
-+        return profile.isComplete();
++        return this.getId() != null && StringUtils.isNotBlank(this.getName());
 +    }
 +
 +    @Override
@@ -239,7 +241,7 @@ index 0000000000000000000000000000000000000000..3ff790cec1ad89caec4be64421dd7d51
 +                }
 +            }
 +        }
-+        return this.profile.isComplete();
++        return this.isComplete();
 +    }
 +
 +    public boolean complete(boolean textures) {
@@ -249,15 +251,15 @@ index 0000000000000000000000000000000000000000..3ff790cec1ad89caec4be64421dd7d51
 +        MinecraftServer server = MinecraftServer.getServer();
 +        boolean isCompleteFromCache = this.completeFromCache(true, onlineMode);
 +        if (onlineMode && (!isCompleteFromCache || textures && !hasTextures())) {
-+            GameProfile result = server.getSessionService().fillProfileProperties(profile, true);
-+            if (result != null) {
-+                copyProfileProperties(result, this.profile, true);
++            ProfileResult result = server.getSessionService().fetchProfile(this.getId(), true);
++            if (result != null && result.profile() != null) {
++                copyProfileProperties(result.profile(), this.profile, true);
 +            }
-+            if (this.profile.isComplete()) {
++            if (this.isComplete()) {
 +                server.getProfileCache().add(this.profile);
 +            }
 +        }
-+        return profile.isComplete() && (!onlineMode || !textures || hasTextures());
++        return this.isComplete() && (!onlineMode || !textures || hasTextures());
 +    }
 +
 +    private static void copyProfileProperties(GameProfile source, GameProfile target) {
@@ -273,13 +275,13 @@ index 0000000000000000000000000000000000000000..3ff790cec1ad89caec4be64421dd7d51
 +        }
 +
 +        for (Property property : sourceProperties.values()) {
-+            targetProperties.removeAll(property.getName());
-+            targetProperties.put(property.getName(), property);
++            targetProperties.removeAll(property.name());
++            targetProperties.put(property.name(), property);
 +        }
 +    }
 +
 +    private static ProfileProperty toBukkit(Property property) {
-+        return new ProfileProperty(property.getName(), property.getValue(), property.getSignature());
++        return new ProfileProperty(property.name(), property.value(), property.signature());
 +    }
 +
 +    public static PlayerProfile asBukkitCopy(GameProfile gameProfile) {
@@ -338,7 +340,7 @@ index 0000000000000000000000000000000000000000..3ff790cec1ad89caec4be64421dd7d51
 +                    throw new IllegalArgumentException("Property data (" + propertyData + ") is not a valid Map");
 +                }
 +                Property property = CraftProfileProperty.deserialize((Map<?, ?>) propertyData);
-+                profile.profile.getProperties().put(property.getName(), property);
++                profile.profile.getProperties().put(property.name(), property);
 +            }
 +        }
 +
@@ -422,13 +424,15 @@ index 0000000000000000000000000000000000000000..3ff790cec1ad89caec4be64421dd7d51
 +}
 diff --git a/src/main/java/com/destroystokyo/paper/profile/PaperAuthenticationService.java b/src/main/java/com/destroystokyo/paper/profile/PaperAuthenticationService.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..1459a1f99fe614d072a087cda18788cf13102645
+index 0000000000000000000000000000000000000000..48e774677edf17d4a99ae9ed23d1b371dab41abb
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/profile/PaperAuthenticationService.java
-@@ -0,0 +1,31 @@
+@@ -0,0 +1,30 @@
 +package com.destroystokyo.paper.profile;
 +
-+import com.mojang.authlib.*;
++import com.mojang.authlib.Environment;
++import com.mojang.authlib.EnvironmentParser;
++import com.mojang.authlib.GameProfileRepository;
 +import com.mojang.authlib.minecraft.MinecraftSessionService;
 +import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 +import com.mojang.authlib.yggdrasil.YggdrasilEnvironment;
@@ -436,70 +440,72 @@ index 0000000000000000000000000000000000000000..1459a1f99fe614d072a087cda18788cf
 +import java.net.Proxy;
 +
 +public class PaperAuthenticationService extends YggdrasilAuthenticationService {
++
 +    private final Environment environment;
++
 +    public PaperAuthenticationService(Proxy proxy) {
 +        super(proxy);
 +        this.environment = EnvironmentParser.getEnvironmentFromProperties().orElse(YggdrasilEnvironment.PROD.getEnvironment());
 +    }
 +
 +    @Override
-+    public UserAuthentication createUserAuthentication(Agent agent) {
-+        return new PaperUserAuthentication(this, agent);
-+    }
-+
-+    @Override
 +    public MinecraftSessionService createMinecraftSessionService() {
-+        return new PaperMinecraftSessionService(this, this.environment);
++        return new PaperMinecraftSessionService(this.getServicesKeySet(),  this.getProxy(), this.environment);
 +    }
 +
 +    @Override
 +    public GameProfileRepository createProfileRepository() {
-+        return new PaperGameProfileRepository(this, this.environment);
++        return new PaperGameProfileRepository(this.getProxy(), this.environment);
 +    }
 +}
 diff --git a/src/main/java/com/destroystokyo/paper/profile/PaperGameProfileRepository.java b/src/main/java/com/destroystokyo/paper/profile/PaperGameProfileRepository.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..582c169c85ac66f1f9430f79042e4655f776c157
+index 0000000000000000000000000000000000000000..7b9e797b42c88b17d6a7c590a423f4e85d99a59d
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/profile/PaperGameProfileRepository.java
-@@ -0,0 +1,18 @@
+@@ -0,0 +1,17 @@
 +package com.destroystokyo.paper.profile;
 +
-+import com.mojang.authlib.Agent;
 +import com.mojang.authlib.Environment;
 +import com.mojang.authlib.ProfileLookupCallback;
-+import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 +import com.mojang.authlib.yggdrasil.YggdrasilGameProfileRepository;
++import java.net.Proxy;
 +
 +public class PaperGameProfileRepository extends YggdrasilGameProfileRepository {
-+    public PaperGameProfileRepository(YggdrasilAuthenticationService authenticationService, Environment environment) {
-+        super(authenticationService, environment);
++    public PaperGameProfileRepository(Proxy proxy, Environment environment) {
++        super(proxy, environment);
 +    }
 +
 +    @Override
-+    public void findProfilesByNames(String[] names, Agent agent, ProfileLookupCallback callback) {
-+        super.findProfilesByNames(names, agent, callback);
++    public void findProfilesByNames(String[] names, ProfileLookupCallback callback) {
++        super.findProfilesByNames(names, callback);
 +    }
 +}
 diff --git a/src/main/java/com/destroystokyo/paper/profile/PaperMinecraftSessionService.java b/src/main/java/com/destroystokyo/paper/profile/PaperMinecraftSessionService.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..93d73c27340645c7502acafdc0b2cfbc1a759dd8
+index 0000000000000000000000000000000000000000..ea906c9942be4c37b0daf866c759771af0b1e0ed
 --- /dev/null
 +++ b/src/main/java/com/destroystokyo/paper/profile/PaperMinecraftSessionService.java
-@@ -0,0 +1,30 @@
+@@ -0,0 +1,31 @@
 +package com.destroystokyo.paper.profile;
 +
 +import com.mojang.authlib.Environment;
 +import com.mojang.authlib.GameProfile;
 +import com.mojang.authlib.minecraft.MinecraftProfileTexture;
++import com.mojang.authlib.yggdrasil.ProfileResult;
++import com.mojang.authlib.yggdrasil.ServicesKeySet;
 +import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 +import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService;
 +
++import java.net.Proxy;
 +import java.util.Map;
++import java.util.UUID;
++import org.jetbrains.annotations.Nullable;
 +
 +public class PaperMinecraftSessionService extends YggdrasilMinecraftSessionService {
-+    protected PaperMinecraftSessionService(YggdrasilAuthenticationService authenticationService, Environment environment) {
-+        super(authenticationService, environment);
++
++    protected PaperMinecraftSessionService(ServicesKeySet servicesKeySet, Proxy proxy, Environment environment) {
++        super(servicesKeySet, proxy, environment);
 +    }
 +
 +    @Override
@@ -508,31 +514,8 @@ index 0000000000000000000000000000000000000000..93d73c27340645c7502acafdc0b2cfbc
 +    }
 +
 +    @Override
-+    public GameProfile fillProfileProperties(GameProfile profile, boolean requireSecure) {
-+        return super.fillProfileProperties(profile, requireSecure);
-+    }
-+
-+    @Override
-+    protected GameProfile fillGameProfile(GameProfile profile, boolean requireSecure) {
-+        return super.fillGameProfile(profile, requireSecure);
-+    }
-+}
-diff --git a/src/main/java/com/destroystokyo/paper/profile/PaperUserAuthentication.java b/src/main/java/com/destroystokyo/paper/profile/PaperUserAuthentication.java
-new file mode 100644
-index 0000000000000000000000000000000000000000..3cdd06d3af7ff94f1fe1a11b9a9275e17c695a38
---- /dev/null
-+++ b/src/main/java/com/destroystokyo/paper/profile/PaperUserAuthentication.java
-@@ -0,0 +1,12 @@
-+package com.destroystokyo.paper.profile;
-+
-+import com.mojang.authlib.Agent;
-+import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-+import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
-+import java.util.UUID;
-+
-+public class PaperUserAuthentication extends YggdrasilUserAuthentication {
-+    public PaperUserAuthentication(YggdrasilAuthenticationService authenticationService, Agent agent) {
-+        super(authenticationService, UUID.randomUUID().toString(), agent);
++    public @Nullable ProfileResult fetchProfile(final UUID profileId, final boolean requireSecure) {
++        return super.fetchProfile(profileId, requireSecure);
 +    }
 +}
 diff --git a/src/main/java/com/destroystokyo/paper/profile/SharedPlayerProfile.java b/src/main/java/com/destroystokyo/paper/profile/SharedPlayerProfile.java
@@ -596,10 +579,10 @@ index dc2ab968ed010289125ac08f0a9ea85af6f6e8bb..82a1a87822e3fc323b92e1aa30ddb0cd
       * Calculates distance between 2 entities
       * @param e1
 diff --git a/src/main/java/net/minecraft/server/Main.java b/src/main/java/net/minecraft/server/Main.java
-index 017395b49d4cc0d12246332cc7d4d0113dcd5c5e..839055c2cb941c36c3d7e3eaf61a277b25d16acb 100644
+index 646cd39c46d86899f23c8179c0790e32d03f954f..1b97195394161e067312b71c81ddd448b92c5e44 100644
 --- a/src/main/java/net/minecraft/server/Main.java
 +++ b/src/main/java/net/minecraft/server/Main.java
-@@ -181,7 +181,7 @@ public class Main {
+@@ -178,7 +178,7 @@ public class Main {
              }
  
              File file = (File) optionset.valueOf("universe"); // CraftBukkit
@@ -609,10 +592,10 @@ index 017395b49d4cc0d12246332cc7d4d0113dcd5c5e..839055c2cb941c36c3d7e3eaf61a277b
              String s = (String) Optional.ofNullable((String) optionset.valueOf("world")).orElse(dedicatedserversettings.getProperties().levelName);
              LevelStorageSource convertable = LevelStorageSource.createDefault(file.toPath());
 diff --git a/src/main/java/net/minecraft/server/players/GameProfileCache.java b/src/main/java/net/minecraft/server/players/GameProfileCache.java
-index 4038bb76339d43f18770624bd7fecc79b8d7f2a9..2456edc11b29a92b1648937cd3dd6a9a05706803 100644
+index c70cd016e1978931d115cfca94664897f0158196..eac9658fa4cab7a651e10e4e18c679e040e4aed0 100644
 --- a/src/main/java/net/minecraft/server/players/GameProfileCache.java
 +++ b/src/main/java/net/minecraft/server/players/GameProfileCache.java
-@@ -136,6 +136,17 @@ public class GameProfileCache {
+@@ -124,6 +124,17 @@ public class GameProfileCache {
          return this.operationCount.incrementAndGet();
      }
  
@@ -631,10 +614,10 @@ index 4038bb76339d43f18770624bd7fecc79b8d7f2a9..2456edc11b29a92b1648937cd3dd6a9a
          String s1 = name.toLowerCase(Locale.ROOT);
          GameProfileCache.GameProfileInfo usercache_usercacheentry = (GameProfileCache.GameProfileInfo) this.profilesByName.get(s1);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 2ffc67b0b8f2e0f1fbc70099541f093887d9945c..d61b4894f4f575c1e4b55439afef327a5fa6c35e 100644
+index 0ef8750c7c862a44dfb0e15602ef819790c9f1a4..cfb0846381f5ebfe33fc4074f21fb0993812f75c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -261,6 +261,9 @@ import org.yaml.snakeyaml.error.MarkedYAMLException;
+@@ -263,6 +263,9 @@ import org.yaml.snakeyaml.error.MarkedYAMLException;
  
  import net.md_5.bungee.api.chat.BaseComponent; // Spigot
  
@@ -644,7 +627,7 @@ index 2ffc67b0b8f2e0f1fbc70099541f093887d9945c..d61b4894f4f575c1e4b55439afef327a
  public final class CraftServer implements Server {
      private final String serverName = "Paper"; // Paper
      private final String serverVersion;
-@@ -303,6 +306,7 @@ public final class CraftServer implements Server {
+@@ -305,6 +308,7 @@ public final class CraftServer implements Server {
      static {
          ConfigurationSerialization.registerClass(CraftOfflinePlayer.class);
          ConfigurationSerialization.registerClass(CraftPlayerProfile.class);
@@ -652,7 +635,7 @@ index 2ffc67b0b8f2e0f1fbc70099541f093887d9945c..d61b4894f4f575c1e4b55439afef327a
          CraftItemFactory.instance();
      }
  
-@@ -2677,5 +2681,37 @@ public final class CraftServer implements Server {
+@@ -2681,5 +2685,37 @@ public final class CraftServer implements Server {
      public boolean suggestPlayerNamesWhenNullTabCompletions() {
          return io.papermc.paper.configuration.GlobalConfiguration.get().commands.suggestPlayerNamesWhenNullTabCompletions;
      }
@@ -691,10 +674,10 @@ index 2ffc67b0b8f2e0f1fbc70099541f093887d9945c..d61b4894f4f575c1e4b55439afef327a
      // Paper end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerProfile.java b/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerProfile.java
-index 2375b0bac17dd73d6ee12a94b9e4a4143a2e1c65..d1aab4742b605e8807b0e4ca148abe0ed95039f4 100644
+index 9eafa36b086ed4cde107b81aa9470d1a43e557f1..2d877acc4cb338193449ae37cafb0cfdc452d6b0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerProfile.java
 +++ b/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerProfile.java
-@@ -27,7 +27,7 @@ import org.bukkit.profile.PlayerProfile;
+@@ -31,7 +31,7 @@ import org.bukkit.profile.PlayerProfile;
  import org.bukkit.profile.PlayerTextures;
  
  @SerializableAs("PlayerProfile")
@@ -703,7 +686,7 @@ index 2375b0bac17dd73d6ee12a94b9e4a4143a2e1c65..d1aab4742b605e8807b0e4ca148abe0e
  
      @Nonnull
      public static GameProfile validateSkullProfile(@Nonnull GameProfile gameProfile) {
-@@ -92,8 +92,10 @@ public final class CraftPlayerProfile implements PlayerProfile {
+@@ -96,8 +96,10 @@ public final class CraftPlayerProfile implements PlayerProfile {
          }
      }
  
@@ -716,15 +699,15 @@ index 2375b0bac17dd73d6ee12a94b9e4a4143a2e1c65..d1aab4742b605e8807b0e4ca148abe0e
      }
  
      void rebuildDirtyProperties() {
-@@ -236,6 +238,7 @@ public final class CraftPlayerProfile implements PlayerProfile {
+@@ -245,6 +247,7 @@ public final class CraftPlayerProfile implements PlayerProfile {
  
      @Override
      public Map<String, Object> serialize() {
 +        // Paper - diff on change
          Map<String, Object> map = new LinkedHashMap<>();
-         if (this.uniqueId != null) {
-             map.put("uniqueId", this.uniqueId.toString());
-@@ -251,10 +254,12 @@ public final class CraftPlayerProfile implements PlayerProfile {
+         if (this.getUniqueId() != null) {
+             map.put("uniqueId", this.getUniqueId().toString());
+@@ -260,10 +263,12 @@ public final class CraftPlayerProfile implements PlayerProfile {
              });
              map.put("properties", propertiesData);
          }
@@ -737,8 +720,8 @@ index 2375b0bac17dd73d6ee12a94b9e4a4143a2e1c65..d1aab4742b605e8807b0e4ca148abe0e
          UUID uniqueId = ConfigSerializationUtil.getUuid(map, "uniqueId", true);
          String name = ConfigSerializationUtil.getString(map, "name", true);
  
-@@ -268,7 +273,7 @@ public final class CraftPlayerProfile implements PlayerProfile {
-                 profile.properties.put(property.getName(), property);
+@@ -277,7 +282,7 @@ public final class CraftPlayerProfile implements PlayerProfile {
+                 profile.properties.put(property.name(), property);
              }
          }
 -
@@ -747,7 +730,7 @@ index 2375b0bac17dd73d6ee12a94b9e4a4143a2e1c65..d1aab4742b605e8807b0e4ca148abe0e
      }
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerTextures.java b/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerTextures.java
-index e5b61bc1f3a4bfccca386360c4920ffb8b768308..ab1fd3fb39bd40fb867432861462db5f866bce6f 100644
+index 3d76d833e428d8760413bb2325a3680c7bcddb32..d734b1bc1ecea935e45893b88d7bf78f5082352e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerTextures.java
 +++ b/src/main/java/org/bukkit/craftbukkit/profile/CraftPlayerTextures.java
 @@ -48,7 +48,7 @@ public final class CraftPlayerTextures implements PlayerTextures {

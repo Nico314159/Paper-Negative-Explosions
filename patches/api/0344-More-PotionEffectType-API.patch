@@ -5,10 +5,10 @@ Subject: [PATCH] More PotionEffectType API
 
 
 diff --git a/src/main/java/org/bukkit/Registry.java b/src/main/java/org/bukkit/Registry.java
-index c21aefb63678d78a441436761373e9710c1e543a..1d96ed754be09b52a518967c870eba05bb3e99ee 100644
+index 4efda6d0f81ac192890b5003ceebf3d8fd07ea08..44d863510d454f316a5d9b7214b54ca499226d74 100644
 --- a/src/main/java/org/bukkit/Registry.java
 +++ b/src/main/java/org/bukkit/Registry.java
-@@ -236,6 +236,26 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
+@@ -257,6 +257,31 @@ public interface Registry<T extends Keyed> extends Iterable<T> {
       */
      @Deprecated(forRemoval = true)
      Registry<io.papermc.paper.world.structure.ConfiguredStructure> CONFIGURED_STRUCTURE = Bukkit.getRegistry(io.papermc.paper.world.structure.ConfiguredStructure.class);
@@ -30,6 +30,11 @@ index c21aefb63678d78a441436761373e9710c1e543a..1d96ed754be09b52a518967c870eba05
 +        @Override
 +        public Iterator<org.bukkit.potion.PotionEffectType> iterator() {
 +            return Arrays.stream(org.bukkit.potion.PotionEffectType.values()).iterator();
++        }
++
++        @Override
++        public @NotNull Stream<org.bukkit.potion.PotionEffectType> stream() {
++            return StreamSupport.stream(this.spliterator(), false);
 +        }
 +    };
      // Paper end
@@ -106,9 +111,18 @@ index 5f3aa6fd18d57055a6d8494938dff149d51b2803..84fd181ad897f620e450750246d9ea41
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/potion/PotionEffectTypeWrapper.java b/src/main/java/org/bukkit/potion/PotionEffectTypeWrapper.java
-index c3a86bb1910158a8d13a675dfa7236dd6a3f397c..a7653806c0fa76f4b3342ea199fe892c514a4c27 100644
+index 6994981bdeccc4b059ae0075d0c8a26b6471d7b3..928f36a4def378dccb6a52196ad60e7b5ff17694 100644
 --- a/src/main/java/org/bukkit/potion/PotionEffectTypeWrapper.java
 +++ b/src/main/java/org/bukkit/potion/PotionEffectTypeWrapper.java
+@@ -27,7 +27,7 @@ public class PotionEffectTypeWrapper extends PotionEffectType {
+      */
+     @NotNull
+     public PotionEffectType getType() {
+-        return PotionEffectType.getByKey(getKey());
++        return PotionEffectType.getByKey(super.getKey()); // Paper
+     }
+ 
+     @Override
 @@ -40,4 +40,30 @@ public class PotionEffectTypeWrapper extends PotionEffectType {
      public Color getColor() {
          return getType().getColor();

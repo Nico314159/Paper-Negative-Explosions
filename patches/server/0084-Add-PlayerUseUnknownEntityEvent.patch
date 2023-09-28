@@ -28,10 +28,10 @@ index 644a0fdea6576647539b96528717dbaeab498d93..221e64a66ff12a8de5c75992fc26a54a
 +    // Paper end - PlayerUseUnknownEntityEvent
  }
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 1c84143d271e70f6ffea301f3e93cd8ed8fd9bd1..6b87ed8b453b149bdd74eb3b164aa3bbcc8c2b13 100644
+index 4376e09828655444d1339020a2676c67197abfb9..baaac036875128f8f05f8dae5f6cde29c4ca2b7d 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2522,8 +2522,38 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -2392,8 +2392,38 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
                  });
              }
          }

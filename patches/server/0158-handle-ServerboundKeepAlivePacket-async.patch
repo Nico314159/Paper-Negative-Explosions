@@ -14,11 +14,11 @@ off the main thread.
 also adding some additional logging in order to help work out what is causing
 random disconnections for clients.
 
-diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 18c9c39fd5574326d9137724773b7403c3c3429d..63003915799f636af2d60778f059a5667e199baf 100644
---- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-+++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3099,14 +3099,18 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+diff --git a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
+index 6faec2ca225fcebbad65190ab485e2cab77cfd6e..e8fb051bf24a4c239ae980c37d8d64f261b5db60 100644
+--- a/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerCommonPacketListenerImpl.java
+@@ -83,14 +83,18 @@ public abstract class ServerCommonPacketListenerImpl implements ServerCommonPack
  
      @Override
      public void handleKeepAlive(ServerboundKeepAlivePacket packet) {
@@ -27,14 +27,15 @@ index 18c9c39fd5574326d9137724773b7403c3c3429d..63003915799f636af2d60778f059a566
          if (this.keepAlivePending && packet.getId() == this.keepAliveChallenge) {
              int i = (int) (Util.getMillis() - this.keepAliveTime);
  
-             this.player.latency = (this.player.latency * 3 + i) / 4;
+             this.latency = (this.latency * 3 + i) / 4;
              this.keepAlivePending = false;
          } else if (!this.isSingleplayerOwner()) {
+-            this.disconnect(ServerCommonPacketListenerImpl.TIMEOUT_DISCONNECTION_MESSAGE);
 +            // Paper start - This needs to be handled on the main thread for plugins
 +            server.submit(() -> {
-             this.disconnect(Component.translatable("disconnect.timeout"));
++                this.disconnect(ServerCommonPacketListenerImpl.TIMEOUT_DISCONNECTION_MESSAGE);
 +            });
-+            // Paper end
++            // Paper endg
          }
  
      }

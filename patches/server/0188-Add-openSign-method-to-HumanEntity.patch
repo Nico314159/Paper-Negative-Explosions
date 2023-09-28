@@ -5,7 +5,7 @@ Subject: [PATCH] Add openSign method to HumanEntity
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
-index 2f5704b19148f390402c0823030806ba96860286..74f1af3dccddf52965e5c91277be3592649e8cfa 100644
+index c40b3b8ff02c0e21fab53f6749f9c72b7e3c48a1..e5b2686e466a2604ebcdb6e5c3b6fb7ff7bc6eec 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
 @@ -626,6 +626,12 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity {

@@ -30,10 +30,10 @@ index ff682a671f04a333615c4f22dc4b2aedd00eb117..8d8fe55a05eea237a8af99ed15ab16d6
          this.loadPaperNBT(nbt); // Paper
      }
 diff --git a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-index 33a058474cd9d5e089a39e04cf5176eb9df62603..339c70f101d026a100a801e66cf514b3329a89d2 100644
+index 41621adf597d76cad0a7098ac0da8ceb29b43ed7..5ad5f22e5aa26445e5eb229958e7bf356bdd460e 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/allay/Allay.java
-@@ -514,7 +514,7 @@ public class Allay extends PathfinderMob implements InventoryCarrier, VibrationS
+@@ -509,7 +509,7 @@ public class Allay extends PathfinderMob implements InventoryCarrier, VibrationS
              });
          }
  

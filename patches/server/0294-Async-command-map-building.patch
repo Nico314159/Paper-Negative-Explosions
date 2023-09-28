@@ -9,10 +9,10 @@ commands if the server is restarting. Using the default async pool caused issues
 due to the shutdown logic generally being much later.
 
 diff --git a/src/main/java/net/minecraft/commands/Commands.java b/src/main/java/net/minecraft/commands/Commands.java
-index e3394864e29357fec036f9e616472aeab95d035e..b7f1569c662df13f278fc704cabec0400ba7c382 100644
+index e63632f09d608371aaeaf09a6dac57c1d8a719d4..bbf4db5faf4694e78e01f4e74e277b46a02f7afd 100644
 --- a/src/main/java/net/minecraft/commands/Commands.java
 +++ b/src/main/java/net/minecraft/commands/Commands.java
-@@ -398,6 +398,24 @@ public class Commands {
+@@ -404,6 +404,24 @@ public class Commands {
          if ( org.spigotmc.SpigotConfig.tabComplete < 0 ) return; // Spigot
          // CraftBukkit start
          // Register Vanilla commands into builtRoot as before
@@ -37,7 +37,7 @@ index e3394864e29357fec036f9e616472aeab95d035e..b7f1569c662df13f278fc704cabec040
          Map<CommandNode<CommandSourceStack>, CommandNode<SharedSuggestionProvider>> map = Maps.newIdentityHashMap(); // Use identity to prevent aliasing issues
          RootCommandNode vanillaRoot = new RootCommandNode();
  
-@@ -415,7 +433,14 @@ public class Commands {
+@@ -421,7 +439,14 @@ public class Commands {
          for (CommandNode node : rootcommandnode.getChildren()) {
              bukkit.add(node.getName());
          }
@@ -53,10 +53,10 @@ index e3394864e29357fec036f9e616472aeab95d035e..b7f1569c662df13f278fc704cabec040
          event.getPlayer().getServer().getPluginManager().callEvent(event);
  
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 1a74b7c252d16e5ab2c303e6e96c62e78ef9311c..d84ed437e91a620c294533ddcb098cc11bc16c1f 100644
+index 950265d4ba677432b224bd8f2e5cb5076a9103fa..afc8a65c0513a394f5a6736a952afba1397cae6a 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -895,6 +895,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -880,6 +880,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          }
  
          MinecraftServer.LOGGER.info("Stopping server");

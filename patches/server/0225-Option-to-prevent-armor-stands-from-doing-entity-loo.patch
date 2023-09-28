@@ -5,7 +5,7 @@ Subject: [PATCH] Option to prevent armor stands from doing entity lookups
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java b/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java
-index 68ac3ffae5d800bde3c5b5163a52768a43bb5963..a59381646031a1a99c98c8c6ad9de7efc96b774a 100644
+index 37c19685049ef6b267a74a4323dc4ec33159c3d2..4859a4c78e59745ef75155bc8d6915fce5a217d8 100644
 --- a/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java
 +++ b/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java
 @@ -337,6 +337,7 @@ public class ArmorStand extends LivingEntity {
@@ -14,8 +14,8 @@ index 68ac3ffae5d800bde3c5b5163a52768a43bb5963..a59381646031a1a99c98c8c6ad9de7ef
      protected void pushEntities() {
 +        if (!this.level().paperConfig().entities.armorStands.doCollisionEntityLookups) return; // Paper
          List<Entity> list = this.level().getEntities((Entity) this, this.getBoundingBox(), ArmorStand.RIDABLE_MINECARTS);
+         Iterator iterator = list.iterator();
  
-         for (int i = 0; i < list.size(); ++i) {
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
 index ce24a52b2b9fb0ae7cfb085a204de8780bc8f5d6..0b02ba70956ea1352ea8e67957b3789408b67f6b 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java

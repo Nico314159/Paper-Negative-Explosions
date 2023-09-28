@@ -7,7 +7,7 @@ Bamboo - Both the minimum fully-grown heights and the maximum are configurable
 - Machine_Maker
 
 diff --git a/src/main/java/net/minecraft/world/level/block/BambooStalkBlock.java b/src/main/java/net/minecraft/world/level/block/BambooStalkBlock.java
-index 0d05ad9c0b5043e58d639041cfe3fb7a27f373a3..a5d391af2c6b733d653188f4aeeec2afffd96adf 100644
+index 75754c06268d6d1b719742d127516f77ba5c1046..05a508cb457b67078ccb08bd2228a59e73701cf3 100644
 --- a/src/main/java/net/minecraft/world/level/block/BambooStalkBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/BambooStalkBlock.java
 @@ -130,7 +130,7 @@ public class BambooStalkBlock extends Block implements BonemealableBlock {

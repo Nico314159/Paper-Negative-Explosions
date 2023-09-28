@@ -5,7 +5,7 @@ Subject: [PATCH] Allow disabling armour stand ticking
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java b/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java
-index a59381646031a1a99c98c8c6ad9de7efc96b774a..719f68f96e58ddcdd3592131c691d21263c81915 100644
+index 4859a4c78e59745ef75155bc8d6915fce5a217d8..6483ad071c119353267a4f13b192a50931995c2a 100644
 --- a/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java
 +++ b/src/main/java/net/minecraft/world/entity/decoration/ArmorStand.java
 @@ -93,9 +93,16 @@ public class ArmorStand extends LivingEntity {
@@ -54,7 +54,7 @@ index a59381646031a1a99c98c8c6ad9de7efc96b774a..719f68f96e58ddcdd3592131c691d212
          CompoundTag nbttagcompound1 = nbt.getCompound("Pose");
  
          this.readPose(nbttagcompound1);
-@@ -663,7 +678,29 @@ public class ArmorStand extends LivingEntity {
+@@ -671,7 +686,29 @@ public class ArmorStand extends LivingEntity {
  
      @Override
      public void tick() {
@@ -84,7 +84,7 @@ index a59381646031a1a99c98c8c6ad9de7efc96b774a..719f68f96e58ddcdd3592131c691d212
          Rotations vector3f = (Rotations) this.entityData.get(ArmorStand.DATA_HEAD_POSE);
  
          if (!this.headPose.equals(vector3f)) {
-@@ -792,31 +829,37 @@ public class ArmorStand extends LivingEntity {
+@@ -800,31 +837,37 @@ public class ArmorStand extends LivingEntity {
      public void setHeadPose(Rotations angle) {
          this.headPose = angle;
          this.entityData.set(ArmorStand.DATA_HEAD_POSE, angle);

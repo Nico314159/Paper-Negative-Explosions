@@ -5,10 +5,10 @@ Subject: [PATCH] Optional TNT doesn't move in water
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerEntity.java b/src/main/java/net/minecraft/server/level/ServerEntity.java
-index c6660cc77dfa3c3750b6b4dde5617f00c9de1e0a..ae3d1077b42fb288938a8a65471f00b3f52cb18f 100644
+index ca7c68bd3dc8904bdb50b9056931a44f6071d9e3..bd04537cdc33fddd94fe2b2efcc78875bf96be8c 100644
 --- a/src/main/java/net/minecraft/server/level/ServerEntity.java
 +++ b/src/main/java/net/minecraft/server/level/ServerEntity.java
-@@ -70,7 +70,7 @@ public class ServerEntity {
+@@ -73,7 +73,7 @@ public class ServerEntity {
      @Nullable
      private List<SynchedEntityData.DataValue<?>> trackedDataValues;
      // CraftBukkit start

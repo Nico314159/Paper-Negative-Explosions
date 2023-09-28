@@ -8,10 +8,10 @@ Fires an event anytime an enderman intends to teleport away from the player
 You may cancel this, enabling ranged attacks to damage the enderman for example.
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-index 084a9bb8ca0ec57fad1efbc540e4b58eacb61970..d2dd4537f8a81d02a4d3570834549d7e27b749b9 100644
+index 3a5cf39c59fd14db865341f551bb67c9dc869ffd..1dea327e8df8651940f204bb96f56a8f6294aaed 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-@@ -122,6 +122,12 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -124,6 +124,12 @@ public class EnderMan extends Monster implements NeutralMob {
          this.setTarget(target, EntityTargetEvent.TargetReason.UNKNOWN, true);
      }
  
@@ -24,7 +24,7 @@ index 084a9bb8ca0ec57fad1efbc540e4b58eacb61970..d2dd4537f8a81d02a4d3570834549d7e
      @Override
      public boolean setTarget(LivingEntity entityliving, EntityTargetEvent.TargetReason reason, boolean fireEvent) {
          if (!super.setTarget(entityliving, reason, fireEvent)) {
-@@ -276,7 +282,7 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -283,7 +289,7 @@ public class EnderMan extends Monster implements NeutralMob {
          if (this.level().isDay() && this.tickCount >= this.targetChangeTime + 600) {
              float f = this.getLightLevelDependentMagicValue();
  
@@ -33,7 +33,7 @@ index 084a9bb8ca0ec57fad1efbc540e4b58eacb61970..d2dd4537f8a81d02a4d3570834549d7e
                  this.setTarget((LivingEntity) null);
                  this.teleport();
              }
-@@ -402,11 +408,13 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -409,11 +415,13 @@ public class EnderMan extends Monster implements NeutralMob {
              } else {
                  flag1 = flag && this.hurtWithCleanWater(source, (ThrownPotion) source.getDirectEntity(), amount);
  
@@ -47,7 +47,7 @@ index 084a9bb8ca0ec57fad1efbc540e4b58eacb61970..d2dd4537f8a81d02a4d3570834549d7e
  
                  return flag1;
              }
-@@ -633,7 +641,7 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -640,7 +648,7 @@ public class EnderMan extends Monster implements NeutralMob {
              } else {
                  if (this.target != null && !this.enderman.isPassenger()) {
                      if (this.enderman.isLookingAtMe((Player) this.target)) {

@@ -5,10 +5,10 @@ Subject: [PATCH] Async GameProfileCache saving
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 0ee486f807d7c44e2252c4c744e29b506d916d9c..b5ededfb23980abca01ef25207cca95ad390a70d 100644
+index 1766cd6d83aee31800364402dbe4a439c56e63d0..b46cffe141921e499a47dac08318f167f21a5509 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -932,7 +932,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -914,7 +914,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          } catch (java.lang.InterruptedException ignored) {} // Paper
          if (org.spigotmc.SpigotConfig.saveUserCacheOnStopOnly) {
              MinecraftServer.LOGGER.info("Saving usercache.json");
@@ -18,7 +18,7 @@ index 0ee486f807d7c44e2252c4c744e29b506d916d9c..b5ededfb23980abca01ef25207cca95a
          // Spigot end
          io.papermc.paper.chunk.system.io.RegionFileIOThread.close(true); // Paper // Paper - rewrite chunk system
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 6f543665b5ed42eaec6a410fa11f5a38da707110..52c2333afdb3748ffdbcc58ae7629aa2c4b49b74 100644
+index b77cbdd926cd54a4bae89e0d5a21e7d139bc0c63..f17e1621b498e70c8787dfe96dd819dc6e4b621f 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -242,7 +242,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -31,10 +31,10 @@ index 6f543665b5ed42eaec6a410fa11f5a38da707110..52c2333afdb3748ffdbcc58ae7629aa2
  
          if (!OldUsersConverter.serverReadyAfterUserconversion(this)) {
 diff --git a/src/main/java/net/minecraft/server/players/GameProfileCache.java b/src/main/java/net/minecraft/server/players/GameProfileCache.java
-index d246563021c32127e570809f4d849b6a156f4dc6..225e15d686675e21969c4210fa38fef58d920355 100644
+index 7170f8cfd733708089495b51647659237bd10385..322e07adc556ee8131d40d89856574b185ee4c94 100644
 --- a/src/main/java/net/minecraft/server/players/GameProfileCache.java
 +++ b/src/main/java/net/minecraft/server/players/GameProfileCache.java
-@@ -127,7 +127,7 @@ public class GameProfileCache {
+@@ -115,7 +115,7 @@ public class GameProfileCache {
          GameProfileCache.GameProfileInfo usercache_usercacheentry = new GameProfileCache.GameProfileInfo(profile, date);
  
          this.safeAdd(usercache_usercacheentry);
@@ -43,7 +43,7 @@ index d246563021c32127e570809f4d849b6a156f4dc6..225e15d686675e21969c4210fa38fef5
      }
  
      private long getNextOperation() {
-@@ -160,7 +160,7 @@ public class GameProfileCache {
+@@ -148,7 +148,7 @@ public class GameProfileCache {
          }
  
          if (flag && !org.spigotmc.SpigotConfig.saveUserCacheOnStopOnly) { // Spigot - skip saving if disabled
@@ -52,7 +52,7 @@ index d246563021c32127e570809f4d849b6a156f4dc6..225e15d686675e21969c4210fa38fef5
          }
  
          return optional;
-@@ -274,7 +274,7 @@ public class GameProfileCache {
+@@ -260,7 +260,7 @@ public class GameProfileCache {
          return arraylist;
      }
  
@@ -61,7 +61,7 @@ index d246563021c32127e570809f4d849b6a156f4dc6..225e15d686675e21969c4210fa38fef5
          JsonArray jsonarray = new JsonArray();
          DateFormat dateformat = GameProfileCache.createDateFormat();
  
-@@ -282,6 +282,7 @@ public class GameProfileCache {
+@@ -268,6 +268,7 @@ public class GameProfileCache {
              jsonarray.add(GameProfileCache.writeGameProfile(usercache_usercacheentry, dateformat));
          });
          String s = this.gson.toJson(jsonarray);
@@ -69,7 +69,7 @@ index d246563021c32127e570809f4d849b6a156f4dc6..225e15d686675e21969c4210fa38fef5
  
          try {
              BufferedWriter bufferedwriter = Files.newWriter(this.file, StandardCharsets.UTF_8);
-@@ -306,6 +307,14 @@ public class GameProfileCache {
+@@ -292,6 +293,14 @@ public class GameProfileCache {
          } catch (IOException ioexception) {
              ;
          }

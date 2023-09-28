@@ -6,10 +6,10 @@ Subject: [PATCH] WitchThrowPotionEvent
 Fired when a witch throws a potion at a player
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Witch.java b/src/main/java/net/minecraft/world/entity/monster/Witch.java
-index 6a6b8672e65212dc2a1d837563d623b8bce8da28..0341a1cf05865f1a182a25adc5651f80ae09290a 100644
+index a949e8546ecc2d6fd6690d8a00207dc187e2451a..40876df2503eed53c5d7769931f8201fb709cf6f 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Witch.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Witch.java
-@@ -236,9 +236,16 @@ public class Witch extends Raider implements RangedAttackMob {
+@@ -239,9 +239,16 @@ public class Witch extends Raider implements RangedAttackMob {
                  potionregistry = Potions.WEAKNESS;
              }
  

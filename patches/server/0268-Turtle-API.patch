@@ -25,10 +25,10 @@ index 60e291abb3ebdf8676c13a2138d8eb436d033fa2..d27e5f9dac4703b839ab8444f6b54bf5
      private final int searchRange;
      private final int verticalSearchRange;
 diff --git a/src/main/java/net/minecraft/world/entity/animal/Turtle.java b/src/main/java/net/minecraft/world/entity/animal/Turtle.java
-index 3a3f5e567fdefad6887e42c8e9147194ae0c4d89..fd6ce6e8a3a7c889276e06fb427e0d17ed093149 100644
+index ed1f6e77d5fc9b6f5f52b1a10275783b514c162c..652a8150f7343050b6da6c01f4e73a755138d491 100644
 --- a/src/main/java/net/minecraft/world/entity/animal/Turtle.java
 +++ b/src/main/java/net/minecraft/world/entity/animal/Turtle.java
-@@ -487,14 +487,18 @@ public class Turtle extends Animal {
+@@ -496,14 +496,18 @@ public class Turtle extends Animal {
  
              if (!this.turtle.isInWater() && this.isReachedTarget()) {
                  if (this.turtle.layEggCounter < 1) {
@@ -50,7 +50,7 @@ index 3a3f5e567fdefad6887e42c8e9147194ae0c4d89..fd6ce6e8a3a7c889276e06fb427e0d17
  
                      world.setBlock(blockposition1, iblockdata, 3);
                      world.gameEvent(GameEvent.BLOCK_PLACE, blockposition1, GameEvent.Context.of(this.turtle, iblockdata));
-@@ -564,7 +568,7 @@ public class Turtle extends Animal {
+@@ -573,7 +577,7 @@ public class Turtle extends Animal {
  
          @Override
          public boolean canUse() {

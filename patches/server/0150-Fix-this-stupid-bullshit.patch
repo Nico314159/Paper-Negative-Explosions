@@ -31,12 +31,12 @@ index 8ff786c366332588a2df053438f23cc9fb7e2b84..c887d34171f89c731d76c4ca92c70be2
              Bootstrap.isBootstrapped = true;
              Instant instant = Instant.now();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index c5a403bc04fcb7a0fbc1dd1fe9ebf374e6a62af3..c79afabed432ca9094967ae0e48b04133dc4c51b 100644
+index 601288ff52f0f0b0c82a5ff0414b60b8cb6e3a26..bf34d343fd0b3158bf00f9ce22b45dfd82c75dc5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -257,10 +257,12 @@ public class Main {
                      Calendar deadline = Calendar.getInstance();
-                     deadline.add(Calendar.DAY_OF_YEAR, -21);
+                     deadline.add(Calendar.DAY_OF_YEAR, -3);
                      if (buildDate.before(deadline.getTime())) {
 -                        System.err.println("*** Error, this build is outdated ***");
 +                        // Paper start - This is some stupid bullshit

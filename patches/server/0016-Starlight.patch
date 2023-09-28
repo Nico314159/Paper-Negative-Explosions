@@ -4480,7 +4480,7 @@ index 0000000000000000000000000000000000000000..463c6d8d5b114816ed90655582859458
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/level/ChunkHolder.java b/src/main/java/net/minecraft/server/level/ChunkHolder.java
-index 32d186fefa5ff8afedcceacea0c6fa1cefbd5490..4620e64d8eb81520b75fbfbc64603e5887c7b016 100644
+index facfdbb87e89f4db33ce13233c2ba4366d35c15b..807a6bb1026dac2c4cd0a50afe06fd62ce23558b 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkHolder.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkHolder.java
 @@ -53,7 +53,7 @@ public class ChunkHolder {
@@ -4493,10 +4493,10 @@ index 32d186fefa5ff8afedcceacea0c6fa1cefbd5490..4620e64d8eb81520b75fbfbc64603e58
      private final DebugBuffer<ChunkHolder.ChunkSaveDebug> chunkToSaveHistory;
      public int oldTicketLevel;
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index a645263f148a25e5b4baeed51775eb8e7f596fe8..19bd6f9aee3ccb1af1b010ee51a54aa2d0bf9c84 100644
+index 4dc04c16453174dde2c6bfad711ec9dec01c8f30..b47e30e9ebe0d6a930e01aaf67c138fc345fb11e 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -133,7 +133,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -124,7 +124,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
      private final LongSet entitiesInLevel;
      public final ServerLevel level;
      private final ThreadedLevelLightEngine lightEngine;
@@ -4519,7 +4519,7 @@ index d8b83c8c89143d78620f812c491a1950e3218eb1..f3c9a3dbb6f0e6f825b7477c89ed72ed
  
          while (objectiterator.hasNext()) {
 diff --git a/src/main/java/net/minecraft/server/level/ThreadedLevelLightEngine.java b/src/main/java/net/minecraft/server/level/ThreadedLevelLightEngine.java
-index 65d72701b13c25dd701533833055e77c2aff9db8..6716d9acc8b31f3fc3642b47fa52ce32c5195a3e 100644
+index 785ca2c63fe47936ac4c0223dffd8971a295a37c..97662f8c8c125cb964d46b9095509a0da9796dba 100644
 --- a/src/main/java/net/minecraft/server/level/ThreadedLevelLightEngine.java
 +++ b/src/main/java/net/minecraft/server/level/ThreadedLevelLightEngine.java
 @@ -23,6 +23,17 @@ import net.minecraft.world.level.chunk.LightChunkGetter;
@@ -4851,11 +4851,11 @@ index 0d536d72ac918fbd403397ff369d10143ee9c204..6051e5f272838ef23276a90e21c2fc82
      public static <T> TicketType<T> create(String name, Comparator<T> argumentComparator) {
          return new TicketType<>(name, argumentComparator, 0L);
 diff --git a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
-index 88b1aabec2812252c54d0901ccd1eba0216cb7c3..803f3ebaa9fe43c88f461168ee43fc6ba920a764 100644
+index 2b8e88a75e9a974e1ecafe0360a9d69b79326d11..6c171199dcc30f56a6d0ab7ecf398b505d145067 100644
 --- a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
 +++ b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
 @@ -807,6 +807,7 @@ public abstract class BlockBehaviour implements FeatureElement {
-             this.spawnParticlesOnBreak = blockbase_info.spawnParticlesOnBreak;
+             this.spawnTerrainParticles = blockbase_info.spawnTerrainParticles;
              this.instrument = blockbase_info.instrument;
              this.replaceable = blockbase_info.replaceable;
 +            this.conditionallyFullOpaque = this.isOpaque() & this.isTransparentOnSomeFaces(); // Paper
@@ -5062,7 +5062,7 @@ index 6bb508105641b5729572736c5c3f9bd6711e309a..60e760b42dd6471a229dfd45490dcf8c
      @Override
      public BlockEntity getBlockEntity(BlockPos pos) {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 4185d524f61e87a469d563c938f742f63dad3c2f..09999a3f523ce6d652799215d3418284a69042c1 100644
+index 1e434faaf56f7d1501367c4371131a8da30c0421..bcdaa86cfd31c2ce4aadad900c348aee0a9e3fc8 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 @@ -90,6 +90,10 @@ public class LevelChunk extends ChunkAccess {
@@ -5090,10 +5090,10 @@ index 4185d524f61e87a469d563c938f742f63dad3c2f..09999a3f523ce6d652799215d3418284
  
          while (iterator.hasNext()) {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java b/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java
-index afba733824d84d650e669eda028bf4d28cf006b4..cd82985b0aa821dccc0484f328407381d58ec81f 100644
+index b8fb6d1d85e07f5165bfaf7d80807e069b595851..1219200cd915d6239a32a2bd09d325cd8fa9b346 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java
-@@ -142,7 +142,7 @@ public class PalettedContainer<T> implements PaletteResize<T>, PalettedContainer
+@@ -143,7 +143,7 @@ public class PalettedContainer<T> implements PaletteResize<T>, PalettedContainer
          return this.get(this.strategy.getIndex(x, y, z));
      }
  

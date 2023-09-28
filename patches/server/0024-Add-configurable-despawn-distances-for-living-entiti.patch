@@ -5,10 +5,10 @@ Subject: [PATCH] Add configurable despawn distances for living entities
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index b3de20af553414369784b17139dd9185cc715db2..9e17033b801676f9db7739bd2ed710744f42defd 100644
+index ffd8b35b606452ce5d189f2761aa76eb9b56ccd6..dc9162e8fa4b5649a631d3869be7cd9776f5c7b7 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
-@@ -844,14 +844,14 @@ public abstract class Mob extends LivingEntity implements Targeting {
+@@ -852,14 +852,14 @@ public abstract class Mob extends LivingEntity implements Targeting {
  
              if (entityhuman != null) {
                  double d0 = entityhuman.distanceToSqr((Entity) this);

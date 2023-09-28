@@ -5,10 +5,10 @@ Subject: [PATCH] Shoulder Entities Release API
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/player/Player.java b/src/main/java/net/minecraft/world/entity/player/Player.java
-index 8ef1798fe9dc42d9f09449ecc7578f4bddff1ed8..85488adc9c822c89ab5778bc1d48c58e916795c8 100644
+index a2f6e3f381bf251d93a63aff9f9af307350ffc50..3d333332ae02951af087cd37cbe7f1ecf8b0c932 100644
 --- a/src/main/java/net/minecraft/world/entity/player/Player.java
 +++ b/src/main/java/net/minecraft/world/entity/player/Player.java
-@@ -2036,20 +2036,45 @@ public abstract class Player extends LivingEntity {
+@@ -2042,20 +2042,45 @@ public abstract class Player extends LivingEntity {
  
      }
  
@@ -59,7 +59,7 @@ index 8ef1798fe9dc42d9f09449ecc7578f4bddff1ed8..85488adc9c822c89ab5778bc1d48c58e
      @Override
      public abstract boolean isSpectator();
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
-index abe978078270a45f7e77eb2b8a99309f12ca51ee..2f5704b19148f390402c0823030806ba96860286 100644
+index b9578f7d0f61d15bee1f99181bf932cdbb0e611c..c40b3b8ff02c0e21fab53f6749f9c72b7e3c48a1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftHumanEntity.java
 @@ -516,6 +516,32 @@ public class CraftHumanEntity extends CraftLivingEntity implements HumanEntity {

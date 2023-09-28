@@ -5,10 +5,10 @@ Subject: [PATCH] Prevent chunk loading from Fluid Flowing
 
 
 diff --git a/src/main/java/net/minecraft/world/level/material/FlowingFluid.java b/src/main/java/net/minecraft/world/level/material/FlowingFluid.java
-index fbf699e777d45db3dcf1606d34f509ca1a5bbb7a..c694b16be7c276fbf34aed2fd2aa6d6b79625561 100644
+index 818c83934a97c4b2ad4db69f4b0fcf0a500ea918..f7527ed1d47901e52df4e3fffbdcd838782c90db 100644
 --- a/src/main/java/net/minecraft/world/level/material/FlowingFluid.java
 +++ b/src/main/java/net/minecraft/world/level/material/FlowingFluid.java
-@@ -175,7 +175,8 @@ public abstract class FlowingFluid extends Fluid {
+@@ -176,7 +176,8 @@ public abstract class FlowingFluid extends Fluid {
                  Direction enumdirection = (Direction) entry.getKey();
                  FluidState fluid1 = (FluidState) entry.getValue();
                  BlockPos blockposition1 = pos.relative(enumdirection);
@@ -18,7 +18,7 @@ index fbf699e777d45db3dcf1606d34f509ca1a5bbb7a..c694b16be7c276fbf34aed2fd2aa6d6b
  
                  if (this.canSpreadTo(world, pos, blockState, enumdirection, blockposition1, iblockdata1, world.getFluidState(blockposition1), fluid1.getType())) {
                      // CraftBukkit start
-@@ -202,7 +203,9 @@ public abstract class FlowingFluid extends Fluid {
+@@ -203,7 +204,9 @@ public abstract class FlowingFluid extends Fluid {
          while (iterator.hasNext()) {
              Direction enumdirection = (Direction) iterator.next();
              BlockPos blockposition1 = pos.relative(enumdirection);
@@ -29,7 +29,7 @@ index fbf699e777d45db3dcf1606d34f509ca1a5bbb7a..c694b16be7c276fbf34aed2fd2aa6d6b
              FluidState fluid = iblockdata1.getFluidState();
  
              if (fluid.getType().isSame(this) && this.canPassThroughWall(enumdirection, world, pos, state, blockposition1, iblockdata1)) {
-@@ -319,11 +322,18 @@ public abstract class FlowingFluid extends Fluid {
+@@ -320,11 +323,18 @@ public abstract class FlowingFluid extends Fluid {
              if (enumdirection1 != direction) {
                  BlockPos blockposition2 = pos.relative(enumdirection1);
                  short short0 = FlowingFluid.getCacheKey(fromPos, blockposition2);
@@ -52,7 +52,7 @@ index fbf699e777d45db3dcf1606d34f509ca1a5bbb7a..c694b16be7c276fbf34aed2fd2aa6d6b
                  BlockState iblockdata1 = (BlockState) pair.getFirst();
                  FluidState fluid = (FluidState) pair.getSecond();
  
-@@ -395,11 +405,16 @@ public abstract class FlowingFluid extends Fluid {
+@@ -396,11 +406,16 @@ public abstract class FlowingFluid extends Fluid {
              Direction enumdirection = (Direction) iterator.next();
              BlockPos blockposition1 = pos.relative(enumdirection);
              short short0 = FlowingFluid.getCacheKey(pos, blockposition1);

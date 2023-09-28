@@ -7,10 +7,10 @@ Subject: [PATCH] Add more Witch API
 public net.minecraft.world.entity.monster.Witch usingTime
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Witch.java b/src/main/java/net/minecraft/world/entity/monster/Witch.java
-index df024c3108df807772fc487f5c59004a59938bf2..701f6bf1d558cf0ec4bc1abb9e1f66d96ea5a6c9 100644
+index ca24b592273208e61e0e0ba59b7e5a3c11ebf952..580dff41d746d9591f718081d9dfe4ac77e7eeaa 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Witch.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Witch.java
-@@ -157,21 +157,11 @@ public class Witch extends Raider implements RangedAttackMob {
+@@ -160,21 +160,10 @@ public class Witch extends Raider implements RangedAttackMob {
                  }
  
                  if (potionregistry != null) {
@@ -28,13 +28,13 @@ index df024c3108df807772fc487f5c59004a59938bf2..701f6bf1d558cf0ec4bc1abb9e1f66d9
 -                    }
 -
 -                    AttributeInstance attributemodifiable = this.getAttribute(Attributes.MOVEMENT_SPEED);
- 
--                    attributemodifiable.removeModifier(Witch.SPEED_MODIFIER_DRINKING);
+-
+-                    attributemodifiable.removeModifier(Witch.SPEED_MODIFIER_DRINKING.getId());
 -                    attributemodifiable.addTransientModifier(Witch.SPEED_MODIFIER_DRINKING);
                  }
              }
  
-@@ -183,6 +173,24 @@ public class Witch extends Raider implements RangedAttackMob {
+@@ -186,6 +175,24 @@ public class Witch extends Raider implements RangedAttackMob {
          super.aiStep();
      }
  
@@ -51,7 +51,7 @@ index df024c3108df807772fc487f5c59004a59938bf2..701f6bf1d558cf0ec4bc1abb9e1f66d9
 +
 +        AttributeInstance attributemodifiable = this.getAttribute(Attributes.MOVEMENT_SPEED);
 +
-+        attributemodifiable.removeModifier(Witch.SPEED_MODIFIER_DRINKING);
++        attributemodifiable.removeModifier(Witch.SPEED_MODIFIER_DRINKING.getId());
 +        attributemodifiable.addTransientModifier(Witch.SPEED_MODIFIER_DRINKING);
 +    }
 +    // Paper end

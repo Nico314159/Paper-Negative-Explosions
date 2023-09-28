@@ -11,10 +11,10 @@ So avoid looking up scoreboards and short circuit to the "not on a team"
 logic which is most likely to be true.
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 03d5ea7094223be15c96c223ca81bdb8685cc1e7..3bd230370a956a557e0646cc5f92a9a171664876 100644
+index 1b301b9b577b632470a1e6d23f34288875c5ffb8..a8608e7b3dae15a54185d720c01a49d3a7e59994 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
-@@ -2795,6 +2795,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2831,6 +2831,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
  
      @Nullable
      public Team getTeam() {
@@ -23,7 +23,7 @@ index 03d5ea7094223be15c96c223ca81bdb8685cc1e7..3bd230370a956a557e0646cc5f92a9a1
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 5dda05f7bf08dec8b48fe0b87aa227c3e0392c6f..ddf083a54015f943e3e00ae6d5f73f8e127f6dc2 100644
+index c1eb34c19ce713d750f8628b69e9c4dc5cbf9a02..edaa25912a2de7122e2786f2a9c0cae796303de1 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -833,6 +833,7 @@ public abstract class LivingEntity extends Entity implements Attackable {

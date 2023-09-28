@@ -6,7 +6,7 @@ Subject: [PATCH] Use a Queue for Queueing Commands
 Lists are bad as Queues mmmkay.
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 980088f5af3d44d47b94ecde52cdc5f9277f6329..ff908bab7d83e5c049d86a0c8ea235ca3c69936b 100644
+index cdc020e1787c258ba283d86a25ab153237b0e194..2ae9b52d43a44b2164034d9162b644daba618d66 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -69,7 +69,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -17,7 +17,7 @@ index 980088f5af3d44d47b94ecde52cdc5f9277f6329..ff908bab7d83e5c049d86a0c8ea235ca
 +    private final java.util.Queue<ConsoleInput> serverCommandQueue = new java.util.concurrent.ConcurrentLinkedQueue<>(); // Paper - use a proper queuemmands
      @Nullable
      private QueryThreadGs4 queryThreadGs4;
-     // public final RemoteControlCommandListener rconConsoleSource; // CraftBukkit - remove field
+     // private final RemoteControlCommandListener rconConsoleSource; // CraftBukkit - remove field
 @@ -439,13 +439,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              return;
          }

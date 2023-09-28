@@ -119,7 +119,7 @@ index 938c3217f92e6d3ef9a637269c469f8359af6347..ef49495909a37d718a87d5dfbcd644d4
  
      /**
 diff --git a/src/main/java/org/bukkit/GameRule.java b/src/main/java/org/bukkit/GameRule.java
-index 753bfcec441533071120d925c83789ef53afa176..c6bc84a8755b2fe5d7d8d3ec857700ec1cba3c9b 100644
+index 9443baf6de101a6d9af421314c013d8954798881..8108d6a82879e02384b83ab3f26b140e2ae2ed4c 100644
 --- a/src/main/java/org/bukkit/GameRule.java
 +++ b/src/main/java/org/bukkit/GameRule.java
 @@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
@@ -131,7 +131,7 @@ index 753bfcec441533071120d925c83789ef53afa176..c6bc84a8755b2fe5d7d8d3ec857700ec
  
      private static Map<String, GameRule<?>> gameRules = new HashMap<>();
      // Boolean rules
-@@ -323,4 +323,11 @@ public final class GameRule<T> {
+@@ -327,4 +327,11 @@ public final class GameRule<T> {
      public static GameRule<?>[] values() {
          return gameRules.values().toArray(new GameRule<?>[gameRules.size()]);
      }
@@ -144,7 +144,7 @@ index 753bfcec441533071120d925c83789ef53afa176..c6bc84a8755b2fe5d7d8d3ec857700ec
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/Material.java b/src/main/java/org/bukkit/Material.java
-index 7705fece7f58bd66f7d68da85f8f34e43b4bae12..6a89eab53f21bc4420e616cc299864fb564e1045 100644
+index 1e5116b7633e4a8607cf73100990ff952c1cce5f..a2d2981aff95d00c93130c139a5ab08edb05a7e1 100644
 --- a/src/main/java/org/bukkit/Material.java
 +++ b/src/main/java/org/bukkit/Material.java
 @@ -119,7 +119,7 @@ import org.jetbrains.annotations.Nullable;
@@ -156,7 +156,7 @@ index 7705fece7f58bd66f7d68da85f8f34e43b4bae12..6a89eab53f21bc4420e616cc299864fb
      //<editor-fold desc="Materials" defaultstate="collapsed">
      AIR(9648, 0),
      STONE(22948),
-@@ -4450,6 +4450,15 @@ public enum Material implements Keyed, Translatable {
+@@ -4453,6 +4453,15 @@ public enum Material implements Keyed, Translatable {
          }
          return false;
      }
@@ -172,7 +172,7 @@ index 7705fece7f58bd66f7d68da85f8f34e43b4bae12..6a89eab53f21bc4420e616cc299864fb
      // Paper end
  
      /**
-@@ -10949,9 +10958,11 @@ public enum Material implements Keyed, Translatable {
+@@ -10952,9 +10961,11 @@ public enum Material implements Keyed, Translatable {
       * material
       * @see #getBlockTranslationKey()
       * @see #getItemTranslationKey()
@@ -185,27 +185,27 @@ index 7705fece7f58bd66f7d68da85f8f34e43b4bae12..6a89eab53f21bc4420e616cc299864fb
          if (this.isItem()) {
              return Bukkit.getUnsafe().getItemTranslationKey(this);
 diff --git a/src/main/java/org/bukkit/MusicInstrument.java b/src/main/java/org/bukkit/MusicInstrument.java
-index 614dc9f2ff5aa69659947c3fcedef98f9c9bab98..be5b47659d780ab5f97634fc44faa24456b6ebf0 100644
+index a7573ce8c6dff9862c97ce74650284b4a42e7989..ee5368372e136541eafe1d7ffb395de670fe4843 100644
 --- a/src/main/java/org/bukkit/MusicInstrument.java
 +++ b/src/main/java/org/bukkit/MusicInstrument.java
-@@ -8,7 +8,7 @@ import java.util.Map;
+@@ -7,7 +7,7 @@ import java.util.Collections;
  import org.jetbrains.annotations.NotNull;
  import org.jetbrains.annotations.Nullable;
  
--public final class MusicInstrument implements Keyed {
-+public final class MusicInstrument implements Keyed, net.kyori.adventure.translation.Translatable { // Paper - translation keys
+-public abstract class MusicInstrument implements Keyed {
++public abstract class MusicInstrument implements Keyed, net.kyori.adventure.translation.Translatable { // Paper - translation keys
  
-     private static final Map<NamespacedKey, MusicInstrument> INSTRUMENTS = new HashMap<>();
-     //
-@@ -63,4 +63,11 @@ public final class MusicInstrument implements Keyed {
+     public static final MusicInstrument PONDER = getInstrument("ponder_goat_horn");
+     public static final MusicInstrument SING = getInstrument("sing_goat_horn");
+@@ -52,4 +52,11 @@ public abstract class MusicInstrument implements Keyed {
  
-         return new MusicInstrument(NamespacedKey.minecraft(name));
+         return instrument;
      }
 +
 +    // Paper start - translation key
 +    @Override
 +    public @NotNull String translationKey() {
-+        return "instrument.minecraft." + this.key.value();
++        return "instrument.minecraft." + this.getKey().value();
 +    }
 +    // Paper end - translation key
  }
@@ -233,7 +233,7 @@ index e3faa2c675c85a9cbdbbb1debec0ff81c58a1bbd..fd1629c2d2028a88fb3d56b0aeb833d1
      String getTranslationKey();
  }
 diff --git a/src/main/java/org/bukkit/attribute/Attribute.java b/src/main/java/org/bukkit/attribute/Attribute.java
-index 13eac9ad2c1672051635d1c35cc49239252e7a61..107e36ef02a9481954bd770ce9a55a0b1e84be7a 100644
+index 36501052de5ad0b80aa1dcbe97d44dd3204f749b..37f93b7e9f722e76631c3e7d3e770526ee0c3926 100644
 --- a/src/main/java/org/bukkit/attribute/Attribute.java
 +++ b/src/main/java/org/bukkit/attribute/Attribute.java
 @@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
@@ -245,7 +245,7 @@ index 13eac9ad2c1672051635d1c35cc49239252e7a61..107e36ef02a9481954bd770ce9a55a0b
  
      /**
       * Maximum health of an Entity.
-@@ -73,4 +73,10 @@ public enum Attribute implements Keyed {
+@@ -77,4 +77,10 @@ public enum Attribute implements Keyed {
      public NamespacedKey getKey() {
          return key;
      }

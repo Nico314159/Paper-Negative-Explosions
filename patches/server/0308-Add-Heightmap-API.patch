@@ -5,7 +5,7 @@ Subject: [PATCH] Add Heightmap API
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index be17e1a4afc2fd5490a59aa7bcb199fb61643d35..537e63ff97afc2ae73e25d3699d249a66f13ba16 100644
+index 238669816f082704b62a7bef8b78058dceef8be2..3ff94314e2dcfab964d230684ff218c634b75499 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -219,6 +219,29 @@ public class CraftWorld extends CraftRegionAccessor implements World {

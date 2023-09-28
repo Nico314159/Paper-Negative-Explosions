@@ -6,10 +6,10 @@ Subject: [PATCH] Optimise EntityGetter#getPlayerByUUID
 Use the PlayerList map instead of iterating over all players
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 773fea9c2c4bef931439b5663471c010d9a1297c..0efc377743e93a0120843cab192753d037e88a73 100644
+index c4ae2f4f1ec9aa39478815f46e0d1d13144acf5b..7c780e464faae69b74d69e40bbeeeccf4c609eab 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -550,6 +550,15 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -552,6 +552,15 @@ public class ServerLevel extends Level implements WorldGenLevel {
          });
      }
  

@@ -23,10 +23,10 @@ Modified isEmpty to use the isEmpty() method instead of the slightly confusing s
 The point of this is readability, but does have a side-benefit of a small microptimization
 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index e00c1916202a4e0550cc19c9cb279448a9fcdd1e..2bccba03bb12cf17a82c1e54c2bb10535b7c8964 100644
+index 49d5410341e949b51c003a0c79d9d77ba5a723f9..98c4a1b8542486f5af1274f974b898a69f2684f1 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -649,7 +649,7 @@ public abstract class PlayerList {
+@@ -636,7 +636,7 @@ public abstract class PlayerList {
          } else if (!this.isWhiteListed(gameprofile, event)) { // Paper
              //ichatmutablecomponent = Component.translatable("multiplayer.disconnect.not_whitelisted"); // Paper
              //event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().deserialize(org.spigotmc.SpigotConfig.whitelistMessage)); // Spigot // Paper - Adventure - moved to isWhitelisted
@@ -36,7 +36,7 @@ index e00c1916202a4e0550cc19c9cb279448a9fcdd1e..2bccba03bb12cf17a82c1e54c2bb1053
  
              ichatmutablecomponent = Component.translatable("multiplayer.disconnect.banned_ip.reason", ipbanentry.getReason());
 diff --git a/src/main/java/net/minecraft/server/players/StoredUserList.java b/src/main/java/net/minecraft/server/players/StoredUserList.java
-index 58ebac3ddf8a59cee8fd87b9106d068507768992..08173a6e0b7e46c041a81d6b51d77a0aea182525 100644
+index 4d6f5e627d386f9ca2d7653b0f485c82a13557f5..09fc086548b9d0f97849f56f41e3a5be87f5091a 100644
 --- a/src/main/java/net/minecraft/server/players/StoredUserList.java
 +++ b/src/main/java/net/minecraft/server/players/StoredUserList.java
 @@ -14,6 +14,8 @@ import java.io.BufferedReader;

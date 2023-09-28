@@ -5,10 +5,10 @@ Subject: [PATCH] Add TNTPrimeEvent
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-index 9d5d03a913366c0f60557e39523c30df7e2fde33..fada988941c33e09bce5e71bcb2bb733185f6c12 100644
+index fc0750f9b2257a3dbf0fab2f0cd4bb020e044752..1621a06eff438eccdbc04a2abebd718567c320b3 100644
 --- a/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
 +++ b/src/main/java/net/minecraft/world/entity/boss/enderdragon/EnderDragon.java
-@@ -567,6 +567,11 @@ public class EnderDragon extends Mob implements Enemy {
+@@ -558,6 +558,11 @@ public class EnderDragon extends Mob implements Enemy {
                      });
                      craftBlock.getNMS().spawnAfterBreak((ServerLevel) this.level(), blockposition, ItemStack.EMPTY, false);
                  }

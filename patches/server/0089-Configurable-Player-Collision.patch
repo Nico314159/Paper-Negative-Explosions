@@ -18,10 +18,10 @@ index 1294b38262505b0d54089e428df9b363219de1f0..ee37ec0de1ca969144824427ae42b0c8
              buf.writeComponent(this.playerPrefix);
              buf.writeComponent(this.playerSuffix);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 4b9de3ca81b60eb4a916006cdfbc2a630a390a39..bb8546e5f7f223cb499ab404845aba524726ea16 100644
+index 281884fedf6607581a24fef4b3326dfb81012124..1356d61428a50b4fc09c6c4d4c02e02056b6b38b 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -586,6 +586,20 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -575,6 +575,20 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
              this.server.getPluginManager().callEvent(new org.bukkit.event.world.WorldLoadEvent(worldserver.getWorld()));
          }
  
@@ -43,18 +43,18 @@ index 4b9de3ca81b60eb4a916006cdfbc2a630a390a39..bb8546e5f7f223cb499ab404845aba52
          this.server.getPluginManager().callEvent(new ServerLoadEvent(ServerLoadEvent.LoadType.STARTUP));
          this.connection.acceptConnections();
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 9e835d63e1592fc064b73c51eecd8b84cbedfa33..7901a8e3659be05d901fd5140e025392ffa0c27c 100644
+index fa7aad589275598eaf3cae86a4e1e47d40b52f05..441c187b45bfa20d929fe3c5e8dc25db22c4aad1 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -99,6 +99,7 @@ import net.minecraft.world.level.storage.PlayerDataStorage;
- import net.minecraft.world.phys.Vec3;
+@@ -100,6 +100,7 @@ import net.minecraft.world.phys.Vec3;
+ import net.minecraft.world.scores.DisplaySlot;
  import net.minecraft.world.scores.Objective;
  import net.minecraft.world.scores.PlayerTeam;
 +import net.minecraft.world.scores.Scoreboard; // Paper
  import net.minecraft.world.scores.Team;
  import org.slf4j.Logger;
  
-@@ -164,6 +165,7 @@ public abstract class PlayerList {
+@@ -157,6 +158,7 @@ public abstract class PlayerList {
      // CraftBukkit start
      private CraftServer cserver;
      private final Map<String,ServerPlayer> playersByName = new java.util.HashMap<>();
@@ -62,7 +62,7 @@ index 9e835d63e1592fc064b73c51eecd8b84cbedfa33..7901a8e3659be05d901fd5140e025392
  
      public PlayerList(MinecraftServer server, LayeredRegistryAccess<RegistryLayer> registryManager, PlayerDataStorage saveHandler, int maxPlayers) {
          this.cserver = server.server = new CraftServer((DedicatedServer) server, this);
-@@ -416,6 +418,13 @@ public abstract class PlayerList {
+@@ -399,6 +401,13 @@ public abstract class PlayerList {
  
          player.initInventoryMenu();
          // CraftBukkit - Moved from above, added world
@@ -76,7 +76,7 @@ index 9e835d63e1592fc064b73c51eecd8b84cbedfa33..7901a8e3659be05d901fd5140e025392
          PlayerList.LOGGER.info("{}[{}] logged in with entity id {} at ([{}]{}, {}, {})", player.getName().getString(), s1, player.getId(), worldserver1.serverLevelData.getLevelName(), player.getX(), player.getY(), player.getZ());
      }
  
-@@ -535,6 +544,16 @@ public abstract class PlayerList {
+@@ -522,6 +531,16 @@ public abstract class PlayerList {
          entityplayer.doTick(); // SPIGOT-924
          // CraftBukkit end
  
@@ -93,7 +93,7 @@ index 9e835d63e1592fc064b73c51eecd8b84cbedfa33..7901a8e3659be05d901fd5140e025392
          this.save(entityplayer);
          if (entityplayer.isPassenger()) {
              Entity entity = entityplayer.getRootVehicle();
-@@ -1166,6 +1185,13 @@ public abstract class PlayerList {
+@@ -1160,6 +1179,13 @@ public abstract class PlayerList {
          }
          // CraftBukkit end
  

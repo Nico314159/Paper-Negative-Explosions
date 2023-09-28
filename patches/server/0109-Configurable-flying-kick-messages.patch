@@ -5,10 +5,10 @@ Subject: [PATCH] Configurable flying kick messages
 
 
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index ed558935e53c3cc5c58e14786cbbd809401ddb81..683c7fea13705ef78a4fd86f148428bb33956421 100644
+index 661796b360d69f239cf6147edcefde7a99943bce..18b9b172515a99941ab04c10eebf58270e8d3de0 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -357,7 +357,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -336,7 +336,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
          if (this.clientIsFloating && !this.player.isSleeping() && !this.player.isPassenger() && !this.player.isDeadOrDying()) {
              if (++this.aboveGroundTickCount > 80) {
                  ServerGamePacketListenerImpl.LOGGER.warn("{} was kicked for floating too long!", this.player.getName().getString());
@@ -17,7 +17,7 @@ index ed558935e53c3cc5c58e14786cbbd809401ddb81..683c7fea13705ef78a4fd86f148428bb
                  return;
              }
          } else {
-@@ -376,7 +376,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -355,7 +355,7 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
              if (this.clientVehicleIsFloating && this.player.getRootVehicle().getControllingPassenger() == this.player) {
                  if (++this.aboveGroundVehicleTickCount > 80) {
                      ServerGamePacketListenerImpl.LOGGER.warn("{} was kicked for floating a vehicle too long!", this.player.getName().getString());

@@ -8,10 +8,10 @@ This patch also adds a chunk status cache on region files (note that
 its only purpose is to cache the status on DISK)
 
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index af92411006c3d281815b3f4c3de5f0280d3a5901..50a201c08f143117a050305b0dde6873a04efb8b 100644
+index c69be9cb3f03ec50e4e57d7e1e93a83701e4cd6c..5b7260b5a14cb9d2b90cf3c411d119e6bfa84046 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -687,9 +687,13 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -680,9 +680,13 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
      // Paper end
  
      private CompletableFuture<Optional<CompoundTag>> readChunk(ChunkPos chunkPos) {
@@ -28,7 +28,7 @@ index af92411006c3d281815b3f4c3de5f0280d3a5901..50a201c08f143117a050305b0dde6873
      }
  
      // CraftBukkit start
-@@ -698,6 +702,63 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -691,6 +695,63 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          // CraftBukkit end
      }
  
@@ -93,11 +93,11 @@ index af92411006c3d281815b3f4c3de5f0280d3a5901..50a201c08f143117a050305b0dde6873
          // Spigot start
          return this.anyPlayerCloseEnoughForSpawning(pos, false);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java
-index 584985272a02eb5b61a22cf2404fbd97a55a3358..cda87a66fe80bf910f629c64e36c1fecbad81d77 100644
+index 72dacdc271325c814fb43cd6daaf3a209801ffda..647ce340c81606ab86d33e1f9dec1fb0afc262d8 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFile.java
-@@ -51,6 +51,30 @@ public class RegionFile implements AutoCloseable {
-     public final java.util.concurrent.locks.ReentrantLock fileLock = new java.util.concurrent.locks.ReentrantLock(true); // Paper
+@@ -50,6 +50,30 @@ public class RegionFile implements AutoCloseable {
+     public final java.util.concurrent.locks.ReentrantLock fileLock = new java.util.concurrent.locks.ReentrantLock(); // Paper
      public final Path regionFile; // Paper
  
 +    // Paper start - Cache chunk status
@@ -127,7 +127,7 @@ index 584985272a02eb5b61a22cf2404fbd97a55a3358..cda87a66fe80bf910f629c64e36c1fec
      public RegionFile(Path file, Path directory, boolean dsync) throws IOException {
          this(file, directory, RegionFileVersion.VERSION_DEFLATE, dsync);
      }
-@@ -398,6 +422,7 @@ public class RegionFile implements AutoCloseable {
+@@ -397,6 +421,7 @@ public class RegionFile implements AutoCloseable {
          return this.getOffset(pos) != 0;
      }
  
@@ -135,7 +135,7 @@ index 584985272a02eb5b61a22cf2404fbd97a55a3358..cda87a66fe80bf910f629c64e36c1fec
      private static int getOffsetIndex(ChunkPos pos) {
          return pos.getRegionLocalX() + pos.getRegionLocalZ() * 32;
      }
-@@ -408,6 +433,7 @@ public class RegionFile implements AutoCloseable {
+@@ -407,6 +432,7 @@ public class RegionFile implements AutoCloseable {
          synchronized (this) {
          try {
          // Paper end
@@ -144,10 +144,10 @@ index 584985272a02eb5b61a22cf2404fbd97a55a3358..cda87a66fe80bf910f629c64e36c1fec
              this.padToFullSector();
          } finally {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index 96f129cb13642dc9667464b58c025fa0ed700cfd..29da08c58200c24fd03003937d30eb41234cabc9 100644
+index 42dc999d820e62c6a222afbd9239cc671fc7de53..b850dba2b0fa5bc762b170ed7083cf8904761f17 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-@@ -290,6 +290,7 @@ public class RegionFileStorage implements AutoCloseable {
+@@ -289,6 +289,7 @@ public class RegionFileStorage implements AutoCloseable {
  
              try {
                  NbtIo.write(nbt, (DataOutput) dataoutputstream);
@@ -156,7 +156,7 @@ index 96f129cb13642dc9667464b58c025fa0ed700cfd..29da08c58200c24fd03003937d30eb41
              } catch (Throwable throwable) {
                  if (dataoutputstream != null) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index e0f38ef295e1958b45fc05395cd4c57194928338..f259f6609cd87a210451ddf4ea00a72718d1efd0 100644
+index 7c6ebec598bac78e3055e5c890550238c2795f23..0a9cf69ce0983f167ce63dc58eace455561da8e7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -307,9 +307,23 @@ public class CraftWorld extends CraftRegionAccessor implements World {

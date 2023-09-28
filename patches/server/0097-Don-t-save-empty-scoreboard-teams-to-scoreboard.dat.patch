@@ -5,10 +5,10 @@ Subject: [PATCH] Don't save empty scoreboard teams to scoreboard.dat
 
 
 diff --git a/src/main/java/net/minecraft/world/scores/ScoreboardSaveData.java b/src/main/java/net/minecraft/world/scores/ScoreboardSaveData.java
-index b837b6616a2384b253cca8ed62c9488b639f6298..2be7a697f08045b974579e6942b38571e744efac 100644
+index a6d23b23e5b5c02427ec538d1d7fd89f51e9e59c..4def212655cea0fd998b52e924f8b671d6aeb559 100644
 --- a/src/main/java/net/minecraft/world/scores/ScoreboardSaveData.java
 +++ b/src/main/java/net/minecraft/world/scores/ScoreboardSaveData.java
-@@ -136,6 +136,7 @@ public class ScoreboardSaveData extends SavedData {
+@@ -143,6 +143,7 @@ public class ScoreboardSaveData extends SavedData {
          ListTag listTag = new ListTag();
  
          for(PlayerTeam playerTeam : this.scoreboard.getPlayerTeams()) {

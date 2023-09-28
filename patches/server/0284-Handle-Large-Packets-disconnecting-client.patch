@@ -7,19 +7,23 @@ If a players inventory is too big to send in a single packet,
 split the inventory set into multiple packets instead.
 
 diff --git a/src/main/java/net/minecraft/network/Connection.java b/src/main/java/net/minecraft/network/Connection.java
-index 7065d8e2b0782f1dbaf9932db9201b94ae455a31..f5106ed464d496420ac575b09d6c9a7dfeb87bec 100644
+index df5da9398c903d073485aaa0dce8e70947137cb9..6fcbf8205e1852d5193a42bfe1154f62ab01e7ad 100644
 --- a/src/main/java/net/minecraft/network/Connection.java
 +++ b/src/main/java/net/minecraft/network/Connection.java
-@@ -158,6 +158,18 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
+@@ -156,6 +156,22 @@ public class Connection extends SimpleChannelInboundHandler<Packet<?>> {
      }
  
      public void exceptionCaught(ChannelHandlerContext channelhandlercontext, Throwable throwable) {
 +        // Paper start
 +        if (throwable instanceof io.netty.handler.codec.EncoderException && throwable.getCause() instanceof PacketEncoder.PacketTooLargeException packetTooLargeException) {
-+            if (packetTooLargeException.getPacket().packetTooLarge(this)) {
++            final Packet<?> packet = packetTooLargeException.getPacket();
++            final io.netty.util.Attribute<ConnectionProtocol.CodecData<?>> codecDataAttribute = channelhandlercontext.channel().attr(packetTooLargeException.codecKey);
++            if (packet.packetTooLarge(this)) {
++                ProtocolSwapHandler.swapProtocolIfNeeded(codecDataAttribute, packet);
 +                return;
-+            } else if (packetTooLargeException.getPacket().isSkippable()) {
++            } else if (packet.isSkippable()) {
 +                Connection.LOGGER.debug("Skipping packet due to errors", throwable.getCause());
++                ProtocolSwapHandler.swapProtocolIfNeeded(codecDataAttribute, packet);
 +                return;
 +            } else {
 +                throwable = throwable.getCause();
@@ -30,29 +34,31 @@ index 7065d8e2b0782f1dbaf9932db9201b94ae455a31..f5106ed464d496420ac575b09d6c9a7d
              Connection.LOGGER.debug("Skipping packet due to errors", throwable.getCause());
          } else {
 diff --git a/src/main/java/net/minecraft/network/PacketEncoder.java b/src/main/java/net/minecraft/network/PacketEncoder.java
-index 42828edf81bd475b673a9d143f79c0d0711f14f5..fbfadeb83719b81f42724e79c59e92ed88fdece7 100644
+index 3d359f80f52bff6f19fcb484f491a874f9dcff27..45b4f1c295eda2fcc5067a4b21de247218ef117f 100644
 --- a/src/main/java/net/minecraft/network/PacketEncoder.java
 +++ b/src/main/java/net/minecraft/network/PacketEncoder.java
-@@ -40,7 +40,7 @@ public class PacketEncoder extends MessageToByteEncoder<Packet<?>> {
+@@ -41,7 +41,7 @@ public class PacketEncoder extends MessageToByteEncoder<Packet<?>> {
                      int j = friendlyByteBuf.writerIndex();
                      packet.write(friendlyByteBuf);
                      int k = friendlyByteBuf.writerIndex() - j;
 -                    if (k > 8388608) {
 +                    if (false && k > 8388608) { // Paper - disable
                          throw new IllegalArgumentException("Packet too big (is " + k + ", should be less than 8388608): " + packet);
-                     } else {
-                         int l = channelHandlerContext.channel().attr(Connection.ATTRIBUTE_PROTOCOL).get().getId();
-@@ -54,7 +54,31 @@ public class PacketEncoder extends MessageToByteEncoder<Packet<?>> {
-                         throw var10;
                      }
+ 
+@@ -54,10 +54,35 @@ public class PacketEncoder extends MessageToByteEncoder<Packet<?>> {
+ 
+                     throw var13;
+                 } finally {
++                    // Paper start
++                    int packetLength = friendlyByteBuf.readableBytes();
++                    if (packetLength > MAX_PACKET_SIZE) {
++                        throw new PacketTooLargeException(packet, this.codecKey, packetLength);
++                    }
++                    // Paper end
+                     ProtocolSwapHandler.swapProtocolIfNeeded(attribute, packet);
                  }
-+
-+                // Paper start
-+                int packetLength = friendlyByteBuf.readableBytes();
-+                if (packetLength > MAX_PACKET_SIZE) {
-+                    throw new PacketTooLargeException(packet, packetLength);
-+                }
-+                // Paper end
+ 
              }
          }
      }
@@ -62,23 +68,25 @@ index 42828edf81bd475b673a9d143f79c0d0711f14f5..fbfadeb83719b81f42724e79c59e92ed
 +
 +    public static class PacketTooLargeException extends RuntimeException {
 +        private final Packet<?> packet;
++        public final AttributeKey<ConnectionProtocol.CodecData<?>> codecKey;
 +
-+        PacketTooLargeException(Packet<?> packet, int packetLength) {
++        PacketTooLargeException(Packet<?> packet, AttributeKey<ConnectionProtocol.CodecData<?>> codecKey, int packetLength) {
 +            super("PacketTooLarge - " + packet.getClass().getSimpleName() + " is " + packetLength + ". Max is " + MAX_PACKET_SIZE);
 +            this.packet = packet;
++            this.codecKey = codecKey;
 +        }
 +
 +        public Packet<?> getPacket() {
-+            return packet;
++            return this.packet;
 +        }
 +    }
 +    // Paper end
  }
 diff --git a/src/main/java/net/minecraft/network/protocol/Packet.java b/src/main/java/net/minecraft/network/protocol/Packet.java
-index 10c1f2d8a92f848c3f2be9d1d06fd254978e6dcc..74bfe0d3942259c45702b099efdc4e101a4e3022 100644
+index 700418bb0c9fbed3f161611881b1e222248ca4eb..cc658a61065d5c0021a4b88fa58b40211b94f8ec 100644
 --- a/src/main/java/net/minecraft/network/protocol/Packet.java
 +++ b/src/main/java/net/minecraft/network/protocol/Packet.java
-@@ -8,6 +8,12 @@ public interface Packet<T extends PacketListener> {
+@@ -10,6 +10,12 @@ public interface Packet<T extends PacketListener> {
  
      void handle(T listener);
  

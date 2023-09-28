@@ -33,7 +33,7 @@ But for those who are ok with leaving this inconsistent behavior, you may use WA
 It is recommended you regenerate the entities, as these were legit entities, and deserve your love.
 
 diff --git a/src/main/java/io/papermc/paper/chunk/system/ChunkSystem.java b/src/main/java/io/papermc/paper/chunk/system/ChunkSystem.java
-index 8f7bf1f0400aeab8b7801d113d244d0716c5eb84..fccb8d7a99bef076838ebefa233f2f00a1364c30 100644
+index cbeaadaecf816070b3a37938c8e683180939afc4..95e5073a68e4dd38b70e8268daf2160922c3a12f 100644
 --- a/src/main/java/io/papermc/paper/chunk/system/ChunkSystem.java
 +++ b/src/main/java/io/papermc/paper/chunk/system/ChunkSystem.java
 @@ -74,7 +74,17 @@ public final class ChunkSystem {
@@ -56,18 +56,18 @@ index 8f7bf1f0400aeab8b7801d113d244d0716c5eb84..fccb8d7a99bef076838ebefa233f2f00
  
      public static void onChunkHolderCreate(final ServerLevel level, final ChunkHolder holder) {
 diff --git a/src/main/java/net/minecraft/server/level/ChunkMap.java b/src/main/java/net/minecraft/server/level/ChunkMap.java
-index 50a201c08f143117a050305b0dde6873a04efb8b..562e45954cc72a253f20e9a9fddf0f179baf3e7b 100644
+index 5b7260b5a14cb9d2b90cf3c411d119e6bfa84046..0b1aadd3648f46680e4edc137de3e5ce52428383 100644
 --- a/src/main/java/net/minecraft/server/level/ChunkMap.java
 +++ b/src/main/java/net/minecraft/server/level/ChunkMap.java
-@@ -535,6 +535,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -534,6 +534,7 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
                      entity.discard();
                      needsRemoval = true;
                  }
 +                checkDupeUUID(world, entity); // Paper
                  return !needsRemoval;
-             }));
+             }), position); // Paper - rewrite chunk system
              // CraftBukkit end
-@@ -546,6 +547,49 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
+@@ -545,6 +546,49 @@ public class ChunkMap extends ChunkStorage implements ChunkHolder.PlayerProvider
          throw new UnsupportedOperationException(); // Paper - rewrite chunk system
      }
  

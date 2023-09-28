@@ -5,10 +5,10 @@ Subject: [PATCH] Item#canEntityPickup
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index 3500fd0045ad670de818dc170d9c68da643592e0..1f050f1c133e116e861e4e5f7e59875387543659 100644
+index 873a96693110982600d3e7979489fb00f3cd7941..645ee527b9e7e7edbf3320eae6e441bea84f58f9 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
-@@ -668,6 +668,11 @@ public abstract class Mob extends LivingEntity implements Targeting {
+@@ -669,6 +669,11 @@ public abstract class Mob extends LivingEntity implements Targeting {
                  ItemEntity entityitem = (ItemEntity) iterator.next();
  
                  if (!entityitem.isRemoved() && !entityitem.getItem().isEmpty() && !entityitem.hasPickUpDelay() && this.wantsToPickUp(entityitem.getItem())) {
@@ -21,7 +21,7 @@ index 3500fd0045ad670de818dc170d9c68da643592e0..1f050f1c133e116e861e4e5f7e598753
                  }
              }
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 23c51152288d9616673ef544a09dd816dff44cf6..2d1b8d6e490e1dcde801feaae2518a59ed35e440 100644
+index 11dad6b6c6cf922417ab54a1db13d809c10c999e..adb8ac976397322f0b4122fd9469dd5191f207f7 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 @@ -52,6 +52,7 @@ public class ItemEntity extends Entity implements TraceableEntity {

@@ -20,7 +20,7 @@ index 7b681914b7f9e7fb6d2ea607e0d63ca7024a7ec3..7cfcbc1e38f5e9145c827dfe26299277
      private final List<TickingBlockEntity> pendingBlockEntityTickers = Lists.newArrayList();
      private boolean tickingBlockEntities;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
-index b3dfa35bc41191883814c78693a0d958ff3bf19b..d348ca56ae452dc80d5dabe874d9f8d72970fc4d 100644
+index a41c937d8b4648c900bf6b5d4c47fcd0bbc72401..53a5f6709bca2aa76297e55e555cbfeb38e8ad4e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftWorld.java
 @@ -154,6 +154,56 @@ public class CraftWorld extends CraftRegionAccessor implements World {

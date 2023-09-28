@@ -26,10 +26,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index d8ecc90465dfc54319d7f2478979e9aaee42f5a2..53e666df97e74bbb8e96207ebc50e3e9acc455de 100644
+index 21ad3b6c1105bc22a30137d57a6e8ba0e4233c2b..c5d4f36dda7c977b3a7563f4d2d74ebcf7dc61ef 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3407,7 +3407,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -3467,7 +3467,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
              Vec3 vec3d = new Vec3(this.getX(), this.getEyeY(), this.getZ());
              Vec3 vec3d1 = new Vec3(entity.getX(), entity.getEyeY(), entity.getZ());
  

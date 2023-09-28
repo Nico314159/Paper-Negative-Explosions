@@ -5,7 +5,7 @@ Subject: [PATCH] Add LivingEntity#getTargetEntity
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index d84375984c67a8ad2790efc1c584f7e2f995633e..f800b3e4debcd141a75de9e6025a87e81cee083c 100644
+index 4fdf034205ea0ff9d6803928672b23c185fd3065..ffed90c0fc1240fc10b4cdd8df8377647b75beda 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -116,6 +116,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
@@ -16,7 +16,7 @@ index d84375984c67a8ad2790efc1c584f7e2f995633e..f800b3e4debcd141a75de9e6025a87e8
  import net.minecraft.world.phys.HitResult;
  import net.minecraft.world.phys.Vec3;
  import net.minecraft.world.scores.PlayerTeam;
-@@ -3833,6 +3834,38 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -3892,6 +3893,38 @@ public abstract class LivingEntity extends Entity implements Attackable {
          return this.level().clip(raytrace);
      }
  
@@ -56,7 +56,7 @@ index d84375984c67a8ad2790efc1c584f7e2f995633e..f800b3e4debcd141a75de9e6025a87e8
  
      public int getShieldBlockingDelay() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index 0707329670292551d966afe30818f17d079fcb3b..2913ad431b09a75106115257729960f8ba1637f4 100644
+index e327cc9f2513ae79a871ac2ab144389b71a88f2a..a3842078a394241a3a9b4c398d13fcdbcb5dbe10 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 @@ -1,5 +1,6 @@

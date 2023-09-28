@@ -6,7 +6,7 @@ Subject: [PATCH] Configurable top of nether void damage
 Co-authored-by: Jake Potrebic <jake.m.potrebic@gmail.com>
 
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 98933377d46b2dd69d5d477e7f1d6ddff96ee2b4..30360e9e8787b893a360ba899d8fac657634de75 100644
+index f496c3d95d1cc47cada8f86a99b055f44eb6cd5e..a9584072854fe3f8e946a271504fda70ebab9d2c 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -715,7 +715,11 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {

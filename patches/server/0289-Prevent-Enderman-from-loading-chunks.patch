@@ -5,10 +5,10 @@ Subject: [PATCH] Prevent Enderman from loading chunks
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-index 06a0a06f3f4ed20f151ddac35ae7d56852e191ae..f7ad34f38d26ab08bb5dd788bc70ba01b53fc1a1 100644
+index bf5b7b996c9141c7cef9c281323115bd593dc777..5b3da07def02830e4332d7d3a7f7b968e5663c7b 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-@@ -510,7 +510,8 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -517,7 +517,8 @@ public class EnderMan extends Monster implements NeutralMob {
              int j = Mth.floor(this.enderman.getY() + randomsource.nextDouble() * 2.0D);
              int k = Mth.floor(this.enderman.getZ() - 1.0D + randomsource.nextDouble() * 2.0D);
              BlockPos blockposition = new BlockPos(i, j, k);
@@ -18,7 +18,7 @@ index 06a0a06f3f4ed20f151ddac35ae7d56852e191ae..f7ad34f38d26ab08bb5dd788bc70ba01
              BlockPos blockposition1 = blockposition.below();
              BlockState iblockdata1 = world.getBlockState(blockposition1);
              BlockState iblockdata2 = this.enderman.getCarriedBlock();
-@@ -554,7 +555,8 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -561,7 +562,8 @@ public class EnderMan extends Monster implements NeutralMob {
              int j = Mth.floor(this.enderman.getY() + randomsource.nextDouble() * 3.0D);
              int k = Mth.floor(this.enderman.getZ() - 2.0D + randomsource.nextDouble() * 4.0D);
              BlockPos blockposition = new BlockPos(i, j, k);

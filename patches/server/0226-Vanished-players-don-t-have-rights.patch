@@ -89,10 +89,10 @@ index 0b02ba70956ea1352ea8e67957b3789408b67f6b..8320bece16dfa339e33801e43ff2f297
      public boolean isClientSide() {
          return this.isClientSide;
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 4942ea5a66af310eac646a6be20e997d53ab99fb..53af54ffecd7fdb20588d75a8c32003cb89a75b1 100644
+index 1ee49bb62df6f9c7e88a8484ce97103ada5d6d6d..5e20a49940e7fdbc470193b44a604829e38fbae6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-@@ -1341,6 +1341,14 @@ public class CraftEventFactory {
+@@ -1343,6 +1343,14 @@ public class CraftEventFactory {
          Projectile projectile = (Projectile) entity.getBukkitEntity();
          org.bukkit.entity.Entity collided = position.getEntity().getBukkitEntity();
          com.destroystokyo.paper.event.entity.ProjectileCollideEvent event = new com.destroystokyo.paper.event.entity.ProjectileCollideEvent(projectile, collided);

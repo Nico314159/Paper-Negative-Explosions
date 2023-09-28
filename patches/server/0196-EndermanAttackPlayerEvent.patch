@@ -8,10 +8,10 @@ Allow control over whether or not an enderman aggros a player.
 This allows you to override/extend the pumpkin/stare logic.
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-index d2dd4537f8a81d02a4d3570834549d7e27b749b9..06a0a06f3f4ed20f151ddac35ae7d56852e191ae 100644
+index 1dea327e8df8651940f204bb96f56a8f6294aaed..bf5b7b996c9141c7cef9c281323115bd593dc777 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/EnderMan.java
-@@ -234,7 +234,15 @@ public class EnderMan extends Monster implements NeutralMob {
+@@ -236,7 +236,15 @@ public class EnderMan extends Monster implements NeutralMob {
          this.readPersistentAngerSaveData(this.level(), nbt);
      }
  

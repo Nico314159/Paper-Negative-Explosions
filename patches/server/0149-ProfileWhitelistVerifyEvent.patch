@@ -5,13 +5,13 @@ Subject: [PATCH] ProfileWhitelistVerifyEvent
 
 
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 82db70c548336ada2af556251b8ae8d189417024..875b08503fbbac256fad1b3f3d9c742bf1cdced2 100644
+index a3c150e9552fbc9b9244c70508c27f03a3834fa2..e4199b1c4b297db85a99e1e6a1c61ce6d7abc909 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
-@@ -646,9 +646,9 @@ public abstract class PlayerList {
+@@ -633,9 +633,9 @@ public abstract class PlayerList {
  
              // return chatmessage;
-             event.disallow(PlayerLoginEvent.Result.KICK_BANNED, PaperAdventure.asAdventure(ichatmutablecomponent)); // Paper - Adventure
+             event.disallow(PlayerLoginEvent.Result.KICK_BANNED, io.papermc.paper.adventure.PaperAdventure.asAdventure(ichatmutablecomponent)); // Paper - Adventure
 -        } else if (!this.isWhiteListed(gameprofile)) {
 -            ichatmutablecomponent = Component.translatable("multiplayer.disconnect.not_whitelisted");
 -            event.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer.legacySection().deserialize(org.spigotmc.SpigotConfig.whitelistMessage)); // Spigot // Paper - Adventure
@@ -21,7 +21,7 @@ index 82db70c548336ada2af556251b8ae8d189417024..875b08503fbbac256fad1b3f3d9c742b
          } else if (this.getIpBans().isBanned(socketaddress) && !this.getIpBans().get(socketaddress).hasExpired()) {
              IpBanListEntry ipbanentry = this.ipBans.get(socketaddress);
  
-@@ -1032,7 +1032,23 @@ public abstract class PlayerList {
+@@ -1026,7 +1026,23 @@ public abstract class PlayerList {
      }
  
      public boolean isWhiteListed(GameProfile profile) {

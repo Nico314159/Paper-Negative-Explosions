@@ -9,7 +9,7 @@ Adds missing call to Illagers and also adds Arrow ItemStack to skeletons
 public net.minecraft.world.entity.projectile.AbstractArrow getPickupItem()Lnet.minecraft.world.item.ItemStack;
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/AbstractSkeleton.java b/src/main/java/net/minecraft/world/entity/monster/AbstractSkeleton.java
-index 9634de10605eb477c073d4241f8ea5f17eea268d..4ea7a6bd6fdc98bef30546e19e2676a78fb29007 100644
+index 8a668d36bafa5ba172b0ce510b46096ec2fd116a..dadb419a04b343d6ba59353c6caa1a50aa07b67f 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/AbstractSkeleton.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/AbstractSkeleton.java
 @@ -201,7 +201,7 @@ public abstract class AbstractSkeleton extends Monster implements RangedAttackMo

@@ -5,10 +5,10 @@ Subject: [PATCH] Allow nerfed mobs to jump and take water damage
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index c2c2c24a593f67abc1eec4a20ced1ec0b5fa8cad..b3de20af553414369784b17139dd9185cc715db2 100644
+index ec841a4d9a11f0d9047c202a31f944b340da33c8..ffd8b35b606452ce5d189f2761aa76eb9b56ccd6 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
-@@ -109,6 +109,7 @@ public abstract class Mob extends LivingEntity implements Targeting {
+@@ -111,6 +111,7 @@ public abstract class Mob extends LivingEntity implements Targeting {
      private final BodyRotationControl bodyRotationControl;
      protected PathNavigation navigation;
      public GoalSelector goalSelector;
@@ -16,7 +16,7 @@ index c2c2c24a593f67abc1eec4a20ced1ec0b5fa8cad..b3de20af553414369784b17139dd9185
      public GoalSelector targetSelector;
      @Nullable
      private LivingEntity target;
-@@ -868,7 +869,17 @@ public abstract class Mob extends LivingEntity implements Targeting {
+@@ -876,7 +877,17 @@ public abstract class Mob extends LivingEntity implements Targeting {
      @Override
      protected final void serverAiStep() {
          ++this.noActionTime;

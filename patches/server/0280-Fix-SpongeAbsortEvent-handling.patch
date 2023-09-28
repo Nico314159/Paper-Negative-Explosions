@@ -6,10 +6,10 @@ Subject: [PATCH] Fix SpongeAbsortEvent handling
 Only process drops when the block is actually going to be removed
 
 diff --git a/src/main/java/net/minecraft/world/level/block/SpongeBlock.java b/src/main/java/net/minecraft/world/level/block/SpongeBlock.java
-index 305803d54058c0bd48808d3b2dec8b474d9c2591..4bce895268542531598a01a1bccd8ac1ed703b7d 100644
+index d2c2adb0484985897db5f4fdc9b88f0e4b2c3235..d810f6bf9a8a354e5b8994e51ec3672428277dde 100644
 --- a/src/main/java/net/minecraft/world/level/block/SpongeBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/SpongeBlock.java
-@@ -124,7 +124,11 @@ public class SpongeBlock extends Block {
+@@ -127,7 +127,11 @@ public class SpongeBlock extends Block {
                      } else if (iblockdata.is(Blocks.KELP) || iblockdata.is(Blocks.KELP_PLANT) || iblockdata.is(Blocks.SEAGRASS) || iblockdata.is(Blocks.TALL_SEAGRASS)) {
                          BlockEntity tileentity = iblockdata.hasBlockEntity() ? world.getBlockEntity(blockposition1) : null;
  

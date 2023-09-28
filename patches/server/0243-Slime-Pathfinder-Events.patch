@@ -5,23 +5,10 @@ Subject: [PATCH] Slime Pathfinder Events
 
 
 diff --git a/src/main/java/net/minecraft/world/entity/monster/Slime.java b/src/main/java/net/minecraft/world/entity/monster/Slime.java
-index 476a9b2db5deac803f1cb3c2cbe88b69cc3da8e5..30779b817db6f8e392036b4ec66e1c5cf50cd0f5 100644
+index 382cdfd7d7dceeeffed1cdc34b9e475a69b5c76b..4677e47e4a84d09025cfb9327c1ed3bead1a3feb 100644
 --- a/src/main/java/net/minecraft/world/entity/monster/Slime.java
 +++ b/src/main/java/net/minecraft/world/entity/monster/Slime.java
-@@ -41,6 +41,12 @@ import net.minecraft.world.level.ServerLevelAccessor;
- import net.minecraft.world.level.WorldGenLevel;
- import net.minecraft.world.level.levelgen.WorldgenRandom;
- import net.minecraft.world.phys.Vec3;
-+// Paper start
-+import com.destroystokyo.paper.event.entity.SlimeChangeDirectionEvent;
-+import com.destroystokyo.paper.event.entity.SlimeSwimEvent;
-+import com.destroystokyo.paper.event.entity.SlimeTargetLivingEntityEvent;
-+import com.destroystokyo.paper.event.entity.SlimeWanderEvent;
-+// Paper end
- // CraftBukkit start
- import java.util.ArrayList;
- import java.util.List;
-@@ -107,6 +113,7 @@ public class Slime extends Mob implements Enemy {
+@@ -115,6 +115,7 @@ public class Slime extends Mob implements Enemy {
      @Override
      public void addAdditionalSaveData(CompoundTag nbt) {
          super.addAdditionalSaveData(nbt);
@@ -29,7 +16,7 @@ index 476a9b2db5deac803f1cb3c2cbe88b69cc3da8e5..30779b817db6f8e392036b4ec66e1c5c
          nbt.putInt("Size", this.getSize() - 1);
          nbt.putBoolean("wasOnGround", this.wasOnGround);
      }
-@@ -115,6 +122,11 @@ public class Slime extends Mob implements Enemy {
+@@ -123,6 +124,11 @@ public class Slime extends Mob implements Enemy {
      public void readAdditionalSaveData(CompoundTag nbt) {
          this.setSize(nbt.getInt("Size") + 1, false);
          super.readAdditionalSaveData(nbt);
@@ -41,16 +28,16 @@ index 476a9b2db5deac803f1cb3c2cbe88b69cc3da8e5..30779b817db6f8e392036b4ec66e1c5c
          this.wasOnGround = nbt.getBoolean("wasOnGround");
      }
  
-@@ -450,7 +462,7 @@ public class Slime extends Mob implements Enemy {
+@@ -463,7 +469,7 @@ public class Slime extends Mob implements Enemy {
  
          @Override
          public boolean canUse() {
 -            return (this.slime.isInWater() || this.slime.isInLava()) && this.slime.getMoveControl() instanceof Slime.SlimeMoveControl;
-+            return (this.slime.isInWater() || this.slime.isInLava()) && this.slime.getMoveControl() instanceof Slime.SlimeMoveControl && this.slime.canWander && new SlimeSwimEvent((org.bukkit.entity.Slime) this.slime.getBukkitEntity()).callEvent(); // Paper
++            return (this.slime.isInWater() || this.slime.isInLava()) && this.slime.getMoveControl() instanceof Slime.SlimeMoveControl && this.slime.canWander && new com.destroystokyo.paper.event.entity.SlimeSwimEvent((org.bukkit.entity.Slime) this.slime.getBukkitEntity()).callEvent(); // Paper
          }
  
          @Override
-@@ -489,7 +501,15 @@ public class Slime extends Mob implements Enemy {
+@@ -502,7 +508,15 @@ public class Slime extends Mob implements Enemy {
          public boolean canUse() {
              LivingEntity entityliving = this.slime.getTarget();
  
@@ -62,12 +49,12 @@ index 476a9b2db5deac803f1cb3c2cbe88b69cc3da8e5..30779b817db6f8e392036b4ec66e1c5c
 +            if (!this.slime.canAttack(entityliving)) {
 +                return false;
 +            }
-+            return this.slime.getMoveControl() instanceof Slime.SlimeMoveControl && this.slime.canWander && new SlimeTargetLivingEntityEvent((org.bukkit.entity.Slime) this.slime.getBukkitEntity(), (org.bukkit.entity.LivingEntity) entityliving.getBukkitEntity()).callEvent();
++            return this.slime.getMoveControl() instanceof Slime.SlimeMoveControl && this.slime.canWander && new com.destroystokyo.paper.event.entity.SlimeTargetLivingEntityEvent((org.bukkit.entity.Slime) this.slime.getBukkitEntity(), (org.bukkit.entity.LivingEntity) entityliving.getBukkitEntity()).callEvent();
 +            // Paper end
          }
  
          @Override
-@@ -502,7 +522,15 @@ public class Slime extends Mob implements Enemy {
+@@ -515,7 +529,15 @@ public class Slime extends Mob implements Enemy {
          public boolean canContinueToUse() {
              LivingEntity entityliving = this.slime.getTarget();
  
@@ -79,12 +66,12 @@ index 476a9b2db5deac803f1cb3c2cbe88b69cc3da8e5..30779b817db6f8e392036b4ec66e1c5c
 +            if (!this.slime.canAttack(entityliving)) {
 +                return false;
 +            }
-+            return --this.growTiredTimer > 0 && this.slime.canWander && new SlimeTargetLivingEntityEvent((org.bukkit.entity.Slime) this.slime.getBukkitEntity(), (org.bukkit.entity.LivingEntity) entityliving.getBukkitEntity()).callEvent();
++            return --this.growTiredTimer > 0 && this.slime.canWander && new com.destroystokyo.paper.event.entity.SlimeTargetLivingEntityEvent((org.bukkit.entity.Slime) this.slime.getBukkitEntity(), (org.bukkit.entity.LivingEntity) entityliving.getBukkitEntity()).callEvent();
 +            // Paper end
          }
  
          @Override
-@@ -527,6 +555,13 @@ public class Slime extends Mob implements Enemy {
+@@ -540,6 +562,13 @@ public class Slime extends Mob implements Enemy {
              }
  
          }
@@ -98,7 +85,7 @@ index 476a9b2db5deac803f1cb3c2cbe88b69cc3da8e5..30779b817db6f8e392036b4ec66e1c5c
      }
  
      private static class SlimeRandomDirectionGoal extends Goal {
-@@ -542,7 +577,7 @@ public class Slime extends Mob implements Enemy {
+@@ -555,7 +584,7 @@ public class Slime extends Mob implements Enemy {
  
          @Override
          public boolean canUse() {
@@ -107,28 +94,28 @@ index 476a9b2db5deac803f1cb3c2cbe88b69cc3da8e5..30779b817db6f8e392036b4ec66e1c5c
          }
  
          @Override
-@@ -550,6 +585,11 @@ public class Slime extends Mob implements Enemy {
+@@ -563,6 +592,11 @@ public class Slime extends Mob implements Enemy {
              if (--this.nextRandomizeTime <= 0) {
                  this.nextRandomizeTime = this.adjustedTickDelay(40 + this.slime.getRandom().nextInt(60));
                  this.chosenDegrees = (float) this.slime.getRandom().nextInt(360);
 +                // Paper start
-+                SlimeChangeDirectionEvent event = new SlimeChangeDirectionEvent((org.bukkit.entity.Slime) this.slime.getBukkitEntity(), this.chosenDegrees);
++                com.destroystokyo.paper.event.entity.SlimeChangeDirectionEvent event = new com.destroystokyo.paper.event.entity.SlimeChangeDirectionEvent((org.bukkit.entity.Slime) this.slime.getBukkitEntity(), this.chosenDegrees);
 +                if (!this.slime.canWander || !event.callEvent()) return;
 +                this.chosenDegrees = event.getNewYaw();
 +                // Paper end
              }
  
              MoveControl controllermove = this.slime.getMoveControl();
-@@ -574,7 +614,7 @@ public class Slime extends Mob implements Enemy {
+@@ -587,7 +621,7 @@ public class Slime extends Mob implements Enemy {
  
          @Override
          public boolean canUse() {
 -            return !this.slime.isPassenger();
-+            return !this.slime.isPassenger() && this.slime.canWander && new SlimeWanderEvent((org.bukkit.entity.Slime) this.slime.getBukkitEntity()).callEvent(); // Paper
++            return !this.slime.isPassenger() && this.slime.canWander && new com.destroystokyo.paper.event.entity.SlimeWanderEvent((org.bukkit.entity.Slime) this.slime.getBukkitEntity()).callEvent(); // Paper
          }
  
          @Override
-@@ -589,4 +629,15 @@ public class Slime extends Mob implements Enemy {
+@@ -602,4 +636,15 @@ public class Slime extends Mob implements Enemy {
  
          }
      }

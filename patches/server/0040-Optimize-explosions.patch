@@ -10,10 +10,10 @@ This patch adds a per-tick cache that is used for storing and retrieving
 an entity's exposure during an explosion.
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index be23196f7bf439c54218debb517dd3f37f6dea6f..ebfc20247ac5a548e6616a099b8885db9c7a8d25 100644
+index 086be61bfc8a43076b502bbf00e9f2d2785495d3..0e5661716d72ecf57d76443d8c7627e90966ee4d 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1403,6 +1403,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1390,6 +1390,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
              this.profiler.pop();
              this.profiler.pop();
@@ -22,10 +22,10 @@ index be23196f7bf439c54218debb517dd3f37f6dea6f..ebfc20247ac5a548e6616a099b8885db
  
          this.profiler.popPush("connection");
 diff --git a/src/main/java/net/minecraft/world/level/Explosion.java b/src/main/java/net/minecraft/world/level/Explosion.java
-index e360022498b91a8371b33d84bf6fff96c503999d..925d37ca684e7e6a3ad88e6e040f3599225f0b1d 100644
+index 4f2e06dab92085edd8f98415272cf77952e4888f..03151b8042912882ebb969dda16cc378562a0005 100644
 --- a/src/main/java/net/minecraft/world/level/Explosion.java
 +++ b/src/main/java/net/minecraft/world/level/Explosion.java
-@@ -221,7 +221,7 @@ public class Explosion {
+@@ -223,7 +223,7 @@ public class Explosion {
                          d8 /= d11;
                          d9 /= d11;
                          d10 /= d11;
@@ -34,7 +34,7 @@ index e360022498b91a8371b33d84bf6fff96c503999d..925d37ca684e7e6a3ad88e6e040f3599
                          double d13 = (1.0D - d7) * d12;
  
                          // CraftBukkit start
-@@ -513,4 +513,84 @@ public class Explosion {
+@@ -515,4 +515,84 @@ public class Explosion {
  
          private BlockInteraction() {}
      }
