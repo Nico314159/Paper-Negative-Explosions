@@ -10,7 +10,7 @@ Adds CommandRegisteredEvent
   - Allows manipulating the CommandNode to add more children/metadata for the client
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 21a94671e77cd72dabcf76c26b12d3ccbe23a9dd..5cf067ce5010ff5fbbe010555b62dc57268e2a47 100644
+index 85c3b070da9dcde26b8f947e52ba390c535feae2..2f32a91bea8c27eb1f768e8a2a876a081cd68de8 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -14,6 +14,7 @@ val alsoShade: Configuration by configurations.creating

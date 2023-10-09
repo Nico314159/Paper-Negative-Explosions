@@ -5,10 +5,10 @@ Subject: [PATCH] Fix missing map initialize event call
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index f502b01b564bd33c449cbe621966ef4076a38cca..868951dc21aff541765b1f58f08cdf3c47446d25 100644
+index 2f2ca1c6d0b329521c4545015a878418870216f0..17610196db7a1c6feb2cf74a02479a8691aa323f 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -2099,7 +2099,23 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -2100,7 +2100,23 @@ public class ServerLevel extends Level implements WorldGenLevel {
      @Nullable
      @Override
      public MapItemSavedData getMapData(String id) {
@@ -20,12 +20,12 @@ index f502b01b564bd33c449cbe621966ef4076a38cca..868951dc21aff541765b1f58f08cdf3c
 +        if (existing == null && !storage.cache.containsKey(id)) {
 +            final net.minecraft.world.level.saveddata.SavedData.Factory<MapItemSavedData> factory = MapItemSavedData.factory();
 +            final MapItemSavedData map = storage.readSavedData(factory.deserializer(), factory.type(), id);
++            storage.cache.put(id, map);
 +            if (map != null) {
 +                map.id = id;
 +                new MapInitializeEvent(map.mapView).callEvent();
++                return map;
 +            }
-+
-+            storage.cache.put(id, map);
 +        }
 +
 +        return existing instanceof MapItemSavedData data ? data : null;

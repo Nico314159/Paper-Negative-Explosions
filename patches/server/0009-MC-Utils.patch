@@ -5469,7 +5469,7 @@ index 0000000000000000000000000000000000000000..808d1449ac44ae86a650932365081fba
 +}
 diff --git a/src/main/java/io/papermc/paper/util/player/NearbyPlayers.java b/src/main/java/io/papermc/paper/util/player/NearbyPlayers.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..60c7680d678f9dc6a6a3109b1f6af8150ccd9100
+index 0000000000000000000000000000000000000000..a5bd0845a2445fa02561b16fb54a7cf49c114915
 --- /dev/null
 +++ b/src/main/java/io/papermc/paper/util/player/NearbyPlayers.java
 @@ -0,0 +1,203 @@
@@ -5534,7 +5534,7 @@ index 0000000000000000000000000000000000000000..60c7680d678f9dc6a6a3109b1f6af815
 +    public void removePlayer(final ServerPlayer player) {
 +        final TrackedPlayer[] players = this.players.remove(player);
 +        if (players == null) {
-+            throw new IllegalStateException("Don't have player " + player);
++            return; // May be called during teleportation before the player is actually placed
 +        }
 +
 +        for (final TrackedPlayer tracker : players) {
@@ -7205,7 +7205,7 @@ index 0863d7acce248895d57a4c0496881b542e4b79f1..6c5000ff3dbb7517d095e9fb2cdf5552
      public Entity(EntityType<?> type, Level world) {
          this.id = Entity.ENTITY_COUNTER.incrementAndGet();
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 96f94f11d5d98cddf98020fdbf5ec658d6d53f38..e24e61a35fe9cffce4a2174d46b88cf934f4b69f 100644
+index d2458b1e6c34477b2e97a748edba9981af792587..e472679f23d2b9e727fec6f322f84fabbe0d02be 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -258,6 +258,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
@@ -7913,10 +7913,10 @@ index 29bd4879ef94bcfea879fac49dea22eba4af8251..f07c3bfa42c3e26b19c08b3b5ad2ad8d
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-index b3d1452831db0d7e9765e8e3d437db449bd0010f..4c4d92f934b6463ea7dd88bf5bd664f364742360 100644
+index bdf7d8e4256626b6866f8c6fed1fde64b7cc6892..2a55bbd728aea55a6ca0f6a7d856d1e3a3f1e1a3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
-@@ -1185,4 +1185,37 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+@@ -1202,4 +1202,37 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
          return this.spigot;
      }
      // Spigot end
@@ -8234,6 +8234,43 @@ index b5506411a893e5eccfb83ab58d718753338b490a..bf6e87116df29a99d7aad3250e8e59d2
      // ========================================================================
  
      public static byte toLegacyData(BlockState data) {
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/DelegatedGeneratorAccess.java b/src/main/java/org/bukkit/craftbukkit/util/DelegatedGeneratorAccess.java
+index 17f8529d89aec34fe198a79ce463367c63098136..7c110a758a84c5e22f36b788dec84998e607af6c 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/DelegatedGeneratorAccess.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/DelegatedGeneratorAccess.java
+@@ -59,6 +59,7 @@ import net.minecraft.world.ticks.LevelTickAccess;
+ import net.minecraft.world.ticks.ScheduledTick;
+ import net.minecraft.world.ticks.TickPriority;
+ import org.bukkit.event.entity.CreatureSpawnEvent;
++import org.jetbrains.annotations.Nullable;
+ 
+ public abstract class DelegatedGeneratorAccess implements WorldGenLevel {
+ 
+@@ -818,4 +819,24 @@ public abstract class DelegatedGeneratorAccess implements WorldGenLevel {
+     public int getMoonPhase() {
+         return this.handle.getMoonPhase();
+     }
++
++    // Paper start
++    @Nullable
++    @Override
++    public BlockState getBlockStateIfLoaded(final BlockPos blockposition) {
++        return null;
++    }
++
++    @Nullable
++    @Override
++    public FluidState getFluidIfLoaded(final BlockPos blockposition) {
++        return null;
++    }
++
++    @Nullable
++    @Override
++    public ChunkAccess getChunkIfLoadedImmediately(final int x, final int z) {
++        return null;
++    }
++    // Paper end
+ }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/DummyGeneratorAccess.java b/src/main/java/org/bukkit/craftbukkit/util/DummyGeneratorAccess.java
 index d2026d218405a40a6949c5f491c04704811b72b5..629178347039893fb9de710810fe8112499bb91c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/DummyGeneratorAccess.java
