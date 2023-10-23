@@ -4850,6 +4850,38 @@ index 0d536d72ac918fbd403397ff369d10143ee9c204..6051e5f272838ef23276a90e21c2fc82
  
      public static <T> TicketType<T> create(String name, Comparator<T> argumentComparator) {
          return new TicketType<>(name, argumentComparator, 0L);
+diff --git a/src/main/java/net/minecraft/server/level/WorldGenRegion.java b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
+index e96a0ca47e4701ba187555bd92c968345bc85677..33091331ec742767611fad1ab2a324fa334650c5 100644
+--- a/src/main/java/net/minecraft/server/level/WorldGenRegion.java
++++ b/src/main/java/net/minecraft/server/level/WorldGenRegion.java
+@@ -107,6 +107,27 @@ public class WorldGenRegion implements WorldGenLevel {
+         }
+     }
+ 
++    // Paper start - starlight
++    @Override
++    public int getBrightness(final net.minecraft.world.level.LightLayer lightLayer, final BlockPos blockPos) {
++        final ChunkAccess chunk = this.getChunk(blockPos.getX() >> 4, blockPos.getZ() >> 4);
++        if (!chunk.isLightCorrect()) {
++            return 0;
++        }
++        return this.getLightEngine().getLayerListener(lightLayer).getLightValue(blockPos);
++    }
++
++
++    @Override
++    public int getRawBrightness(final BlockPos blockPos, final int subtract) {
++        final ChunkAccess chunk = this.getChunk(blockPos.getX() >> 4, blockPos.getZ() >> 4);
++        if (!chunk.isLightCorrect()) {
++            return 0;
++        }
++        return this.getLightEngine().getRawBrightness(blockPos, subtract);
++    }
++    // Paper end - starlight
++
+     public boolean isOldChunkAround(ChunkPos chunkPos, int checkRadius) {
+         return this.level.getChunkSource().chunkMap.isOldChunkAround(chunkPos, checkRadius);
+     }
 diff --git a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java b/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
 index 2b8e88a75e9a974e1ecafe0360a9d69b79326d11..6c171199dcc30f56a6d0ab7ecf398b505d145067 100644
 --- a/src/main/java/net/minecraft/world/level/block/state/BlockBehaviour.java
@@ -4890,10 +4922,19 @@ index 2b8e88a75e9a974e1ecafe0360a9d69b79326d11..6c171199dcc30f56a6d0ab7ecf398b50
              this.legacySolid = this.calculateSolid();
          }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkAccess.java b/src/main/java/net/minecraft/world/level/chunk/ChunkAccess.java
-index e5e562f75e7d4b6a750f192842940c5e3af81e7d..2caac1a3d80e6c490aa16aa6bc1067065b665c69 100644
+index e5e562f75e7d4b6a750f192842940c5e3af81e7d..3e5addb60ae8f466dad09edb3ae1fc88fe2681e9 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkAccess.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkAccess.java
-@@ -86,6 +86,47 @@ public abstract class ChunkAccess implements BlockGetter, BiomeManager.NoiseBiom
+@@ -74,7 +74,7 @@ public abstract class ChunkAccess implements BlockGetter, BiomeManager.NoiseBiom
+     @Nullable
+     protected BlendingData blendingData;
+     public final Map<Heightmap.Types, Heightmap> heightmaps = Maps.newEnumMap(Heightmap.Types.class);
+-    protected ChunkSkyLightSources skyLightSources;
++    // Paper - starlight - remove skyLightSources
+     private final Map<Structure, StructureStart> structureStarts = Maps.newHashMap();
+     private final Map<Structure, LongSet> structuresRefences = Maps.newHashMap();
+     protected final Map<BlockPos, CompoundTag> pendingBlockEntities = Maps.newHashMap();
+@@ -86,8 +86,55 @@ public abstract class ChunkAccess implements BlockGetter, BiomeManager.NoiseBiom
      private static final org.bukkit.craftbukkit.persistence.CraftPersistentDataTypeRegistry DATA_TYPE_REGISTRY = new org.bukkit.craftbukkit.persistence.CraftPersistentDataTypeRegistry();
      public org.bukkit.craftbukkit.persistence.DirtyCraftPersistentDataContainer persistentDataContainer = new org.bukkit.craftbukkit.persistence.DirtyCraftPersistentDataContainer(ChunkAccess.DATA_TYPE_REGISTRY);
      // CraftBukkit end
@@ -4940,7 +4981,39 @@ index e5e562f75e7d4b6a750f192842940c5e3af81e7d..2caac1a3d80e6c490aa16aa6bc106706
 +    // Paper end - rewrite light engine
  
      public ChunkAccess(ChunkPos pos, UpgradeData upgradeData, LevelHeightAccessor heightLimitView, Registry<Biome> biomeRegistry, long inhabitedTime, @Nullable LevelChunkSection[] sectionArray, @Nullable BlendingData blendingData) {
++        // Paper start - rewrite light engine
++        if (!(this instanceof ImposterProtoChunk)) {
++            this.setBlockNibbles(ca.spottedleaf.starlight.common.light.StarLightEngine.getFilledEmptyLight(heightLimitView));
++            this.setSkyNibbles(ca.spottedleaf.starlight.common.light.StarLightEngine.getFilledEmptyLight(heightLimitView));
++        }
++        // Paper end - rewrite light engine
          this.locX = pos.x; this.locZ = pos.z; // Paper - reduce need for field lookups
+         this.chunkPos = pos; this.coordinateKey = ChunkPos.asLong(locX, locZ); // Paper - cache long key
+         this.upgradeData = upgradeData;
+@@ -96,7 +143,7 @@ public abstract class ChunkAccess implements BlockGetter, BiomeManager.NoiseBiom
+         this.inhabitedTime = inhabitedTime;
+         this.postProcessing = new ShortList[heightLimitView.getSectionsCount()];
+         this.blendingData = blendingData;
+-        this.skyLightSources = new ChunkSkyLightSources(heightLimitView);
++        // Paper - starlight - remove skyLightSources
+         if (sectionArray != null) {
+             if (this.sections.length == sectionArray.length) {
+                 System.arraycopy(sectionArray, 0, this.sections, 0, this.sections.length);
+@@ -507,12 +554,12 @@ public abstract class ChunkAccess implements BlockGetter, BiomeManager.NoiseBiom
+     }
+ 
+     public void initializeLightSources() {
+-        this.skyLightSources.fillFrom(this);
++        // Paper - starlight - remove skyLightSources
+     }
+ 
+     @Override
+     public ChunkSkyLightSources getSkyLightSources() {
+-        return this.skyLightSources;
++        return null; // Paper - starlight - remove skyLightSources
+     }
+ 
+     public static record TicksToSave(SerializableTickContainer<Block> blocks, SerializableTickContainer<Fluid> fluids) {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java b/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java
 index d5b1fd0ff3f64675f90dd9f7f328a106e0992d51..846ae3fd184a1d63b743aa25e045604576697c96 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkStatus.java
@@ -5062,21 +5135,10 @@ index 6bb508105641b5729572736c5c3f9bd6711e309a..60e760b42dd6471a229dfd45490dcf8c
      @Override
      public BlockEntity getBlockEntity(BlockPos pos) {
 diff --git a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-index 1e434faaf56f7d1501367c4371131a8da30c0421..bcdaa86cfd31c2ce4aadad900c348aee0a9e3fc8 100644
+index 1e434faaf56f7d1501367c4371131a8da30c0421..f75d37091018d5544099861e2fe7d3fd04870750 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/LevelChunk.java
-@@ -90,6 +90,10 @@ public class LevelChunk extends ChunkAccess {
- 
-     public LevelChunk(Level world, ChunkPos pos, UpgradeData upgradeData, LevelChunkTicks<Block> blockTickScheduler, LevelChunkTicks<Fluid> fluidTickScheduler, long inhabitedTime, @Nullable LevelChunkSection[] sectionArrayInitializer, @Nullable LevelChunk.PostLoadProcessor entityLoader, @Nullable BlendingData blendingData) {
-         super(pos, upgradeData, world, world.registryAccess().registryOrThrow(Registries.BIOME), inhabitedTime, sectionArrayInitializer, blendingData);
-+        // Paper start - rewrite light engine
-+        this.setBlockNibbles(ca.spottedleaf.starlight.common.light.StarLightEngine.getFilledEmptyLight(world));
-+        this.setSkyNibbles(ca.spottedleaf.starlight.common.light.StarLightEngine.getFilledEmptyLight(world));
-+        // Paper end - rewrite light engine
-         this.tickersInLevel = Maps.newHashMap();
-         this.level = (ServerLevel) world; // CraftBukkit - type
-         this.gameEventListenerRegistrySections = new Int2ObjectOpenHashMap();
-@@ -219,6 +223,12 @@ public class LevelChunk extends ChunkAccess {
+@@ -219,6 +219,12 @@ public class LevelChunk extends ChunkAccess {
  
      public LevelChunk(ServerLevel world, ProtoChunk protoChunk, @Nullable LevelChunk.PostLoadProcessor entityLoader) {
          this(world, protoChunk.getPos(), protoChunk.getUpgradeData(), protoChunk.unpackBlockTicks(), protoChunk.unpackFluidTicks(), protoChunk.getInhabitedTime(), protoChunk.getSections(), entityLoader, protoChunk.getBlendingData());
@@ -5089,6 +5151,24 @@ index 1e434faaf56f7d1501367c4371131a8da30c0421..bcdaa86cfd31c2ce4aadad900c348aee
          Iterator iterator = protoChunk.getBlockEntities().values().iterator();
  
          while (iterator.hasNext()) {
+@@ -245,7 +251,7 @@ public class LevelChunk extends ChunkAccess {
+             }
+         }
+ 
+-        this.skyLightSources = protoChunk.skyLightSources;
++        // Paper - starlight - remove skyLightSources
+         this.setLightCorrect(protoChunk.isLightCorrect());
+         this.unsaved = true;
+         this.needsDecoration = true; // CraftBukkit
+@@ -409,7 +415,7 @@ public class LevelChunk extends ChunkAccess {
+                     ProfilerFiller gameprofilerfiller = this.level.getProfiler();
+ 
+                     gameprofilerfiller.push("updateSkyLightSources");
+-                    this.skyLightSources.update(this, j, i, l);
++                    // Paper - starlight - remove skyLightSources
+                     gameprofilerfiller.popPush("queueCheckLight");
+                     this.level.getChunkSource().getLightEngine().checkBlock(blockposition);
+                     gameprofilerfiller.pop();
 diff --git a/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java b/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java
 index b8fb6d1d85e07f5165bfaf7d80807e069b595851..1219200cd915d6239a32a2bd09d325cd8fa9b346 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/PalettedContainer.java
@@ -5103,22 +5183,18 @@ index b8fb6d1d85e07f5165bfaf7d80807e069b595851..1219200cd915d6239a32a2bd09d325cd
          return data.palette.valueFor(data.storage.get(index));
      }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ProtoChunk.java b/src/main/java/net/minecraft/world/level/chunk/ProtoChunk.java
-index 38ec21faaa16df5485a81a581506700a5ab0a440..b2c0c7fd06fcd720b4c0875f08a90b6b672c96b2 100644
+index 38ec21faaa16df5485a81a581506700a5ab0a440..7da1ed9640211b0e064162dcdb0000538e7b30f3 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ProtoChunk.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ProtoChunk.java
-@@ -53,6 +53,12 @@ public class ProtoChunk extends ChunkAccess {
+@@ -130,7 +130,7 @@ public class ProtoChunk extends ChunkAccess {
+                     }
  
-     public ProtoChunk(ChunkPos pos, UpgradeData upgradeData, @Nullable LevelChunkSection[] sections, ProtoChunkTicks<Block> blockTickScheduler, ProtoChunkTicks<Fluid> fluidTickScheduler, LevelHeightAccessor world, Registry<Biome> biomeRegistry, @Nullable BlendingData blendingData) {
-         super(pos, upgradeData, world, biomeRegistry, 0L, sections, blendingData);
-+        // Paper start - rewrite light engine
-+        if (!(this instanceof ImposterProtoChunk)) {
-+            this.setBlockNibbles(ca.spottedleaf.starlight.common.light.StarLightEngine.getFilledEmptyLight(world));
-+            this.setSkyNibbles(ca.spottedleaf.starlight.common.light.StarLightEngine.getFilledEmptyLight(world));
-+        }
-+        // Paper end - rewrite light engine
-         this.blockTicks = blockTickScheduler;
-         this.fluidTicks = fluidTickScheduler;
-     }
+                     if (LightEngine.hasDifferentLightProperties(this, pos, blockState, state)) {
+-                        this.skyLightSources.update(this, m, j, o);
++                        // Paper - starlight - remove skyLightSources
+                         this.lightEngine.checkBlock(pos);
+                     }
+                 }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/ChunkSerializer.java b/src/main/java/net/minecraft/world/level/chunk/storage/ChunkSerializer.java
 index cc1d7626a82881c4410d65c6a33dadae7ab07172..24892ae367e19038625e243bcdf1bb694632ede5 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/ChunkSerializer.java
