@@ -110,7 +110,7 @@ index e7931f73f10fe35ebd5fe4a04b036d53bb117ebd..cbce835ed6d44e5b8c9aaae4e36a77f8
 +    // Paper end
  }
 diff --git a/src/main/java/org/bukkit/inventory/ItemStack.java b/src/main/java/org/bukkit/inventory/ItemStack.java
-index 03f50bcf60ce868d633912e53e804a2b25999f6e..e2f8a0d3a9dcab3fce2d71221751434abc9ab94f 100644
+index ef36a696f2f926d70c5d93ce08f75fa9a749e32f..fb1d7ff51f267225ac76c29a56d67fb443d3a92f 100644
 --- a/src/main/java/org/bukkit/inventory/ItemStack.java
 +++ b/src/main/java/org/bukkit/inventory/ItemStack.java
 @@ -907,5 +907,17 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, Translat
@@ -130,4 +130,22 @@ index 03f50bcf60ce868d633912e53e804a2b25999f6e..e2f8a0d3a9dcab3fce2d71221751434a
 +        return io.papermc.paper.inventory.ItemRarity.valueOf(this.getItemMeta().getRarity().name());
 +    }
      // Paper end
+ }
+diff --git a/src/main/java/org/bukkit/inventory/ItemType.java b/src/main/java/org/bukkit/inventory/ItemType.java
+index 5dd1c084e42ee93f3a358f58ed76b0a7d36f0713..2b5a18fe7e885fa9b581c0afb299e31f3db2690c 100644
+--- a/src/main/java/org/bukkit/inventory/ItemType.java
++++ b/src/main/java/org/bukkit/inventory/ItemType.java
+@@ -2311,4 +2311,13 @@ public interface ItemType extends Keyed, Translatable, net.kyori.adventure.trans
+     @Override
+     @NotNull String getTranslationKey();
+     // Paper end - add Translatable
++
++    // Paper start - expand ItemRarity API
++    /**
++     * Returns the item rarity for the item.
++     *
++     * @return the item rarity (or null if none is set)
++     */
++    @Nullable ItemRarity getItemRarity();
++    // Paper end - expand ItemRarity API
  }
